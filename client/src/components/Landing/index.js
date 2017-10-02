@@ -1,41 +1,57 @@
-import React, { Component } from "react";
-import { Paper } from "material-ui";
+import React, { Component } from 'react';
+import { Paper } from 'material-ui';
+
+import './Landing.css';
 
 const style = {
   height: 100,
-  width: 100,
-  display: "inline-block"
+  width: 100
 };
 
 const Landing = () => {
   return (
-    <section>
-      <h1>Dinnerbell</h1>
-      <Paper style={style}>
-        <img
-          src="https://www.bellamysorganic.com.au/blog/wp-content/uploads/2013/12/understanding-the-health-benefits-of-organic-food-1.jpg"
-          style={{ width: 80, height: "auto" }}
-        />
-        <p>some text</p>
-      </Paper>
-      <Paper style={style}>
-        <img
-          src="./restaurant-eating.jpg"
-          style={{ width: 80, height: "auto" }}
-        />
-      </Paper>
-      <img
-        src="./restaurant-eating.jpg"
-        style={{ width: 80, height: "auto" }}
-      />
-      <Paper style={style}>
-        <img
-          src="./sprig-organic-meal.jpg"
-          style={{ width: 80, height: "auto" }}
-        />
-      </Paper>
+    <section className="landing">
+      <h1 className="landing-title">Dinnerbell</h1>
+      <div className="landing-images">
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-1" />
+        </Paper>
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-2" />
+        </Paper>
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-3" />
+        </Paper>
+      </div>
+      <div className="landing-images">
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-4" />
+        </Paper>
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-5" />
+        </Paper>
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-6" />
+        </Paper>
+      </div>
+      <div className="landing-images">
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-7" />
+        </Paper>
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-8" />
+        </Paper>
+        <Paper style={style} zDepth={2}>
+          <div className="landing-img-container-9" />
+        </Paper>
+      </div>
     </section>
   );
 };
 
 export default Landing;
+
+// <img
+//   className="landing-img"
+//   src="https://www.bellamysorganic.com.au/blog/wp-content/uploads/2013/12/understanding-the-health-benefits-of-organic-food-1.jpg"
+// />
