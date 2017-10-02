@@ -54,9 +54,6 @@ const facebookHandler = async (req,accessToken, refreshToken, profile, done)=>{
   }
 }
 
-
-
-
 const localOptions = {
   usernameField: 'email',
   passwordField: 'password',
