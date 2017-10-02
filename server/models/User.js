@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema
 const bcrypt = require('bcrypt')
 
-const UserSchema = Schema({
+const UserSchema = new Schema({
   username: { type: String, unique: true },
   email: { type: String, unique: true },
   googleID: { type: String, unique: true },
@@ -22,5 +22,7 @@ UserSchema.virtual('password').set(function(value){
 UserSchema.methods.verifyPassword = function(password){
   return this.passwordHash && bcrypt.compareSync(password, this.passwordHash)
 } 
+
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User
