@@ -1,0 +1,13 @@
+{
+  "development": {
+    "database": "project_dinnerbell_development",
+    "host": "localhost"
+  },
+  "test": {
+    "database": "project_dinnerbell_test",
+    "host": "localhost"
+  },
+  "production": {
+    "use_env_variable": "MONGO_URL"
+  }
+}
