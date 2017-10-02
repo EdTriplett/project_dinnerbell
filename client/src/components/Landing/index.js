@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { Paper } from 'material-ui';
+import React, { Component } from "react";
+import { Paper } from "material-ui";
 
-import './Landing.css';
+import "./Landing.css";
 
 const style = {
   height: 100,
