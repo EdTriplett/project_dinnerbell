@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Paper } from "material-ui";
+import React, { Component } from 'react';
+import { Paper } from 'material-ui';
 
-import "./Landing.css";
+import './Landing.css';
 
 const style = {
   height: 100,
@@ -11,8 +11,12 @@ const style = {
 const Landing = () => {
   return (
     <section className="landing">
-      <h1 className="landing-title">Dinnerbell</h1>
-      <div className="landing-images">
+      <h1 className="landing-title">dinnerbell</h1>
+      <div className="landing-auth-container">
+        <button>register</button>
+        <button>login</button>
+      </div>
+      <div className="landing-images ">
         <Paper style={style} zDepth={2}>
           <div className="landing-img-container-1" />
         </Paper>

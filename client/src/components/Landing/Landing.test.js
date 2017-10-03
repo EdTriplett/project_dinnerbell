@@ -1,13 +1,13 @@
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
 configure({ adapter: new Adapter() });
-import React from "react";
-import { shallow, mount } from "enzyme";
-import renderer from "react-test-renderer";
-import Landing from "./index";
-import { Paper } from "material-ui";
+import React from 'react';
+import { shallow, mount } from 'enzyme';
+import renderer from 'react-test-renderer';
+import Landing from './index';
+import { Paper } from 'material-ui';
 
 describe(Landing, () => {
   const landing = (
@@ -16,18 +16,18 @@ describe(Landing, () => {
     </MuiThemeProvider>
   );
   const component = mount(landing);
-  it("renders and matches our snapshot", () => {
+  it('renders and matches our snapshot', () => {
     const component = renderer.create(landing);
     const tree = component.toJSON();
     expect(tree).toMatchSnapshot();
   });
-  it("has a class called landing", () => {
-    expect(component.find(".landing").hasClass("landing")).toEqual(true);
+  it('has a class called landing', () => {
+    expect(component.find('.landing').hasClass('landing')).toEqual(true);
   });
-  it("has a title that has a class of landing-title", () => {
-    expect(component.find("h1").hasClass("landing-title")).toEqual(true);
+  it('has a title that has a class of landing-title', () => {
+    expect(component.find('h1').hasClass('landing-title')).toEqual(true);
   });
-  it("contains 9 paper components", () => {
+  it('contains 9 paper components', () => {
     expect(component.find(Paper)).toHaveLength(9);
   });
 

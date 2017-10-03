@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans:400,700');
 
 .landing {
 	display: flex;
@@ -10,7 +10,8 @@
 }
 
 .landing-images {
-	width: 300px;
+	width: 315px;
+	margin-bottom: 7px;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -25,6 +26,26 @@
 .landing-img {
 	width: 100%;
 	object-fit: fill;
+}
+
+.landing-auth-container {
+	display: flex;
+	width: 200px;
+	justify-content: space-between;
+	top: 27%;
+	position: absolute;
+}
+
+.landing-auth-container button {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	padding: 5px;
+	padding-right: 10px;
+	padding-left: 10px;
+	border: 0.5px solid white;
+	color: white;
+	background-color: #3c8d41;
+	border-radius: 5px;
 }
 
 /* Row 1 */
