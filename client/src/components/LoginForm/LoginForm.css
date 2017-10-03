@@ -19,6 +19,10 @@
   border-radius: 5px;
 }
 
+.login-buttons button:focus {
+  outline: 0;
+}
+
 .login-buttons {
   margin-top: 25px;
   display: flex;

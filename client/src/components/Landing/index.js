@@ -14,58 +14,64 @@ const style = {
 // }
 
 class Landing extends Component {
-  state = {
-    login: false
-  };
-
-  goToRegister = () => {
-    this.props.history.push('/register');
-  };
-
-  goToLogin = () => {
-    this.props.history.push('/login');
-  };
-
   render() {
     return (
       <section className="landing">
         <h1 className="landing-title">dinnerbell</h1>
+        <p className="landing-description">
+          <span>cook ~ eat ~ enjoy</span>
+        </p>
         <div className="landing-auth-container">
-          <button onClick={this.goToRegister}>register</button>
-          <button onClick={this.goToLogin}>login</button>
+          <button
+            onClick={() => {
+              this.props.history.push('/register');
+            }}
+          >
+            register
+          </button>
+          <button
+            onClick={() => {
+              this.props.history.push('/login');
+            }}
+          >
+            login
+          </button>
         </div>
-        <div className="landing-images ">
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-1" />
-          </Paper>
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-2" />
-          </Paper>
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-3" />
-          </Paper>
-        </div>
-        <div className="landing-images">
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-4" />
-          </Paper>
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-5" />
-          </Paper>
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-6" />
-          </Paper>
-        </div>
-        <div className="landing-images">
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-7" />
-          </Paper>
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-8" />
-          </Paper>
-          <Paper style={style} zDepth={2}>
-            <div className="landing-img-container-9" />
-          </Paper>
+
+        <div className="landing-img-cube">
+          <div className="landing-images ">
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-1" />
+            </Paper>
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-2" />
+            </Paper>
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-3" />
+            </Paper>
+          </div>
+          <div className="landing-images">
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-4" />
+            </Paper>
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-5" />
+            </Paper>
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-6" />
+            </Paper>
+          </div>
+          <div className="landing-images">
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-7" />
+            </Paper>
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-8" />
+            </Paper>
+            <Paper style={style} zDepth={2}>
+              <div className="landing-img-container-9" />
+            </Paper>
+          </div>
         </div>
       </section>
     );

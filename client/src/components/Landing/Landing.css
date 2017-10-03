@@ -24,6 +24,18 @@
   color: white;
 }
 
+.landing-description {
+  font-family: 'Open Sans', sans-serif;
+  color: white;
+  position: absolute;
+  top: 21%;
+  z-index: 3;
+}
+
+.landing-description span {
+  font-weight: bold;
+}
+
 .landing-img {
   width: 100%;
   object-fit: fill;
@@ -33,7 +45,7 @@
   display: flex;
   width: 200px;
   justify-content: space-between;
-  top: 27%;
+  top: 32%;
   position: absolute;
 }
 
@@ -134,4 +146,8 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
+}
+
+.landing-img-cube {
+  margin-top: 30px;
 }
