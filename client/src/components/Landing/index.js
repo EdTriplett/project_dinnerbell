@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Paper } from 'material-ui';
-import Navbar from '../Navbar';
+import { withRouter } from 'react-router-dom';
 
 import './Landing.css';
 
@@ -9,53 +9,70 @@ const style = {
   width: 100
 };
 
-const Landing = () => {
-  return (
-    <section className="landing">
-      <Navbar />
-      <h1 className="landing-title">dinnerbell</h1>
-      <div className="landing-auth-container">
-        <button>register</button>
-        <button>login</button>
-      </div>
-      <div className="landing-images ">
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-1" />
-        </Paper>
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-2" />
-        </Paper>
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-3" />
-        </Paper>
-      </div>
-      <div className="landing-images">
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-4" />
-        </Paper>
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-5" />
-        </Paper>
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-6" />
-        </Paper>
-      </div>
-      <div className="landing-images">
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-7" />
-        </Paper>
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-8" />
-        </Paper>
-        <Paper style={style} zDepth={2}>
-          <div className="landing-img-container-9" />
-        </Paper>
-      </div>
-    </section>
-  );
-};
+// const onClickRegister = () => {
+//   this.props
+// }
 
-export default Landing;
+class Landing extends Component {
+  state = {
+    login: false
+  };
+
+  goToRegister = () => {
+    this.props.history.push('/register');
+  };
+
+  goToLogin = () => {
+    this.props.history.push('/login');
+  };
+
+  render() {
+    return (
+      <section className="landing">
+        <h1 className="landing-title">dinnerbell</h1>
+        <div className="landing-auth-container">
+          <button onClick={this.goToRegister}>register</button>
+          <button onClick={this.goToLogin}>login</button>
+        </div>
+        <div className="landing-images ">
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-1" />
+          </Paper>
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-2" />
+          </Paper>
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-3" />
+          </Paper>
+        </div>
+        <div className="landing-images">
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-4" />
+          </Paper>
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-5" />
+          </Paper>
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-6" />
+          </Paper>
+        </div>
+        <div className="landing-images">
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-7" />
+          </Paper>
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-8" />
+          </Paper>
+          <Paper style={style} zDepth={2}>
+            <div className="landing-img-container-9" />
+          </Paper>
+        </div>
+      </section>
+    );
+  }
+}
+
+export default withRouter(Landing);
 
 // <img
 //   className="landing-img"

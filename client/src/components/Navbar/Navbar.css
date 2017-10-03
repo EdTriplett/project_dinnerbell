@@ -5,6 +5,7 @@
   position: absolute;
   z-index: 2;
   padding: 10px;
+  background-color: #3c8d41;
 }
 
 .namanyay-search-btn {
@@ -21,6 +22,7 @@
 }
 
 .namanyay-search-box {
+  outline: none;
   background: #eee;
   padding: 10px;
   border-radius: 10px 0 0 10px;
