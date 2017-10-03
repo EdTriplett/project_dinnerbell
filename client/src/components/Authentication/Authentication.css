@@ -1,0 +1,7 @@
+.authentication {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background-color: #3c8d41;
+}
