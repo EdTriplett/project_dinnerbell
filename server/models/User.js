@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 
 const UserSchema = new Schema(
   {
+    kind: String,
     username: { type: String, unique: true },
     email: { type: String, unique: true },
     googleID: { type: String, unique: true },
@@ -16,7 +17,8 @@ const UserSchema = new Schema(
     meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
     // users we are following
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    public: { type: Boolean, default: true }
+    public: { type: Boolean, default: true },
+    profilePicture: { type: Schema.Types.ObjectId, ref: "Picture" }
   },
   { timestamps: true }
 );

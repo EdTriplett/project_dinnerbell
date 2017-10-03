@@ -3,14 +3,16 @@ const express = require("express");
 const app = express();
 
 // Config
-require("dotenv").config();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
 // Database
 const mongoose = require("mongoose");
 app.use((req, res, next) => {
   if (mongoose.connection.readyState) next();
   else
-    require("./mongo")()
+    require("./util/mongo")()
       .then(() => next())
       .catch(e => next(e));
 });

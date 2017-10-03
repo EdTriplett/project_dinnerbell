@@ -7,7 +7,8 @@ const RecipeSchema = new Schema(
     ingredients: [String],
     kind: String,
     owner: { type: Schema.types.ObjectId, ref: "User", required: true },
-    nutrition: {}
+    data: {},
+    imageUrl: String
   },
   { timestamps: true }
 );

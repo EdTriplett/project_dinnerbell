@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const FileUploader = require("../util/upload");
 
 const allowed = (req, res, next) => {
   if (req.isAuthenticated() && req.user.id === req.params.id) {
@@ -38,6 +39,32 @@ router.delete("/:id", allowed, async (req, res, next) => {
   try {
     req.user.remove();
     req.logout();
+  } catch (error) {
+    next(error);
+  }
+});
+
+const uploadMw = FileUploader.single("photo");
+router.post("/picture", allowed, uploadMw, async (req, res, next) => {
+  try {
+    const file = {
+      data: req.file.buffer,
+      name: req.file.originalname,
+      mimetype: req.file.mimetype
+    };
+    const picture = await FileUploader.upload(file, req.session.user);
+    req.session.user.update({ profilePicture: picture });
+    res.json(picture);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete("/picture", allowed, async (req, res, next) => {
+  try {
+    const picture = Picture.findById(req.session.user.profilePicture);
+    await FileUploader.remove(picture.key);
+    res.json({ deleted: picture });
   } catch (error) {
     next(error);
   }
