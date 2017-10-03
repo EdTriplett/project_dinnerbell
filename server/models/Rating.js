@@ -1,14 +1,42 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const RatingSchema = new Schema({
-  rated: {kind: String, item: {type:Schema.types.ObjectId, refPath: 'connections.kind'}},
-  rating: {type: Number}
-}, 
-{timestamps: true})
+const RatingSchema = new Schema(
+  {
+    user: { type: Schema.Types.ObjectId, ref: "User" },
+    rated: {
+      kind: String,
+      item: { type: Schema.Types.ObjectId, refPath: "connections.kind" }
+    },
+    rating: { type: Number }
+  },
+  { timestamps: true }
+);
 
-// recipe and meal models need a 'kind' property which is a string
+RatingSchema.pre("save", async function(next) {
+  try {
+    const user = await mongoose.model("user").findById(this.owner);
+    if (user && !user.ratings.includes(this._id)) {
+      await user.update({ ratings: { $push: this._id } });
+    }
+    next();
+  } catch (error) {
+    console.error(error);
+    next();
+  }
+});
 
-const Rating = mongoose.model('Rating', RatingSchema);
+RatingSchema.pre("remove", function(next) {
+  mongoose
+    .model("User")
+    .update({ recipes: { $inc: this._id } }, { recipes: { $pull: this._id } })
+    .then(() => next())
+    .catch(e => {
+      console.log(e.stack);
+      next();
+    });
+});
 
-module.exports = Rating
+const Rating = mongoose.model("Rating", RatingSchema);
+
+module.exports = Rating;

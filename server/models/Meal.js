@@ -1,20 +1,31 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-const MealSchema = new Schema({
-  name: String,
-  kind: String,
-  date: Number,
-  owner: { type: Schema.types.ObjectId, ref: "User"},
-  recipes: [{ type: Schema.types.ObjectId, ref: "Recipe"}],
-  unregisteredGuests: [String],
-  registeredGuests: [{ type: Schema.types.ObjectId, ref: "User"}],
-  tasks: [String]
-}, 
-{timestamps: true})
+const MealSchema = new Schema(
+  {
+    name: String,
+    kind: String,
+    date: Number,
+    owner: { type: Schema.Types.ObjectId, ref: "User" },
+    recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    unregisteredGuests: [String],
+    registeredGuests: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    tasks: [String]
+  },
+  { timestamps: true }
+);
 
-// recipe and meal models need a 'kind' property which is a string
+MealSchema.pre("remove", function(next) {
+  mongoose
+    .model("User")
+    .update({ id: this.owner }, { meals: { $pull: this._id } })
+    .then(() => next())
+    .catch(e => {
+      console.error(e.stack);
+      next();
+    });
+});
 
-const Meal = mongoose.model('Meal', MealSchema);
+const Meal = mongoose.model("Meal", MealSchema);
 
-module.exports = Meal
+module.exports = Meal;

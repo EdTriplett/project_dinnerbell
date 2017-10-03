@@ -9,22 +9,26 @@ const auth = passport => {
   router.get("/google/callback", (req, res) => {
     passport.authenticate("google", {
       scope: null
-    }), authCallback;
+    }),
+      authCallback;
   });
   router.get("/facebook/callback", (req, res) => {
     passport.authenticate("facebook", {
       scope: null
-    }), authCallback;
+    }),
+      authCallback;
   });
   router.get("/google", (req, res) => {
     passport.authenticate("google", {
       scope: null
-    }), authCallback;
+    }),
+      authCallback;
   });
   router.get("/facebook", (req, res) => {
     passport.authenticate("facebook", {
       scope: null
-    }), authCallback;
+    }),
+      authCallback;
   });
   router.post("/login", passport.authenticate("local"), authCallback);
   router.post("/register", async (req, res, next) => {
@@ -42,6 +46,12 @@ const auth = passport => {
       next(e);
     }
   });
+  router.all("/logout", (req, res) => {
+    req.logout();
+    res.json({ message: "logged out" });
+  });
+
+  return router;
 };
 
 module.exports = auth;

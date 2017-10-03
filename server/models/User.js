@@ -10,9 +10,12 @@ const UserSchema = new Schema(
     googleID: { type: String, unique: true },
     facebookID: { type: String, unique: true },
     passwordHash: { type: String, select: false },
-    recipes: [{ type: Schema.types.ObjectId, ref: "Recipe" }],
-    meals: [{ type: Schema.types.ObjectId, ref: "Meal" }],
-    following: [{ type: Schema.types.ObjectId, ref: "User" }],
+    recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    ratings: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    // meals we have created
+    meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
+    // users we are following
+    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     public: { type: Boolean, default: true }
   },
   { timestamps: true }
@@ -25,6 +28,17 @@ UserSchema.virtual("password").set(function(value) {
 UserSchema.methods.verifyPassword = function(password) {
   return this.passwordHash && bcrypt.compareSync(password, this.passwordHash);
 };
+
+UserSchema.pre("remove", function(next) {
+  mongoose
+    .model("Rating")
+    .remove({ user: this._id })
+    .then(() => next())
+    .catch(e => {
+      console.error(e.stack);
+      next();
+    });
+});
 
 const User = mongoose.model("User", UserSchema);
 
