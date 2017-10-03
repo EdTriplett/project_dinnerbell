@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Paper } from "material-ui";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { Paper } from 'material-ui';
+import { withRouter } from 'react-router-dom';
 
-import "./Landing.css";
+import './Landing.css';
 
 const style = {
   height: 100,
@@ -24,14 +24,14 @@ class Landing extends Component {
         <div className="landing-auth-container">
           <button
             onClick={() => {
-              this.props.history.push("/register");
+              this.props.history.push('/register');
             }}
           >
             register
           </button>
           <button
             onClick={() => {
-              this.props.history.push("/login");
+              this.props.history.push('/login');
             }}
           >
             login
@@ -73,8 +73,12 @@ class Landing extends Component {
             </Paper>
           </div>
           <div className="oauth-landing">
-            <img src="https://imgur.com/Hw9YUrJ.png" />
-            <img src="https://i.imgur.com/ETp8DOT.png" />
+            <a href="/auth/facebook">
+              <img src="https://imgur.com/Hw9YUrJ.png" />
+            </a>
+            <a href="/auth/google">
+              <img src="https://i.imgur.com/ETp8DOT.png" />
+            </a>
           </div>
         </div>
       </section>
