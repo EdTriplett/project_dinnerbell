@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Paper } from 'material-ui';
+import Navbar from '../Navbar';
 
 import './Landing.css';
 
@@ -11,6 +12,7 @@ const style = {
 const Landing = () => {
   return (
     <section className="landing">
+      <Navbar />
       <h1 className="landing-title">dinnerbell</h1>
       <div className="landing-auth-container">
         <button>register</button>

@@ -7,18 +7,23 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import './App.css';
 import Landing from '../Landing';
-import Navbar from '../Navbar';
 
 class App extends Component {
 	render() {
-		console.log(this.props);
 		return (
-			<div>
-				<Navbar />
-				<MuiThemeProvider>
-					<Landing />
-				</MuiThemeProvider>
-			</div>
+			<Router>
+				<div>
+					<Route
+						exact
+						path="/"
+						render={() => (
+							<MuiThemeProvider>
+								<Landing {...this.props} />
+							</MuiThemeProvider>
+						)}
+					/>
+				</div>
+			</Router>
 		);
 	}
 }
