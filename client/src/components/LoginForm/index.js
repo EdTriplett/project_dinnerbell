@@ -106,7 +106,6 @@ class LoginForm extends Component {
           </div>
         </form>
         <div className="oauth">
-          <p className="label">or</p>
           <img src="https://imgur.com/Hw9YUrJ.png" />
           <img src="https://i.imgur.com/ETp8DOT.png" />
         </div>
