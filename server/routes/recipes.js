@@ -18,24 +18,33 @@ const HEALTH = new Set([
   "alcohol-free"
 ]);
 
+const buildPrefs = preferences => {
+  let queries = [];
+
+  if (preferences) {
+    let { health, diet } = preferences.split(",").reduce((prefs, current) => {
+      if (DIET.has(current)) prefs.diet.push(current);
+      if (HEALTH.has(current)) prefs.health.push(current);
+      return prefs;
+    },
+    {
+      health: [],
+      diet: []
+    });
+
+    if (health.length) queries.push(`health=${health.join("&health=")}`);
+    if (diet.length) queries.push(`diet=${diet.join("&diet=")}`);
+  }
+
+  return queries;
+};
+
 router.get("/", async (req, res, next) => {
   try {
     const { q, preferences } = req.query;
-    const { health, diet } = preferences.reduce(
-      (prefs, current) => {
-        if (DIET.has(current)) prefs.diet.push(current);
-        if (HEALTH.has(current)) prefs.health.push(current);
-        return prefs;
-      },
-      {
-        health: [],
-        diet: []
-      }
-    );
-    const healthQueries = `health=${health.join("&health=")}`;
-    const dietQueries = `diet=${diet.join("&diet=")}`;
+
     const response = await fetch(
-      buildURL([`q=${q}`, healthQueries, dietQueries])
+      buildURL([`q=${q}`, ...buildPrefs(preferences)])
     );
     const recipes = await response.json();
     res.json(recipes);
