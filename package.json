@@ -1,0 +1,25 @@
+{
+  "name": "project_dinnerbell",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "startServer": "cd server && nodemon server.js",
+    "startClient": "cd client && npm start",
+    "start": "concurrently --names \"server,client\" -c \"red,blue\" \"npm run startServer\" \"npm run startClient\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdTriplett/project_dinnerbell.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EdTriplett/project_dinnerbell/issues"
+  },
+  "homepage": "https://github.com/EdTriplett/project_dinnerbell#readme",
+  "dependencies": {
+    "concurrently": "^3.5.0"
+  }
+}

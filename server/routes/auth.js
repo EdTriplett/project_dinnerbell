@@ -27,15 +27,16 @@ const auth = passport => {
 
   router.post("/register", async (req, res, next) => {
     try {
-      // todo: server-side validation on username, email, & password
+
       const { username, password, email } = req.body;
-      const user = await User.create({
+      const user = await User.createLocalUser({
         username,
         email,
         password
       });
-
-      req.session.user = user;
+      if (!user.errors){
+        req.session.user = user;
+      }
       res.json(user);
     } catch (e) {
       next(e);

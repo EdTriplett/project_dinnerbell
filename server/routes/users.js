@@ -29,8 +29,10 @@ router.get("/:id", async (req, res, next) => {
 router.patch("/:id", allowed, async (req, res, next) => {
   try {
     const { user } = req.body;
-    const updated = await req.session.user.update(user);
+    const updated = await req.session.user.updateUser(user);
+    if (!updated.errors) {
     req.session.user = updated;
+    }
     res.json(updated);
   } catch (error) {
     next(error);

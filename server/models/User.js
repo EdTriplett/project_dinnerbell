@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const uniqueValidator = require("mongoose-unique-validator");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
+const validate = require("validate.js");
 
 const UserSchema = new Schema(
   {
@@ -22,6 +23,34 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 );
+
+const constraints = {
+  username: {
+    presence: true
+  },
+  email: {
+    presence: true,
+    email: true,
+    message: "Not a valid email address."
+  },
+  password: {
+    presence: true,
+    minimum: 6,
+    message: "Password must be at least six characters."
+  }
+};
+
+UserSchema.statics.createLocalUser = async function(fields) {
+  const results = validate(fields, constraints);
+  return results ? results : mongoose.models('User').create(fields);
+};
+
+UserSchema.methods.updateUser = async function(fields) {
+  const results = Object.entries(fields).map((field, value)=>{
+    validate.single(value, constraints[field])
+  })
+  return results ? {errors: results} : this.update(fields);
+};
 
 UserSchema.virtual("password").set(function(value) {
   this.passwordHash = bcrypt.hashSync(value, 12);
