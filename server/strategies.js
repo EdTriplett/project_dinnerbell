@@ -87,7 +87,7 @@ const authenticate = passport => {
   passport.use('local', new LocalStrategy(localOptions, localHandler));
   passport.use('google', new GoogleStrategy(googleOptions, googleHandler));
   passport.use('facebook', new FacebookStrategy(facebookOptions, facebookHandler));
-  
+
 }
 
 module.exports = authenticate
