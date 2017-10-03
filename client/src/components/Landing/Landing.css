@@ -1,136 +1,137 @@
 @import url('https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans:400,700');
 
 .landing {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	width: 100vw;
-	height: 100vh;
-	background-color: #3c8d41;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #3c8d41;
+  position: relative;
 }
 
 .landing-images {
-	width: 315px;
-	margin-bottom: 7px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+  width: 315px;
+  margin-bottom: 7px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .landing-title {
-	font-family: 'Indie Flower', cursive;
-	font-size: 5em;
-	color: white;
+  font-family: 'Indie Flower', cursive;
+  font-size: 5em;
+  color: white;
 }
 
 .landing-img {
-	width: 100%;
-	object-fit: fill;
+  width: 100%;
+  object-fit: fill;
 }
 
 .landing-auth-container {
-	display: flex;
-	width: 200px;
-	justify-content: space-between;
-	top: 27%;
-	position: absolute;
+  display: flex;
+  width: 200px;
+  justify-content: space-between;
+  top: 27%;
+  position: absolute;
 }
 
 .landing-auth-container button {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 16px;
-	padding: 5px;
-	padding-right: 10px;
-	padding-left: 10px;
-	border: 0.5px solid white;
-	color: white;
-	background-color: #3c8d41;
-	border-radius: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border: 0.5px solid white;
+  color: white;
+  background-color: #3c8d41;
+  border-radius: 5px;
 }
 
 /* Row 1 */
 
 .landing-img-container-1 {
-	width: 100px;
-	height: 100px;
-	background-image: url('https://www.bellamysorganic.com.au/blog/wp-content/uploads/2013/12/understanding-the-health-benefits-of-organic-food-1.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('https://www.bellamysorganic.com.au/blog/wp-content/uploads/2013/12/understanding-the-health-benefits-of-organic-food-1.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .landing-img-container-2 {
-	width: 100px;
-	height: 100px;
-	background-image: url('http://cdn.blessthisstuff.com/imagens/stuff/sprig-organic-meals-3.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('http://cdn.blessthisstuff.com/imagens/stuff/sprig-organic-meals-3.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .landing-img-container-3 {
-	width: 100px;
-	height: 100px;
-	background-image: url('http://www.singletonsseafoodshack.com/wp-content/uploads/2017/05/Restaurant-Eating.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('http://www.singletonsseafoodshack.com/wp-content/uploads/2017/05/Restaurant-Eating.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 /* Row 2 */
 
 .landing-img-container-4 {
-	width: 100px;
-	height: 100px;
-	background-image: url('http://roguehealthandfitness.com/wp-content/uploads/2015/02/organic.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('http://roguehealthandfitness.com/wp-content/uploads/2015/02/organic.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .landing-img-container-5 {
-	width: 100px;
-	height: 100px;
-	background-image: url('http://cdn.theatlantic.com/static/mt/assets/food/salad.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('http://cdn.theatlantic.com/static/mt/assets/food/salad.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .landing-img-container-6 {
-	width: 100px;
-	height: 100px;
-	background-image: url('http://readynutrition.com/wp-content/uploads/2014/04/shutterstock_151441463.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('http://readynutrition.com/wp-content/uploads/2014/04/shutterstock_151441463.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 /* Row 3 */
 
 .landing-img-container-7 {
-	width: 100px;
-	height: 100px;
-	background-image: url('http://2zcb9n15d8i73ncvp0lwwrct.wpengine.netdna-cdn.com/wp-content/uploads/organic-whole-grain-oatmeal-pancakes-768x423.png');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('http://2zcb9n15d8i73ncvp0lwwrct.wpengine.netdna-cdn.com/wp-content/uploads/organic-whole-grain-oatmeal-pancakes-768x423.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .landing-img-container-8 {
-	width: 100px;
-	height: 100px;
-	background-image: url('https://sunbasket.com/resources/img/home/how-it-works/three-recipe-bags-2.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('https://sunbasket.com/resources/img/home/how-it-works/three-recipe-bags-2.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .landing-img-container-9 {
-	width: 100px;
-	height: 100px;
-	background-image: url('https://www.rd.com/wp-content/uploads/sites/2/2016/06/10-things-know-organic-food-farming.jpg');
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: 50% 50%;
+  width: 100px;
+  height: 100px;
+  background-image: url('https://www.rd.com/wp-content/uploads/sites/2/2016/06/10-things-know-organic-food-farming.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }

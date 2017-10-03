@@ -9,6 +9,7 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
+        <Navbar />
         <Landing />
       </MuiThemeProvider>
     );
