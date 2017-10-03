@@ -1,7 +1,9 @@
 import searchConstants from '../constants/search_constants';
 
 const initialState = {
-	isSearching: false
+	isSearching: false,
+	testing: false,
+	testResults: null
 };
 
 export default (state = initialState, action = {}) => {
@@ -10,6 +12,16 @@ export default (state = initialState, action = {}) => {
 	switch (action.type) {
 		case searchConstants.GET_SEARCH_REQUEST:
 			updated.isSearching = true;
+
+			return updated;
+
+		case searchConstants.TEST_LOADING:
+			updated.testing = action.payload;
+
+			return updated;
+
+		case searchConstants.TEST_FETCH:
+			updated.testResults = action.payload;
 
 			return updated;
 

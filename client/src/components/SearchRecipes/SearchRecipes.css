@@ -1,0 +1,18 @@
+.search-recipes {
+  display: flex;
+  background-color: #3c8d41;
+  height: 100vh;
+}
+
+.recipe-results {
+  width: 80%;
+  border: 1px black solid;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+}
+
+.newsfeed {
+  width: 20%;
+  border: 1px black solid;
+}

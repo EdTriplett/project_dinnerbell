@@ -1,29 +1,29 @@
-import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
-import asyncValidate from '../../services/AsyncValidate';
-import CircularProgress from 'material-ui/CircularProgress';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { Field, reduxForm } from "redux-form";
+import TextField from "material-ui/TextField";
+import asyncValidate from "../../services/AsyncValidate";
+import CircularProgress from "material-ui/CircularProgress";
+import { withRouter } from "react-router-dom";
 
-import './LoginForm.css';
+import "./LoginForm.css";
 
 const style = {
-  color: 'white'
+  color: "white"
 };
 
 const validate = values => {
   const errors = {};
-  const requiredFields = ['username', 'email', 'password'];
+  const requiredFields = ["username", "email", "password"];
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = 'Required';
+      errors[field] = "Required";
     }
   });
   if (
     values.email &&
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
   ) {
-    errors.email = 'Invalid email address';
+    errors.email = "Invalid email address";
   }
   return errors;
 };
@@ -33,21 +33,20 @@ const renderTextField = ({
   label,
   meta: { touched, error },
   ...custom
-}) => (
+}) =>
   <TextField
     hintText={label}
     floatingLabelText={label}
     errorText={touched && error}
     {...input}
     {...custom}
-  />
-);
+  />;
 
 class LoginForm extends Component {
   state = { error: null };
 
   onSubmit = () => {
-    alert('pressed log in!');
+    alert("pressed log in!");
     // const { login, formData, history } = this.props;
 
     // login(formData.LoginForm.values)
@@ -99,10 +98,10 @@ class LoginForm extends Component {
             </button>
             <button
               onClick={() => {
-                this.props.history.push('/register');
+                this.props.history.push("/");
               }}
             >
-              register
+              back
             </button>
             <button
               type="button"
@@ -123,7 +122,7 @@ class LoginForm extends Component {
 }
 
 export default reduxForm({
-  form: 'LoginForm',
+  form: "LoginForm",
   validate,
   asyncValidate
 })(withRouter(LoginForm));

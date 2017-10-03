@@ -9,38 +9,48 @@ import Landing from '../Landing';
 import SignupForm from '../SignupForm';
 import Navbar from '../Navbar';
 import Authentication from '../Authentication';
+import SearchRecipes from '../SearchRecipes';
 
 import './App.css';
 
 class App extends Component {
-	render() {
-		return (
-			<MuiThemeProvider>
-				<Router>
-					<div>
-						<Navbar />
-						<Route exact path="/" render={() => <Landing {...this.props} />} />
-						<Route
-							path="/register"
-							render={() => (
-								<Authentication {...this.props} showLogin={false} />
-							)}
-						/>
-						<Route
-							path="/login"
-							render={() => <Authentication {...this.props} showLogin={true} />}
-						/>
-					</div>
-				</Router>
-			</MuiThemeProvider>
-		);
-	}
+  componentDidMount() {
+    this.props.searchActions.testSearch();
+  }
+
+  render() {
+    console.log(this.props);
+    return (
+      <MuiThemeProvider>
+        <Router>
+          <div>
+            <Navbar />
+            <Route exact path="/" render={() => <Landing {...this.props} />} />
+            <Route
+              path="/register"
+              render={() => (
+                <Authentication {...this.props} showLogin={false} />
+              )}
+            />
+            <Route
+              path="/login"
+              render={() => <Authentication {...this.props} showLogin={true} />}
+            />
+            <Route
+              path="/search"
+              render={() => <SearchRecipes {...this.props} />}
+            />
+          </div>
+        </Router>
+      </MuiThemeProvider>
+    );
+  }
 }
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
-	searchActions: bindActionCreators(searchActions, dispatch)
+  searchActions: bindActionCreators(searchActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

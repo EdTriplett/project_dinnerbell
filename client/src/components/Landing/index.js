@@ -72,6 +72,14 @@ class Landing extends Component {
               <div className="landing-img-container-9" />
             </Paper>
           </div>
+          <div className="oauth-landing">
+            <a href="/auth/facebook">
+              <img src="https://imgur.com/Hw9YUrJ.png" />
+            </a>
+            <a href="/auth/google">
+              <img src="https://i.imgur.com/ETp8DOT.png" />
+            </a>
+          </div>
         </div>
       </section>
     );
