@@ -1,19 +1,32 @@
-import React, { Component } from "react";
-import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import * as searchActions from '../../actions/search_actions';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-import "./App.css";
-import Landing from "../Landing";
-import Navbar from "../Navbar";
+import './App.css';
+import Landing from '../Landing';
+import Navbar from '../Navbar';
 
 class App extends Component {
-  render() {
-    return (
-      <MuiThemeProvider>
-        <Navbar />
-        <Landing />
-      </MuiThemeProvider>
-    );
-  }
+	render() {
+		console.log(this.props);
+		return (
+			<div>
+				<Navbar />
+				<MuiThemeProvider>
+					<Landing />
+				</MuiThemeProvider>
+			</div>
+		);
+	}
 }
 
-export default App;
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = dispatch => ({
+	searchActions: bindActionCreators(searchActions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

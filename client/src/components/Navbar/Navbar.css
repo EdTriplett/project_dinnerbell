@@ -1,5 +1,14 @@
+.nav {
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  z-index: 2;
+  padding: 10px;
+}
+
 .namanyay-search-btn {
-  background: #0099ff;
+  background: #fc5830;
   color: white;
   font: 'trebuchet ms', trebuchet;
   padding: 10px 20px;
@@ -20,4 +29,10 @@
   -o-border-radius: 10px 0 0 10px;
   border: 0 none;
   width: 160px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  background-image: url('https://i.imgur.com/5TYZkyJ.png');
 }
