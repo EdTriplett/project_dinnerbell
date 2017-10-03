@@ -9,12 +9,13 @@ if (process.env.NODE_ENV !== "production") {
 
 // Database
 const mongoose = require("mongoose");
-app.use((req, res, next) => {
-  if (mongoose.connection.readyState) next();
-  else
-    require("./util/mongo")()
-      .then(() => next())
-      .catch(e => next(e));
+app.use(async (req, res, next) => {
+  try {
+    if (!mongoose.connection.readyState) await require("./util/mongo")();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Post Data
@@ -59,6 +60,12 @@ app.use("/api/recipes", require("./routes/recipes"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/ratings", require("./routes/ratings"));
 app.use("/api/meals", require("./routes/meals"));
+
+app.all("/*", (req, res, next) => {
+  let err = new Error("404: resource not found");
+  err.stack = `404: invalid resource requested: ${req.path}`;
+  next(err);
+});
 
 // Error Handler
 app.use((error, req, res, next) => {

@@ -83,7 +83,7 @@ const authenticate = passport => {
     done(null, user._id);
   });
   passport.deserializeUser((userid, done) => {
-    User.findById(userid, (error, user) => {
+    User.findOne({ _id: userid }, (error, user) => {
       done(error, user);
     });
   });

@@ -15,15 +15,13 @@ const PictureSchema = new Schema(
   { timestamps: true }
 );
 
-PictureSchema.pre("remove", function(next) {
-  mongoose
-    .model("User")
-    .update({ user: this._id })
-    .then(() => next())
-    .catch(e => {
-      console.error(e.stack);
-      next();
-    });
+PictureSchema.pre("remove", async function(next) {
+  try {
+    mongoose.model("User").update({ user: this._id });
+  } catch (error) {
+    console.error(error.stack);
+  }
+  next();
 });
 
 const Picture = mongoose.model("Picture", PictureSchema);
