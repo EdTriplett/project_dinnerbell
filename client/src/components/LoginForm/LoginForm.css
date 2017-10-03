@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans:400,700');
+
+.label {
+  font-family: 'Indie Flower', cursive;
+  font-size: 3em;
+  color: white;
+  text-align: center;
+}
+
+.login-buttons button {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  padding-right: 10px;
+  padding-left: 10px;
+  border: 0.5px solid white;
+  color: white;
+  background-color: #3c8d41;
+  border-radius: 5px;
+}
+
+.login-buttons button:focus {
+  outline: 0;
+}
+
+.login-buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.material-field label {
+  color: white !important;
+}
+
+.material-field input {
+  color: white !important;
+}
+
+.oauth {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+}
+
+.oauth img {
+  margin-top: 10px;
+  width: 200px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
