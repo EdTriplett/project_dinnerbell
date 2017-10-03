@@ -15,7 +15,7 @@ const RatingSchema = new Schema(
 
 RatingSchema.pre("save", async function(next) {
   try {
-    const user = await mongoose.model("user").findById(this.owner);
+    const user = await mongoose.model("user").findOne({ _id: this.owner });
     if (user && !user.ratings.includes(this._id)) {
       await user.update({ ratings: { $push: this._id } });
     }

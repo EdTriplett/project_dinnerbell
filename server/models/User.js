@@ -19,7 +19,8 @@ const UserSchema = new Schema(
     // users we are following
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     public: { type: Boolean, default: true },
-    profilePicture: { type: Schema.Types.ObjectId, ref: "Picture" }
+    profilePicture: { type: Schema.Types.ObjectId, ref: "Picture" },
+    dietaryRestrictions: [String]
   },
   { timestamps: true }
 );
@@ -42,14 +43,14 @@ const constraints = {
 
 UserSchema.statics.createLocalUser = async function(fields) {
   const results = validate(fields, constraints);
-  return results ? results : mongoose.models('User').create(fields);
+  return results ? results : mongoose.models("User").create(fields);
 };
 
 UserSchema.methods.updateUser = async function(fields) {
-  const results = Object.entries(fields).map((field, value)=>{
-    validate.single(value, constraints[field])
-  })
-  return results ? {errors: results} : this.update(fields);
+  const results = Object.entries(fields).map((field, value) => {
+    validate.single(value, constraints[field]);
+  });
+  return results ? { errors: results } : this.update(fields);
 };
 
 UserSchema.virtual("password").set(function(value) {
@@ -70,6 +71,16 @@ UserSchema.pre("remove", function(next) {
       next();
     });
 });
+
+const populateAll = function() {
+  this.populate("recipes meals profilePicture following ratings");
+};
+
+UserSchema.pre("find", populateAll);
+
+UserSchema.pre("findOne", populateAll);
+
+UserSchema.pre("update", populateAll);
 
 const User = mongoose.model("User", UserSchema);
 

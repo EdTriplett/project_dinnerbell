@@ -15,7 +15,7 @@ const RecipeSchema = new Schema(
 
 RecipeSchema.pre("save", async function(next) {
   try {
-    const user = await mongoose.model("user").findById(this.owner);
+    const user = await mongoose.model("user").find({ _id: this.owner });
     if (user && !user.recipes.includes(this._id)) {
       await user.update({ recipes: { $push: this._id } });
     }

@@ -20,7 +20,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
-    res.json(await User.findById(id));
+    res.json(await User.findOne({ _id: id }));
   } catch (e) {
     next(e);
   }
@@ -31,7 +31,7 @@ router.patch("/:id", allowed, async (req, res, next) => {
     const { user } = req.body;
     const updated = await req.session.user.updateUser(user);
     if (!updated.errors) {
-    req.session.user = updated;
+      req.session.user = updated;
     }
     res.json(updated);
   } catch (error) {
