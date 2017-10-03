@@ -15,15 +15,15 @@ const MealSchema = new Schema(
   { timestamps: true }
 );
 
-MealSchema.pre("remove", function(next) {
-  mongoose
-    .model("User")
-    .update({ id: this.owner }, { meals: { $pull: this._id } })
-    .then(() => next())
-    .catch(e => {
-      console.error(e.stack);
-      next();
-    });
+MealSchema.pre("remove", async function(next) {
+  try {
+    await mongoose
+      .model("User")
+      .update({ id: this.owner }, { meals: { $pull: this._id } });
+  } catch (error) {
+    console.error(error.stack);
+  }
+  next();
 });
 
 const Meal = mongoose.model("Meal", MealSchema);

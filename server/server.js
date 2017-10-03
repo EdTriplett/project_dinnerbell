@@ -9,12 +9,13 @@ if (process.env.NODE_ENV !== "production") {
 
 // Database
 const mongoose = require("mongoose");
-app.use((req, res, next) => {
-  if (mongoose.connection.readyState) next();
-  else
-    require("./util/mongo")()
-      .then(() => next())
-      .catch(e => next(e));
+app.use(async (req, res, next) => {
+  try {
+    if (!mongoose.connection.readyState) await require("./util/mongo")();
+    next();
+  } catch (error) {
+    next(error);
+  }
 });
 
 // Post Data

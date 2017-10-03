@@ -61,15 +61,13 @@ UserSchema.methods.verifyPassword = function(password) {
   return this.passwordHash && bcrypt.compareSync(password, this.passwordHash);
 };
 
-UserSchema.pre("remove", function(next) {
-  mongoose
-    .model("Rating")
-    .remove({ user: this._id })
-    .then(() => next())
-    .catch(e => {
-      console.error(e.stack);
-      next();
-    });
+UserSchema.pre("remove", async function(next) {
+  try {
+    await mongoose.model("Rating").remove({ user: this._id });
+  } catch (error) {
+    console.error(error.stack);
+  }
+  next();
 });
 
 const populateAll = function() {

@@ -19,22 +19,24 @@ RatingSchema.pre("save", async function(next) {
     if (user && !user.ratings.includes(this._id)) {
       await user.update({ ratings: { $push: this._id } });
     }
-    next();
   } catch (error) {
     console.error(error);
-    next();
   }
+  next();
 });
 
-RatingSchema.pre("remove", function(next) {
-  mongoose
-    .model("User")
-    .update({ recipes: { $inc: this._id } }, { recipes: { $pull: this._id } })
-    .then(() => next())
-    .catch(e => {
-      console.log(e.stack);
-      next();
-    });
+RatingSchema.pre("remove", async function(next) {
+  try {
+    await mongoose
+      .model("user")
+      .update(
+        { recipes: { $inc: this._id } },
+        { recipes: { $pull: this._id } }
+      );
+  } catch (error) {
+    console.error(error);
+  }
+  next();
 });
 
 const Rating = mongoose.model("Rating", RatingSchema);
