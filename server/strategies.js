@@ -8,7 +8,7 @@ const User = require("./models/User");
 const localHandler = async (req, username, password, done) => {
   try {
     const user = await User.findOne({ username });
-    req.user = user;
+    req.session.user = user;
     done(null, user && user.verifyPassword(password));
   } catch (error) {
     console.error(error);
@@ -25,7 +25,8 @@ const googleHandler = async (req, accessToken, refreshToken, profile, done) => {
         username: profile.displayName
       });
     }
-    req.user = user;
+
+    req.session.user = user;
     done(null, user);
   } catch (error) {
     console.error(error);
@@ -48,7 +49,8 @@ const facebookHandler = async (
         username: profile.displayName
       });
     }
-    req.user = user;
+
+    req.session.user = user;
     done(null, user);
   } catch (error) {
     console.error(error);

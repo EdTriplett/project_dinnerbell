@@ -3,7 +3,7 @@ const User = require("../models/User");
 const FileUploader = require("../util/upload");
 
 const allowed = (req, res, next) => {
-  if (req.isAuthenticated() && req.user.id === req.params.id) {
+  if (req.isAuthenticated() && req.session.user.id === req.params.id) {
     next();
   }
   res.json({ error: "unauthorized user action" });
@@ -29,7 +29,9 @@ router.get("/:id", async (req, res, next) => {
 router.patch("/:id", allowed, async (req, res, next) => {
   try {
     const { user } = req.body;
-    res.json(await req.user.update(user));
+    const updated = await req.session.user.update(user);
+    req.session.user = updated;
+    res.json(updated);
   } catch (error) {
     next(error);
   }
@@ -37,7 +39,7 @@ router.patch("/:id", allowed, async (req, res, next) => {
 
 router.delete("/:id", allowed, async (req, res, next) => {
   try {
-    req.user.remove();
+    req.session.user.remove();
     req.logout();
   } catch (error) {
     next(error);
