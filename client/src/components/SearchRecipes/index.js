@@ -1,24 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import { DropDownMenu, MenuItem } from 'material-ui';
-import ReactSuperSelect from 'react-super-select';
+import { DropDownMenu, MenuItem } from "material-ui";
+import ReactSuperSelect from "react-super-select";
 
-import * as userActions from '../../actions/user_actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import * as userActions from "../../actions/user_actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 
-import './SearchRecipes.css';
-
-const styles = {
-  menuStyle: {
-    marginLeft: '20px'
-  },
-  listStyle: {
-    marginLeft: '20px'
-  }
-};
+import "./SearchRecipes.css";
 
 class SearchRecipes extends Component {
   state = {
@@ -28,9 +19,13 @@ class SearchRecipes extends Component {
     dietaryValue: 1
   };
 
+  componentWillMount() {
+    this.props.userActions.checkCurrentUser();
+  }
+
   onClickLogout = async () => {
     await this.props.userActions.logoutUser();
-    this.props.history.push('/');
+    this.props.history.push("/");
   };
 
   handleChange = (event, index, value) => this.setState({ value });
@@ -38,17 +33,7 @@ class SearchRecipes extends Component {
   render() {
     return (
       <div className="search-recipes">
-        <div className="recipe-results">
-          <ReactSuperSelect
-            placeholder="Make Your Selections"
-            // ajaxDataFetch={simulatedAjaxFetch}
-            // onChange={handlerExample}
-            searchable={true}
-            className="super-test"
-          />
-          <button onClick={this.onClickLogout}>Logout</button>
-        </div>
-
+        <div className="recipe-results" />
         <div className="newsfeed" />
       </div>
     );

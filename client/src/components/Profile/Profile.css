@@ -1,0 +1,131 @@
+.profile {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	height: 100vh;
+	background-color: #3c8d41;
+}
+
+.profile-name {
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 2em;
+}
+
+.profile-pic {
+	width: 150px;
+	height: 150px;
+	border: 3px solid white;
+	border-radius: 200px;
+}
+
+.user-logs-container {
+	display: flex;
+	justify-content: space-around;
+	height: 350px;
+	width: 90%;
+	margin-top: 20px;
+}
+
+.user-logs-recipes {
+	background: #e34b27;
+	display: flex;
+	position: relative;
+	height: 30px;
+	width: 100px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.user-logs-recipes p {
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	font-size: 0.9em;
+	position: absolute;
+	bottom: -10px;
+	left: 25px;
+}
+
+.user-logs-meals {
+	background: #e34b27;
+	display: flex;
+	position: relative;
+	height: 30px;
+	width: 100px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.user-logs-meals p {
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	font-size: 0.9em;
+	position: absolute;
+	bottom: -10px;
+	left: 30px;
+}
+
+.user-logs-activities {
+	background: #e34b27;
+	display: flex;
+	position: relative;
+	height: 30px;
+	width: 100px;
+	padding: 5px;
+	border-radius: 5px;
+}
+
+.user-logs-activities p {
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	font-size: 0.9em;
+	position: absolute;
+	bottom: -10px;
+	left: 20px;
+}
+
+.user-logs {
+	display: flex;
+	background: #eeeeee;
+	flex-direction: column;
+	padding: 10px;
+	width: 100%;
+	height: 100%;
+	margin-top: 20px;
+	border-radius: 10px;
+}
+
+.user-logs-col {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 10px;
+	width: 25%;
+}
+
+.logs-search-btn {
+	background: black;
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	padding: 5px 10px;
+	border-radius: 0 10px 10px 0;
+	-moz-border-radius: 0 10px 10px 0;
+	-webkit-border-radius: 0 10px 10px 0;
+	-o-border-radius: 0 10px 10px 0;
+	border: 0 none;
+	font-weight: bold;
+}
+
+.logs-search-box {
+	outline: none;
+	background: #eee;
+	padding: 5px;
+	border-radius: 10px 0 0 10px;
+	-moz-border-radius: 10px 0 0 10px;
+	-webkit-border-radius: 10px 0 0 10px;
+	-o-border-radius: 10px 0 0 10px;
+	border: 0 none;
+	width: 160px;
+	margin-top: 20px;
+}

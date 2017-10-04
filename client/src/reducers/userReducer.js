@@ -1,10 +1,9 @@
-import userConstants from "../constants/user_constants";
+import userConstants from '../constants/user_constants';
 
 const initialState = {
   user: null,
   userLoading: false,
-  userError: null,
-  isLoggedIn: false
+  userError: null
 };
 
 export default (state = initialState, action = {}) => {
@@ -18,19 +17,14 @@ export default (state = initialState, action = {}) => {
 
     case userConstants.SET_CURRENT_USER:
       updated.user = action.payload;
+      updated.userError = action.userError;
 
       return updated;
 
     case userConstants.SET_USER_ERROR:
       updated.userError = action.payload;
-      updated.isLoggedIn = false;
+      updated.userLoading = false;
       updated.user = null;
-
-    case userConstants.SET_USER_STATUS:
-      updated.isLoggedIn = action.payload;
-      if (!updated.isLoggedIn) {
-        updated.user = null;
-      }
 
       return updated;
 

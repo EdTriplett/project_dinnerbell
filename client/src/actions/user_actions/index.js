@@ -1,5 +1,5 @@
-import userConstants from "../../constants/user_constants";
-import AsyncManager from "../../services/AsyncManager";
+import userConstants from '../../constants/user_constants';
+import AsyncManager from '../../services/AsyncManager';
 
 export function setUserLoading(bool) {
   return {
@@ -11,7 +11,8 @@ export function setUserLoading(bool) {
 export function setCurrentUser(user) {
   return {
     type: userConstants.SET_CURRENT_USER,
-    payload: user
+    payload: user,
+    userError: null
   };
 }
 
@@ -24,10 +25,10 @@ export function setUserError(error) {
 
 export const checkCurrentUser = () => async dispatch => {
   try {
-    const payload = await AsyncManager.getRequest("/auth/current-user");
+    const payload = await AsyncManager.getRequest('/auth/current-user');
     dispatch(setCurrentUser(payload));
   } catch (e) {
-    dispatch(setUserError(e.stack));
+    dispatch(setUserError(e.message));
   }
 };
 
@@ -41,33 +42,36 @@ export const setUserStatus = bool => {
 export const registerUser = data => async dispatch => {
   try {
     dispatch(setUserLoading(true));
-    const payload = await AsyncManager.postRequest("/auth/register", data);
+    const payload = await AsyncManager.postRequest('/auth/register', data);
+
+    if (payload.errors) throw new Error(payload.errors[0]);
+
     dispatch(setCurrentUser(payload));
     dispatch(setUserLoading(false));
-    dispatch(setUserStatus(true));
   } catch (e) {
-    dispatch(setUserError(e.stack));
+    dispatch(setUserError(e.message));
   }
 };
 
 export const loginUser = data => async dispatch => {
   try {
     dispatch(setUserLoading(true));
-    const payload = await AsyncManager.postRequest("/auth/login", data);
+    const payload = await AsyncManager.postRequest('/auth/login', data);
+
+    if (payload.errors) throw new Error(payload.errors[0]);
+
     dispatch(setCurrentUser(payload));
     dispatch(setUserLoading(false));
-    dispatch(setUserStatus(true));
   } catch (e) {
-    dispatch(setUserError(e.stack));
+    dispatch(setUserError(e.message));
   }
 };
 
 export const logoutUser = data => async dispatch => {
   try {
-    await AsyncManager.getRequest("/auth/logout");
+    await AsyncManager.getRequest('/auth/logout');
     dispatch(setCurrentUser(null));
-    dispatch(setUserStatus(false));
   } catch (e) {
-    dispatch(setUserError(e.stack));
+    dispatch(setUserError(e.message));
   }
 };

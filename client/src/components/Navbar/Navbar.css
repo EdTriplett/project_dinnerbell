@@ -8,8 +8,24 @@
   background-color: #3c8d41;
 }
 
+.nav-items {
+  display: flex;
+  align-items: center;
+}
+
+.nav-items a {
+  text-decoration: none;
+}
+
+.non-logo-item {
+  color: white;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.8em;
+  margin-left: 10px;
+}
+
 .namanyay-search-btn {
-  background: #fc5830;
+  background: #e34b27;
   color: white;
   font-family: 'Open Sans', sans-serif;
   padding: 10px 20px;

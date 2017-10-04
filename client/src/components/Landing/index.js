@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Paper } from "material-ui";
-import { withRouter } from "react-router-dom";
-import * as userActions from "../../actions/user_actions";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { Component } from 'react';
+import { Paper } from 'material-ui';
+import { withRouter } from 'react-router-dom';
+import * as userActions from '../../actions/user_actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import "./Landing.css";
+import './Landing.css';
 
 const style = {
   height: 100,
@@ -17,41 +17,49 @@ const style = {
 // }
 
 class Landing extends Component {
+  state = {
+    finishedLoading: false
+  };
   componentDidMount() {
-    this.props.userActions.checkCurrentUser();
-    console.log("Props: ", this.props.userReducer.isLoggedIn);
-  }
-
-  componentWillReceiveProps(nextprops) {
-    console.log("nextprops: ", nextprops);
+    this.props.userActions.checkCurrentUser().then(() => {
+      this.setState({ finishedLoading: true });
+    });
   }
 
   render() {
-    const buttonOptions = !this.props.userReducer.isLoggedIn
-      ? <div className="landing-auth-container">
-          <button
-            onClick={() => {
-              this.props.history.push("/register");
-            }}
-          >
-            register
-          </button>
-          <button
-            onClick={() => {
-              this.props.history.push("/login");
-            }}
-          >
-            login
-          </button>
-        </div>
-      : <div className="landing-auth-container">
-          <button onClick={() => this.props.userActions.logoutUser()}>
-            logout
-          </button>
-        </div>;
+    console.log(this.props.userReducer, 'any error message');
+    const buttonOptions = !this.state.finishedLoading ? null : !this.props
+      .userReducer.user ? (
+      <div className="landing-auth-container">
+        <button
+          onClick={() => {
+            this.props.history.push('/register');
+          }}
+        >
+          register
+        </button>
+        <button
+          onClick={() => {
+            this.props.history.push('/login');
+          }}
+        >
+          login
+        </button>
+      </div>
+    ) : (
+      <div
+        className="landing-auth-container"
+        style={{ justifyContent: 'center' }}
+      >
+        <button onClick={() => this.props.userActions.logoutUser()}>
+          logout
+        </button>
+      </div>
+    );
 
-    const authOptions = !this.props.userReducer.isLoggedIn
-      ? <div className="oauth-landing">
+    const authOptions =
+      !this.props.userReducer.user && this.state.finishedLoading ? (
+        <div className="oauth-landing">
           <a href="/auth/facebook">
             <img src="https://imgur.com/Hw9YUrJ.png" />
           </a>
@@ -59,7 +67,7 @@ class Landing extends Component {
             <img src="https://i.imgur.com/ETp8DOT.png" />
           </a>
         </div>
-      : null;
+      ) : null;
 
     return (
       <section className="landing">
