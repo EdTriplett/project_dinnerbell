@@ -1,67 +1,64 @@
-import userConstants from "../../constants/user_constants";
-import AsyncManager from "../../services/AsyncManager";
+import userConstants from '../../constants/user_constants';
+import AsyncManager from '../../services/AsyncManager';
 
 export function setUserLoading(bool) {
-  return {
-    type: userConstants.SET_USER_LOADING,
-    payload: bool
-  };
+	return {
+		type: userConstants.SET_USER_LOADING,
+		payload: bool
+	};
 }
 
-export function registerUser(data) {
-  return dispatch => {
-    dispatch(setUserLoading(true));
-
-    return dispatch(
-      AsyncManager.postRequest(
-        "/auth/register",
-        data,
-        userConstants.SET_CURRENT_USER,
-        () => {
-          dispatch(setUserLoading(false));
-        }
-      )
-    );
-  };
+export function setCurrentUser(user) {
+	return {
+		type: userConstants.SET_CURRENT_USER,
+		payload: user
+	};
 }
 
-export function loginUser(data) {
-  return dispatch => {
-    dispatch(setUserLoading(true));
-
-    return dispatch(
-      AsyncManager.postRequest(
-        "/auth/login",
-        data,
-        userConstants.SET_CURRENT_USER,
-        () => {
-          dispatch(setUserLoading(false));
-        }
-      )
-    );
-  };
+export function setUserError(error) {
+	return {
+		type: userConstants.SET_USER_ERROR,
+		payload: error
+	};
 }
 
-// export function testSearch() {
-// 	return dispatch => {
-// 		dispatch(setTestLoading(true));
-// 		return dispatch(
-// 			AsyncManager.getRequest(
-// 				'https://swapi.co/api/planets/1/?format=wookiee',
-// 				null,
-// 				searchConstants.TEST_FETCH,
-// 				() => {
-// 					dispatch(setTestLoading(false));
-// 				}
-// 			)
-// 		);
-// 	};
-// }
+export const checkCurrentUser = () => async dispatch => {
+	try {
+		const payload = await AsyncManager.getRequest('/auth/current-user');
+		dispatch(setCurrentUser(payload));
+	} catch (e) {
+		dispatch(setUserError(e.stack));
+	}
+};
 
-// export function loginUserSuccess() {
-// 	return dispatch => {
-// 		dispatch(setLoginUserLoading(true));
+export const registerUser = data => async dispatch => {
+	try {
+		dispatch(setUserLoading(true));
+		const payload = await AsyncManager.postRequest('/auth/register', data);
+		dispatch(setCurrentUser(payload));
+		dispatch(setUserLoading(false));
+	} catch (e) {
+		dispatch(setUserError(e.stack));
+	}
+};
 
-// 		return dispatch(AsyncManager.postRequest('/register', ));
-// 	};
-// }
+export const loginUser = data => async dispatch => {
+	try {
+		dispatch(setUserLoading(true));
+		const payload = await AsyncManager.postRequest('/auth/login', data);
+		dispatch(setCurrentUser(payload));
+		dispatch(setUserLoading(false));
+	} catch (e) {
+		dispatch(setUserError(e.stack));
+	}
+};
+
+export const logoutUser = data => async dispatch => {
+	try {
+		await AsyncManager.getRequest('/auth/logout');
+		dispatch(setCurrentUser(null));
+	} catch (e) {
+		dispatch(setUserError(e.stack));
+	}
+};
+

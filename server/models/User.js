@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
+const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
-const bcrypt = require("bcrypt");
-const validate = require("validate.js");
+const bcrypt = require('bcrypt');
+const validate = require('validate.js');
 
 const UserSchema = new Schema(
   {
@@ -12,14 +12,14 @@ const UserSchema = new Schema(
     googleID: { type: String, unique: true },
     facebookID: { type: String, unique: true },
     passwordHash: { type: String, select: false },
-    recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
-    ratings: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    recipes: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
+    ratings: [{ type: Schema.Types.ObjectId, ref: 'Recipe' }],
     // meals we have created
-    meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
+    meals: [{ type: Schema.Types.ObjectId, ref: 'Meal' }],
     // users we are following
-    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     public: { type: Boolean, default: true },
-    profilePicture: { type: Schema.Types.ObjectId, ref: "Picture" },
+    profilePicture: { type: Schema.Types.ObjectId, ref: 'Picture' },
     dietaryRestrictions: [String]
   },
   { timestamps: true }
@@ -40,19 +40,15 @@ const constraints = {
     presence: true,
     length: {
       minimum: 6,
-      message: "must be at least 6 characters"
+      message: 'must be at least 6 characters'
     }
   }
 };
 
 // Return a new user or an errors object if any constraints are violated
 UserSchema.statics.createLocalUser = async function(fields) {
-  console.log("******************made it this far");
-  console.log("******************fields: ", fields);
-  console.log(typeof fields);
   const results = await validate(fields, constraints);
-  console.log("*******************results: ", results);
-  return results ? results : mongoose.model("User").create(fields);
+  return results ? results : mongoose.model('User').create(fields);
 };
 
 // Update and return a user, or an error object if any constraints are violated
@@ -66,7 +62,7 @@ UserSchema.methods.updateUser = async function(fields) {
 };
 
 // Password management
-UserSchema.virtual("password").set(function(value) {
+UserSchema.virtual('password').set(function(value) {
   this.passwordHash = bcrypt.hashSync(value, 12);
 });
 UserSchema.methods.verifyPassword = function(password) {
@@ -74,9 +70,9 @@ UserSchema.methods.verifyPassword = function(password) {
 };
 
 // Remove ratings from deleted users
-UserSchema.pre("remove", async function(next) {
+UserSchema.pre('remove', async function(next) {
   try {
-    await mongoose.model("Rating").remove({ user: this._id });
+    await mongoose.model('Rating').remove({ user: this._id });
   } catch (error) {
     console.error(error.stack);
   }
@@ -87,10 +83,10 @@ UserSchema.pre("remove", async function(next) {
 const populateAll = function() {
   // this.populate("recipes meals profilePicture following ratings");
 };
-UserSchema.pre("find", populateAll);
-UserSchema.pre("findOne", populateAll);
-UserSchema.pre("update", populateAll);
+UserSchema.pre('find', populateAll);
+UserSchema.pre('findOne', populateAll);
+UserSchema.pre('update', populateAll);
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

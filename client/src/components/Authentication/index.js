@@ -1,34 +1,53 @@
-import React, { Component } from "react";
-import SignupForm from "../SignupForm";
-import LoginForm from "../LoginForm";
-import * as userActions from "../../actions/user_actions";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import "./Authentication.css";
+import React, { Component } from 'react';
+import SignupForm from '../SignupForm';
+import LoginForm from '../LoginForm';
+import * as userActions from '../../actions/user_actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router-dom';
+import './Authentication.css';
+
+import _ from 'lodash';
 
 class Authentication extends Component {
-  render() {
-    console.log(this.props, "props in authentication");
-    return (
-      <div className="authentication">
-        {!this.props.showLogin
-          ? <SignupForm
-              registerUser={this.props.userActions.registerUser}
-              formData={this.props.form}
-            />
-          : <LoginForm
-              loginUser={this.props.userActions.loginUser}
-              formData={this.props.form}
-            />}
-      </div>
-    );
-  }
+	componentDidMount() {
+		this.props.userActions.checkCurrentUser();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (!_.isEqual(nextProps.userReducer.user, this.props.userReducer.user)) {
+			this.props.history.push('/search');
+		}
+	}
+
+	render() {
+		console.log(this.props.userReducer, 'props in authentication');
+		return (
+			<div className="authentication">
+				{!this.props.showLogin ? (
+					<SignupForm
+						registerUser={this.props.userActions.registerUser}
+						userLoading={this.props.userReducer.userLoading}
+						formData={this.props.form}
+					/>
+				) : (
+					<LoginForm
+						loginUser={this.props.userActions.loginUser}
+						userLoading={this.props.userReducer.userLoading}
+						formData={this.props.form}
+					/>
+				)}
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch)
+	userActions: bindActionCreators(userActions, dispatch)
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
+export default withRouter(
+	connect(mapStateToProps, mapDispatchToProps)(Authentication)
+);
