@@ -45,6 +45,7 @@ const auth = passport => {
       if (!user.errors) {
         req.session.user = user;
       }
+
       res.json(user);
     } catch (e) {
       next(e);
@@ -52,6 +53,7 @@ const auth = passport => {
   });
 
   router.all("/logout", (req, res) => {
+    req.session.destroy();
     req.logout();
     res.json({ message: "logged out" });
   });

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const fetch = require("isomorphic-fetch");
+const Recipe = require("../models/Recipe");
 
 const BASE = "https://api.edamam.com/search";
 const ID = process.env.EDAMAM_ID;
@@ -26,8 +27,7 @@ const buildPrefs = preferences => {
       if (DIET.has(current)) prefs.diet.push(current);
       if (HEALTH.has(current)) prefs.health.push(current);
       return prefs;
-    },
-    {
+    }, {
       health: [],
       diet: []
     });
@@ -43,11 +43,49 @@ router.get("/", async (req, res, next) => {
   try {
     const { q, preferences } = req.query;
 
-    const response = await fetch(
+    let apiResponse = await fetch(
       buildURL([`q=${q}`, ...buildPrefs(preferences)])
     );
-    const recipes = await response.json();
-    res.json(recipes);
+    apiResponse = await apiResponse.json();
+    apiResponse = apiResponse.hits.map(recipe => {
+      let {
+        label,
+        image,
+        uri,
+        url,
+        source,
+        digest,
+        ingredientLines,
+        calories,
+        dietLabels,
+        healthLabels,
+      } = recipe.recipe;
+
+
+      dietLabels = dietLabels ? dietLabels : []
+
+      healthLabels = healthLabels ? healthLabels : []
+
+      ingredientLines = ingredientLines.filter(word=> {return word!=="undefined"})
+
+      return {
+        name: label,
+        ingredients: ingredientLines,
+        data: {
+          uri,
+          url,
+          source,
+          digest,
+          calories
+        },
+        preferences: dietLabels.concat(healthLabels),
+        image: {url:image}
+      };
+    });
+    res.json(apiResponse);
+//    let regx = 
+//    const dbResponse = await Recipe.find({$text: {$search: q}, })
+
   } catch (error) {
     next(error);
   }

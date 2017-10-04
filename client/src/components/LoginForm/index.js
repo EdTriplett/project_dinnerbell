@@ -1,29 +1,33 @@
-import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
-import TextField from "material-ui/TextField";
-import asyncValidate from "../../services/AsyncValidate";
-import CircularProgress from "material-ui/CircularProgress";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import TextField from 'material-ui/TextField';
+import asyncValidate from '../../services/AsyncValidate';
+import CircularProgress from 'material-ui/CircularProgress';
+import { withRouter } from 'react-router-dom';
 
-import "./LoginForm.css";
+import './LoginForm.css';
 
 const style = {
-  color: "white"
+  color: 'white'
 };
 
 const validate = values => {
   const errors = {};
-  const requiredFields = ["username", "email", "password"];
+  const requiredFields = ['username', 'email', 'password'];
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = "Required";
+      errors[field] = 'Required';
     }
   });
   if (
     values.email &&
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
   ) {
-    errors.email = "Invalid email address";
+    errors.email = 'Invalid email address';
+  }
+  const passwordLength = 6;
+  if (values.password && values.password.length < passwordLength) {
+    errors.password = `Password must be at least ${passwordLength} characters`;
   }
   return errors;
 };
@@ -33,40 +37,50 @@ const renderTextField = ({
   label,
   meta: { touched, error },
   ...custom
-}) =>
+}) => (
   <TextField
     hintText={label}
     floatingLabelText={label}
     errorText={touched && error}
     {...input}
     {...custom}
-  />;
+  />
+);
 
 class LoginForm extends Component {
   state = { error: null };
 
   onSubmit = () => {
-    alert("pressed log in!");
-    // const { login, formData, history } = this.props;
+    const { loginUser, formData, history } = this.props;
+    const { username, password, email } = formData.LoginForm.values;
 
-    // login(formData.LoginForm.values)
-    //   .then(() => {
-    //     history.replace('/dashboard')
-    //   })
-    //   .catch((e) => {
-    //     this.setState({
-    //       error: e.message
-    //     })
+    console.log(email, password, 'FIELD VALUES');
 
-    //     alert('User does not exist!')
-    //   })
+    loginUser({ password, email });
+    // .then(user => {
+    //   console.log("curr user: ", user);
+    //   history.push("/search");
+    // })
+    // .catch(e => {
+    //   this.setState({
+    //     error: e.message
+    //   });
+
+    //   alert("User does not exist!");
+    // });
   };
 
   render() {
-    const { handleSubmit, pristine, reset, submitting, loading } = this.props;
+    const {
+      handleSubmit,
+      pristine,
+      reset,
+      submitting,
+      userLoading
+    } = this.props;
 
-    if (loading && !this.state.error) {
-      return <CircularProgress size={80} thickness={5} />;
+    if (userLoading && !this.state.error) {
+      return <CircularProgress size={80} thickness={3} color="#fc5830" />;
     }
 
     return (
@@ -98,7 +112,7 @@ class LoginForm extends Component {
             </button>
             <button
               onClick={() => {
-                this.props.history.push("/");
+                this.props.history.push('/');
               }}
             >
               back
@@ -122,7 +136,7 @@ class LoginForm extends Component {
 }
 
 export default reduxForm({
-  form: "LoginForm",
+  form: 'LoginForm',
   validate,
   asyncValidate
 })(withRouter(LoginForm));

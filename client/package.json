@@ -2,14 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": {
-    "/auth/google": {
-      "target": "http://localhost:3001"
-    },
-    "/auth/facebook": {
-      "target": "http://localhost:3001"
-    }
-  },
+  "proxy": "http://localhost:3001",
   "dependencies": {
     "classnames": "^2.2.5",
     "enzyme": "^3.0.0",

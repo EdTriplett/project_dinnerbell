@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
-import { Paper } from 'material-ui';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { Paper } from "material-ui";
+import { withRouter } from "react-router-dom";
+import * as userActions from "../../actions/user_actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import './Landing.css';
+import "./Landing.css";
 
 const style = {
   height: 100,
@@ -14,29 +17,57 @@ const style = {
 // }
 
 class Landing extends Component {
+  componentDidMount() {
+    this.props.userActions.checkCurrentUser();
+    console.log("Props: ", this.props.userReducer.isLoggedIn);
+  }
+
+  componentWillReceiveProps(nextprops) {
+    console.log("nextprops: ", nextprops);
+  }
+
   render() {
-    return (
-      <section className="landing">
-        <h1 className="landing-title">dinnerbell</h1>
-        <p className="landing-description">
-          <span>cook ~ eat ~ enjoy</span>
-        </p>
-        <div className="landing-auth-container">
+    const buttonOptions = !this.props.userReducer.isLoggedIn
+      ? <div className="landing-auth-container">
           <button
             onClick={() => {
-              this.props.history.push('/register');
+              this.props.history.push("/register");
             }}
           >
             register
           </button>
           <button
             onClick={() => {
-              this.props.history.push('/login');
+              this.props.history.push("/login");
             }}
           >
             login
           </button>
         </div>
+      : <div className="landing-auth-container">
+          <button onClick={() => this.props.userActions.logoutUser()}>
+            logout
+          </button>
+        </div>;
+
+    const authOptions = !this.props.userReducer.isLoggedIn
+      ? <div className="oauth-landing">
+          <a href="/auth/facebook">
+            <img src="https://imgur.com/Hw9YUrJ.png" />
+          </a>
+          <a href="/auth/google">
+            <img src="https://i.imgur.com/ETp8DOT.png" />
+          </a>
+        </div>
+      : null;
+
+    return (
+      <section className="landing">
+        <h1 className="landing-title">dinnerbell</h1>
+        <p className="landing-description">
+          <span>cook ~ eat ~ enjoy</span>
+        </p>
+        {buttonOptions}
 
         <div className="landing-img-cube">
           <div className="landing-images ">
@@ -72,23 +103,19 @@ class Landing extends Component {
               <div className="landing-img-container-9" />
             </Paper>
           </div>
-          <div className="oauth-landing">
-            <a href="/auth/facebook">
-              <img src="https://imgur.com/Hw9YUrJ.png" />
-            </a>
-            <a href="/auth/google">
-              <img src="https://i.imgur.com/ETp8DOT.png" />
-            </a>
-          </div>
+          {authOptions}
         </div>
       </section>
     );
   }
 }
 
-export default withRouter(Landing);
+const mapStateToProps = state => state;
 
-// <img
-//   className="landing-img"
-//   src="https://www.bellamysorganic.com.au/blog/wp-content/uploads/2013/12/understanding-the-health-benefits-of-organic-food-1.jpg"
-// />
+const mapDispatchToProps = dispatch => ({
+  userActions: bindActionCreators(userActions, dispatch)
+});
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Landing)
+);

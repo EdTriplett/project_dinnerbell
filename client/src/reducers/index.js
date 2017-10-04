@@ -1,3 +1,4 @@
 import searchReducer from './searchReducer';
+import userReducer from './userReducer';
 
-export { searchReducer };
+export { searchReducer, userReducer };
