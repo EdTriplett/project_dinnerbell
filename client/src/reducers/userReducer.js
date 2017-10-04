@@ -1,4 +1,4 @@
-import userConstants from "../constants/user_constants";
+import userConstants from '../constants/user_constants';
 
 const initialState = {
   user: null,
@@ -23,6 +23,7 @@ export default (state = initialState, action = {}) => {
 
     case userConstants.SET_USER_ERROR:
       updated.userError = action.payload;
+      updated.userLoading = false;
       updated.user = null;
 
       return updated;

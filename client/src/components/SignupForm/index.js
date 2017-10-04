@@ -44,7 +44,7 @@ const renderTextField = ({
 );
 
 class SignupForm extends Component {
-  state = { error: null };
+  state = { error: false };
 
   onSubmit = () => {
     const { registerUser, formData, history } = this.props;
@@ -72,11 +72,15 @@ class SignupForm extends Component {
       pristine,
       reset,
       submitting,
-      userLoading
+      userLoading,
+      setUserError
     } = this.props;
 
-    if (userLoading && !this.state.error) {
+    if (userLoading && !this.props.userReducer.userError) {
       return <CircularProgress size={80} thickness={3} color="#fc5830" />;
+    } else if (this.props.userReducer.userError) {
+      alert(this.props.userReducer.userError);
+      setUserError(null);
     }
 
     return (
