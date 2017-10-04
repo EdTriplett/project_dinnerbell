@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import muiThemeable from "material-ui/styles/muiThemeable";
-import AppBar from "material-ui/AppBar";
-import IconButton from "material-ui/IconButton";
-import FlatButton from "material-ui/FlatButton";
-import AssignmentIcon from "material-ui/svg-icons/action/assignment";
+import React, { Component } from 'react';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
+import AssignmentIcon from 'material-ui/svg-icons/action/assignment';
 
-import * as userActions from "../../actions/user_actions";
-import * as searchActions from "../../actions/search_actions";
+import * as userActions from '../../actions/user_actions';
+import * as searchActions from '../../actions/search_actions';
 
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import { TextField, IconMenu, MenuItem } from "material-ui";
-import { withRouter, Link } from "react-router-dom";
-import "./Navbar.css";
+import { TextField, IconMenu, MenuItem } from 'material-ui';
+import { withRouter, Link } from 'react-router-dom';
+import './Navbar.css';
 
-const URL_SHORT = "http://localhost3001/api/recipes";
+const URL_SHORT = 'http://localhost3001/api/recipes';
 
 const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
   return (
@@ -41,7 +41,13 @@ const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
 
 class Navbar extends Component {
   state = {
-    query: ""
+    query: ''
+  };
+
+  onClickLogout = () => {
+    this.props.userActions.logoutUser().then(() => {
+      this.props.history.push('/');
+    });
   };
 
   onSearchInputChange = e => {
@@ -52,17 +58,17 @@ class Navbar extends Component {
 
   onSearchInputSubmit = () => {
     searchActions.getSearchRequest(this.state.query);
-    this.props.history.push("/search");
+    this.props.history.push('/search');
   };
 
   render() {
     let navItems = [];
 
     switch (this.props.location.pathname) {
-      case "/":
+      case '/':
         break;
 
-      case "/login":
+      case '/login':
         navItems.push(
           <Link to="/register" className="non-logo-item">
             register
@@ -70,7 +76,7 @@ class Navbar extends Component {
         );
         break;
 
-      case "/register":
+      case '/register':
         navItems.push(
           <Link to="/login" className="non-logo-item">
             login
@@ -81,12 +87,7 @@ class Navbar extends Component {
       default:
         if (this.props.userReducer.user) {
           navItems.push(
-            <a
-              onClick={() => {
-                this.props.userActions.logoutUser();
-              }}
-              className="non-logo-item"
-            >
+            <a onClick={this.onClickLogout} className="non-logo-item">
               logout
             </a>
           );
