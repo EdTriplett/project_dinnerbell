@@ -5,9 +5,9 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("./models/User");
 
-const localHandler = async (req, username, password, done) => {
+const localHandler = async (req, email, password, done) => {
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email});
     req.session.user = user;
     done(null, user && user.verifyPassword(password));
   } catch (error) {

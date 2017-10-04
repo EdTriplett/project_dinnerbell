@@ -6,9 +6,22 @@ const RecipeSchema = new Schema(
     name: String,
     ingredients: [String],
     kind: String,
-    owner: { type: Schema.types.ObjectId, ref: "User", required: true },
-    data: {},
-    imageUrl: String
+    owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    preferences: [String]
+    data: { 
+      /*response.hits.recipe.
+    label,
+    image
+    uri
+    url
+    source
+    yield
+    ingredientLines
+    calories
+  digest (MAY have sub field, daily is %)
+*/
+    },
+    image: { type: Schema.Types.ObjectId, ref: "Picture" }
   },
   { timestamps: true }
 );
@@ -38,6 +51,16 @@ RecipeSchema.pre("remove", async function(next) {
   }
   next();
 });
+
+RecipeSchema.pre('save', function(){
+  const wordArray = this.ingredients.reduce((acc, line)=>{
+    return [...acc, ...line.split(' ')]
+  })
+  const wordSet = new Set(wordArray);
+  this.wordList = wordSet.values().join(' ')
+})
+
+RecipeSchema.index({name: 'text', wordList: 'text'})
 
 const Recipe = mongoose.model("Recipe", RecipeSchema);
 
