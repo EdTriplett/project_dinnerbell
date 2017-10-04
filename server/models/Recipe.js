@@ -8,7 +8,7 @@ const RecipeSchema = new Schema(
     kind: String,
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     preferences: [String],
-    data: { 
+    data: {
       /*response.hits.recipe.
     label,
     image
@@ -28,8 +28,8 @@ const RecipeSchema = new Schema(
 
 RecipeSchema.pre("save", async function(next) {
   try {
-    const user = await mongoose.model("user").find({ _id: this.owner });
-    if (user && !user.recipes.includes(this._id)) {
+    const user = await mongoose.model("User").find({ _id: this.owner });
+    if (user && user.recipes && !user.recipes.includes(this._id)) {
       await user.update({ recipes: { $push: this._id } });
     }
   } catch (error) {
@@ -52,15 +52,16 @@ RecipeSchema.pre("remove", async function(next) {
   next();
 });
 
-RecipeSchema.pre('save', function(){
-  const wordArray = this.ingredients.reduce((acc, line)=>{
-    return [...acc, ...line.split(' ')]
-  })
+RecipeSchema.pre("save", function(next) {
+  const wordArray = this.ingredients.reduce((acc, line) => {
+    return [...acc, ...line.split(" ")];
+  });
   const wordSet = new Set(wordArray);
-  this.wordList = wordSet.values().join(' ')
-})
+  this.wordList = [...wordSet.values()].join(" ");
+  next();
+});
 
-RecipeSchema.index({name: 'text', wordList: 'text'})
+RecipeSchema.index({ name: "text", wordList: "text" });
 
 const Recipe = mongoose.model("Recipe", RecipeSchema);
 
