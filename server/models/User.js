@@ -9,11 +9,11 @@ const UserSchema = new Schema(
     kind: String,
     username: { type: String, unique: true },
     email: { type: String, unique: true },
-    // googleID: { type: String },
-    // facebookID: { type: String },
+    googleID: { type: String, unique: true },
+    facebookID: { type: String, unique: true },
     passwordHash: { type: String, select: false },
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
-    ratings: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
     // meals we have created
     meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
     // users we are following
@@ -80,22 +80,20 @@ UserSchema.pre("remove", async function(next) {
 });
 
 // Populate ALL THE FIELDS
-const populateAll = function() {
+const populateAll = function(next) {
   // this.populate("recipes meals profilePicture following ratings");
+  next();
 };
 UserSchema.pre("find", populateAll);
 UserSchema.pre("findOne", populateAll);
 UserSchema.pre("update", populateAll);
-//
-// UserSchema.index(
-//   {
-//     username: 1,
-//     email: 1,
-//     googleID: 1,
-//     facebookID: 1
-//   },
-//   { sparse: true }
-// );
+
+UserSchema.index({
+  googleID: 1,
+  facebookID: 1,
+  username: 1,
+  email: 1
+});
 
 const User = mongoose.model("User", UserSchema);
 

@@ -1,6 +1,9 @@
 let repl = require("repl").start({});
 const mongoose = require("mongoose");
-const models = { User: require("./models/User") };
+const models = {
+  User: require("./models/User"),
+  Recipe: require("./models/Recipe")
+};
 
 // connect
 require("./util/mongo")().then(() => {
