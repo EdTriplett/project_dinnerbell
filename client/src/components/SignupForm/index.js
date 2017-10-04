@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
-import TextField from "material-ui/TextField";
-import asyncValidate from "../../services/AsyncValidate";
-import CircularProgress from "material-ui/CircularProgress";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { Field, reduxForm } from 'redux-form';
+import TextField from 'material-ui/TextField';
+import asyncValidate from '../../services/AsyncValidate';
+import CircularProgress from 'material-ui/CircularProgress';
+import { withRouter } from 'react-router-dom';
 
-import "./SignupForm.css";
+import './SignupForm.css';
 
 const validate = values => {
   const errors = {};
-  const requiredFields = ["username", "email", "password"];
+  const requiredFields = ['username', 'email', 'password'];
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = "Required";
+      errors[field] = 'Required';
     }
   });
   if (
     values.email &&
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
   ) {
-    errors.email = "Invalid email address";
+    errors.email = 'Invalid email address';
   }
   return errors;
 };
@@ -29,36 +29,41 @@ const renderTextField = ({
   label,
   meta: { touched, error },
   ...custom
-}) =>
+}) => (
   <TextField
     hintText={label}
     floatingLabelText={label}
     errorText={touched && error}
     {...input}
     {...custom}
-  />;
+  />
+);
 
 class SignupForm extends Component {
   state = { error: null };
 
   onSubmit = () => {
-    alert("yey");
-    // const { register, formData, history } = this.props;
+    const { registerUser, formData, history } = this.props;
+    const { username, email, password } = formData.SignupForm.values;
 
-    // register(formData.SignupForm.values)
-    //   .then(() => {
-    //     history.replace('/dashboard');
-    //   })
-    //   .catch((e) => {
-    //     this.setState({
-    //       error: e.message
-    //     })
+    const data = {
+      username,
+      email,
+      password
+    };
 
-    //     alert('An error occured during signup, please try again!');
-    //   })
+    registerUser(data)
+      .then(user => {
+        console.log(user, 'what is this???');
+        history.push('/search');
+      })
+      .catch(e => {
+        console.log(e.stack);
+      });
   };
 
   render() {
+    console.log(this.props);
     const { handleSubmit, pristine, reset, submitting, loading } = this.props;
 
     if (loading && !this.state.error) {
@@ -104,7 +109,7 @@ class SignupForm extends Component {
             </button>
             <button
               onClick={() => {
-                this.props.history.push("/");
+                this.props.history.push('/');
               }}
             >
               back
@@ -128,7 +133,7 @@ class SignupForm extends Component {
 }
 
 export default reduxForm({
-  form: "SignupForm",
+  form: 'SignupForm',
   validate,
   asyncValidate
 })(withRouter(SignupForm));
