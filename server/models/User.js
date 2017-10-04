@@ -25,6 +25,9 @@ const UserSchema = new Schema(
   { timestamps: true }
 );
 
+// Pretty error messages for violated unique constraints
+UserSchema.plugin(uniqueValidator);
+
 const constraints = {
   username: {
     presence: true
@@ -41,26 +44,31 @@ const constraints = {
   }
 };
 
+// Return a new user or an errors object if any constraints are violated
 UserSchema.statics.createLocalUser = async function(fields) {
   const results = validate(fields, constraints);
   return results ? results : mongoose.models("User").create(fields);
 };
 
+// Update and return a user, or an error object if any constraints are violated
 UserSchema.methods.updateUser = async function(fields) {
   const results = Object.entries(fields).map((field, value) => {
-    validate.single(value, constraints[field]);
+    if (constraints[field]) {
+      return validate.single(value, constraints[field]);
+    }
   });
   return results ? { errors: results } : this.update(fields);
 };
 
+// Password management
 UserSchema.virtual("password").set(function(value) {
   this.passwordHash = bcrypt.hashSync(value, 12);
 });
-
 UserSchema.methods.verifyPassword = function(password) {
   return this.passwordHash && bcrypt.compareSync(password, this.passwordHash);
 };
 
+// Remove ratings from deleted users
 UserSchema.pre("remove", async function(next) {
   try {
     await mongoose.model("Rating").remove({ user: this._id });
@@ -70,14 +78,12 @@ UserSchema.pre("remove", async function(next) {
   next();
 });
 
+// Populate ALL THE FIELDS
 const populateAll = function() {
-  this.populate("recipes meals profilePicture following ratings");
+  // this.populate("recipes meals profilePicture following ratings");
 };
-
 UserSchema.pre("find", populateAll);
-
 UserSchema.pre("findOne", populateAll);
-
 UserSchema.pre("update", populateAll);
 
 const User = mongoose.model("User", UserSchema);
