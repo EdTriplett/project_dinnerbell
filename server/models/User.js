@@ -34,20 +34,25 @@ const constraints = {
   },
   email: {
     presence: true,
-    email: true,
-    message: "Not a valid email address."
+    email: true
   },
   password: {
     presence: true,
-    minimum: 6,
-    message: "Password must be at least six characters."
+    length: {
+      minimum: 6,
+      message: "must be at least 6 characters"
+    }
   }
 };
 
 // Return a new user or an errors object if any constraints are violated
 UserSchema.statics.createLocalUser = async function(fields) {
-  const results = validate(fields, constraints);
-  return results ? results : mongoose.models("User").create(fields);
+  console.log("******************made it this far");
+  console.log("******************fields: ", fields);
+  console.log(typeof fields);
+  const results = await validate(fields, constraints);
+  console.log("*******************results: ", results);
+  return results ? results : mongoose.model("User").create(fields);
 };
 
 // Update and return a user, or an error object if any constraints are violated

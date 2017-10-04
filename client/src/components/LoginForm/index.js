@@ -25,6 +25,10 @@ const validate = values => {
   ) {
     errors.email = "Invalid email address";
   }
+  const passwordLength = 6;
+  if (values.password && values.password.length < passwordLength) {
+    errors.password = `Password must be at least ${passwordLength} characters`;
+  }
   return errors;
 };
 
@@ -46,20 +50,21 @@ class LoginForm extends Component {
   state = { error: null };
 
   onSubmit = () => {
-    alert("pressed log in!");
-    // const { login, formData, history } = this.props;
+    const { loginUser, formData, history } = this.props;
+    const { username, password, email } = formData.LoginForm.values;
 
-    // login(formData.LoginForm.values)
-    //   .then(() => {
-    //     history.replace('/dashboard')
-    //   })
-    //   .catch((e) => {
-    //     this.setState({
-    //       error: e.message
-    //     })
+    loginUser({ password, email })
+      .then(user => {
+        console.log("curr user: ", user);
+        history.push("/search");
+      })
+      .catch(e => {
+        this.setState({
+          error: e.message
+        });
 
-    //     alert('User does not exist!')
-    //   })
+        alert("User does not exist!");
+      });
   };
 
   render() {
