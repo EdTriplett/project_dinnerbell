@@ -7,8 +7,7 @@ const REDIRECTS = {
 };
 
 const auth = passport => {
-  router.get("/current-user", (req, res) => res.json(req.session.user));
-
+  // User redirect routes, must redirect back to the front-end!
   router.get(
     "/google",
     passport.authenticate("google", { scope: ["profile"] })
@@ -22,7 +21,14 @@ const auth = passport => {
   );
 
   // Redirect back to the frontend on passport errors
-  router.use((err, req, res, next) => res.redirect(REDIRECTS.failureRedirect));
+  router.use((err, req, res, next) => {
+    err =
+      err.name === "ValidationError" ? "Warning, username already taken" : err;
+    req.session.user = { errors: [err] };
+    res.redirect(REDIRECTS.failureRedirect);
+  });
+
+  router.get("/current-user", (req, res) => res.json(req.session.user));
 
   router.post("/login", passport.authenticate("local"), (req, res) => {
     res.json(req.session.user);
