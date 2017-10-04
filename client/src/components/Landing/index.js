@@ -17,49 +17,52 @@ const style = {
 // }
 
 class Landing extends Component {
+  state = {
+    finishedLoading: false
+  };
   componentDidMount() {
-    this.props.userActions.checkCurrentUser();
-    console.log("Props: ", this.props.userReducer.isLoggedIn);
-  }
-
-  componentWillReceiveProps(nextprops) {
-    console.log("nextprops: ", nextprops);
+    this.props.userActions.checkCurrentUser().then(() => {
+      this.setState({ finishedLoading: true });
+    });
   }
 
   render() {
-    const buttonOptions = !this.props.userReducer.isLoggedIn
-      ? <div className="landing-auth-container">
-          <button
-            onClick={() => {
-              this.props.history.push("/register");
-            }}
-          >
-            register
-          </button>
-          <button
-            onClick={() => {
-              this.props.history.push("/login");
-            }}
-          >
-            login
-          </button>
-        </div>
-      : <div className="landing-auth-container">
-          <button onClick={() => this.props.userActions.logoutUser()}>
-            logout
-          </button>
-        </div>;
+    const buttonOptions = !this.state.finishedLoading
+      ? null
+      : !this.props.userReducer.user
+        ? <div className="landing-auth-container">
+            <button
+              onClick={() => {
+                this.props.history.push("/register");
+              }}
+            >
+              register
+            </button>
+            <button
+              onClick={() => {
+                this.props.history.push("/login");
+              }}
+            >
+              login
+            </button>
+          </div>
+        : <div className="landing-auth-container">
+            <button onClick={() => this.props.userActions.logoutUser()}>
+              logout
+            </button>
+          </div>;
 
-    const authOptions = !this.props.userReducer.isLoggedIn
-      ? <div className="oauth-landing">
-          <a href="/auth/facebook">
-            <img src="https://imgur.com/Hw9YUrJ.png" />
-          </a>
-          <a href="/auth/google">
-            <img src="https://i.imgur.com/ETp8DOT.png" />
-          </a>
-        </div>
-      : null;
+    const authOptions =
+      !this.props.userReducer.user && this.state.finishedLoading
+        ? <div className="oauth-landing">
+            <a href="/auth/facebook">
+              <img src="https://imgur.com/Hw9YUrJ.png" />
+            </a>
+            <a href="/auth/google">
+              <img src="https://i.imgur.com/ETp8DOT.png" />
+            </a>
+          </div>
+        : null;
 
     return (
       <section className="landing">

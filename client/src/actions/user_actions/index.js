@@ -11,7 +11,8 @@ export function setUserLoading(bool) {
 export function setCurrentUser(user) {
   return {
     type: userConstants.SET_CURRENT_USER,
-    payload: user
+    payload: user,
+    userError: null
   };
 }
 
@@ -44,7 +45,6 @@ export const registerUser = data => async dispatch => {
     const payload = await AsyncManager.postRequest("/auth/register", data);
     dispatch(setCurrentUser(payload));
     dispatch(setUserLoading(false));
-    dispatch(setUserStatus(true));
   } catch (e) {
     dispatch(setUserError(e.stack));
   }
@@ -56,7 +56,6 @@ export const loginUser = data => async dispatch => {
     const payload = await AsyncManager.postRequest("/auth/login", data);
     dispatch(setCurrentUser(payload));
     dispatch(setUserLoading(false));
-    dispatch(setUserStatus(true));
   } catch (e) {
     dispatch(setUserError(e.stack));
   }
@@ -66,7 +65,6 @@ export const logoutUser = data => async dispatch => {
   try {
     await AsyncManager.getRequest("/auth/logout");
     dispatch(setCurrentUser(null));
-    dispatch(setUserStatus(false));
   } catch (e) {
     dispatch(setUserError(e.stack));
   }
