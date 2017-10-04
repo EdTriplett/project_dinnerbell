@@ -25,7 +25,6 @@ const auth = passport => {
   router.use((err, req, res, next) => res.redirect(REDIRECTS.failureRedirect));
 
   router.post("/login", passport.authenticate("local"), (req, res) => {
-    console.log("do we get here?? ***************************");
     res.json(req.session.user);
   });
 
@@ -41,7 +40,6 @@ const auth = passport => {
         req.session.user = user;
       }
 
-      console.log("user: ", user);
       res.json(user);
     } catch (e) {
       next(e);

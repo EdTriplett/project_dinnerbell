@@ -8,13 +8,14 @@ const User = require('./models/User');
 const localHandler = async (req, email, password, done) => {
   try {
 
-    const user = await User.findOne({ email: username }, { passwordHash: 1 });
+    const user = await User.findOne({ email }, { passwordHash: 1 });
 
     if (user && user.verifyPassword(password)) {
       const newUser = await User.findOne({ _id: user._id });
       req.session.user = newUser;
       done(null, newUser);
     } else {
+      req.session.user = {}
       done(null, false);
     }
 
