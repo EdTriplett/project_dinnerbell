@@ -23,7 +23,8 @@ const buildRecipePrefs = preferences => {
       if (DIET.has(current)) prefs.diet.push(current);
       if (HEALTH.has(current)) prefs.health.push(current);
       return prefs;
-    }, {
+    },
+    {
       health: [],
       diet: []
     });
@@ -60,13 +61,12 @@ const _sanitizeRecipe = recipe => {
   return {
     name: label,
     ingredients: ingredientLines,
-    data: {
-      uri,
-      url,
-      source,
-      digest,
-      calories
-    },
+    uri,
+    url,
+    source,
+    digest,
+    calories,
+    serves: recipe.recipe.yield,
     preferences: dietLabels.concat(healthLabels),
     image: { url: image }
   };

@@ -8,19 +8,12 @@ const RecipeSchema = new Schema(
     kind: String,
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     preferences: [String],
-    data: {
-      /*response.hits.recipe.
-    label,
-    image
-    uri
-    url
-    source
-    yield
-    ingredientLines
-    calories
-  digest (MAY have sub field, daily is %)
-*/
-    },
+    uri: String,
+    url: String,
+    source: String,
+    digest: [Object],
+    calories: Number,
+    serves: Number,
     image: { type: Schema.Types.ObjectId, ref: "Picture" }
   },
   { timestamps: true }
@@ -28,9 +21,13 @@ const RecipeSchema = new Schema(
 
 RecipeSchema.pre("save", async function(next) {
   try {
-    const user = await mongoose.model("User").find({ _id: this.owner });
-    if (user && user.recipes && !user.recipes.includes(this._id)) {
-      await user.update({ recipes: { $push: this._id } });
+    if (
+      this.owner &&
+      this.owner.recipes &&
+      !this.owner.recipes.includes(this._id)
+    ) {
+      this.owner.recipes.push(this._id);
+      await this.owner.save();
     }
   } catch (error) {
     console.error(error.stack);
@@ -53,11 +50,15 @@ RecipeSchema.pre("remove", async function(next) {
 });
 
 RecipeSchema.pre("save", function(next) {
-  const wordArray = this.ingredients.reduce((acc, line) => {
-    return [...acc, ...line.split(" ")];
-  });
-  const wordSet = new Set(wordArray);
-  this.wordList = [...wordSet.values()].join(" ");
+  if (this.ingredients && this.ingredients.length) {
+    const wordArray = this.ingredients.reduce((acc, line) => {
+      return [...acc, ...line.split(" ")];
+    });
+    const wordSet = new Set(wordArray);
+    this.wordList = [...wordSet.values()].join(" ");
+  } else {
+    this.wordList = "";
+  }
   next();
 });
 
