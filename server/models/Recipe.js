@@ -7,7 +7,7 @@ const RecipeSchema = new Schema(
     ingredients: [String],
     kind: String,
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    preferences: [String]
+    preferences: [String],
     data: { 
       /*response.hits.recipe.
     label,
