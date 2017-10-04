@@ -14,7 +14,8 @@ const RecipeSchema = new Schema(
     digest: [Object],
     calories: Number,
     serves: Number,
-    image: { type: Schema.Types.ObjectId, ref: "Picture" }
+    image: { type: Schema.Types.ObjectId, ref: "Picture" },
+    wordList: String
   },
   { timestamps: true }
 );
@@ -53,7 +54,7 @@ RecipeSchema.pre("save", function(next) {
   if (this.ingredients && this.ingredients.length) {
     const wordArray = this.ingredients.reduce((acc, line) => {
       return [...acc, ...line.split(" ")];
-    });
+    }, []);
     const wordSet = new Set(wordArray);
     this.wordList = [...wordSet.values()].join(" ");
   } else {
