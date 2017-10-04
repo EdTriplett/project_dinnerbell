@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Paper } from "material-ui";
-import { withRouter } from "react-router-dom";
-import * as userActions from "../../actions/user_actions";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import React, { Component } from 'react';
+import { Paper } from 'material-ui';
+import { withRouter } from 'react-router-dom';
+import * as userActions from '../../actions/user_actions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import "./Landing.css";
+import './Landing.css';
 
 const style = {
   height: 100,
@@ -27,42 +27,47 @@ class Landing extends Component {
   }
 
   render() {
-    const buttonOptions = !this.state.finishedLoading
-      ? null
-      : !this.props.userReducer.user
-        ? <div className="landing-auth-container">
-            <button
-              onClick={() => {
-                this.props.history.push("/register");
-              }}
-            >
-              register
-            </button>
-            <button
-              onClick={() => {
-                this.props.history.push("/login");
-              }}
-            >
-              login
-            </button>
-          </div>
-        : <div className="landing-auth-container">
-            <button onClick={() => this.props.userActions.logoutUser()}>
-              logout
-            </button>
-          </div>;
+    console.log(this.props.userReducer, 'any error message');
+    const buttonOptions = !this.state.finishedLoading ? null : !this.props
+      .userReducer.user ? (
+      <div className="landing-auth-container">
+        <button
+          onClick={() => {
+            this.props.history.push('/register');
+          }}
+        >
+          register
+        </button>
+        <button
+          onClick={() => {
+            this.props.history.push('/login');
+          }}
+        >
+          login
+        </button>
+      </div>
+    ) : (
+      <div
+        className="landing-auth-container"
+        style={{ justifyContent: 'center' }}
+      >
+        <button onClick={() => this.props.userActions.logoutUser()}>
+          logout
+        </button>
+      </div>
+    );
 
     const authOptions =
-      !this.props.userReducer.user && this.state.finishedLoading
-        ? <div className="oauth-landing">
-            <a href="/auth/facebook">
-              <img src="https://imgur.com/Hw9YUrJ.png" />
-            </a>
-            <a href="/auth/google">
-              <img src="https://i.imgur.com/ETp8DOT.png" />
-            </a>
-          </div>
-        : null;
+      !this.props.userReducer.user && this.state.finishedLoading ? (
+        <div className="oauth-landing">
+          <a href="/auth/facebook">
+            <img src="https://imgur.com/Hw9YUrJ.png" />
+          </a>
+          <a href="/auth/google">
+            <img src="https://i.imgur.com/ETp8DOT.png" />
+          </a>
+        </div>
+      ) : null;
 
     return (
       <section className="landing">

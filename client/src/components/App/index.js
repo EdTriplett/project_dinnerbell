@@ -8,6 +8,7 @@ import SignupForm from '../SignupForm';
 import Navbar from '../Navbar';
 import Authentication from '../Authentication';
 import SearchRecipes from '../SearchRecipes';
+import Profile from '../Profile';
 
 import './App.css';
 
@@ -32,6 +33,10 @@ class App extends Component {
             <Route
               path="/search"
               render={() => <SearchRecipes {...this.props} />}
+            />
+            <Route
+              path="/profile/:name"
+              render={() => <Profile {...this.props} />}
             />
           </div>
         </Router>

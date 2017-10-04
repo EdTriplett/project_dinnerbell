@@ -1,0 +1,21 @@
+.profile {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	height: 100vh;
+	background-color: #3c8d41;
+}
+
+.profile-name {
+	color: white;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 2em;
+}
+
+.profile-pic {
+	width: 150px;
+	height: 150px;
+	border: 1px solid white;
+	border-radius: 200px;
+}

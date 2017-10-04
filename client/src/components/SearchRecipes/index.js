@@ -11,15 +11,6 @@ import { withRouter } from 'react-router-dom';
 
 import './SearchRecipes.css';
 
-const styles = {
-  menuStyle: {
-    marginLeft: '20px'
-  },
-  listStyle: {
-    marginLeft: '20px'
-  }
-};
-
 class SearchRecipes extends Component {
   state = {
     sortFilter: null,
@@ -27,6 +18,10 @@ class SearchRecipes extends Component {
     dietaryFilter: null,
     dietaryValue: 1
   };
+
+  componentWillMount() {
+    this.props.userActions.checkCurrentUser();
+  }
 
   onClickLogout = async () => {
     await this.props.userActions.logoutUser();
@@ -39,14 +34,7 @@ class SearchRecipes extends Component {
     return (
       <div className="search-recipes">
         <div className="recipe-results">
-          <ReactSuperSelect
-            placeholder="Make Your Selections"
-            // ajaxDataFetch={simulatedAjaxFetch}
-            // onChange={handlerExample}
-            searchable={true}
-            className="super-test"
-          />
-          <button onClick={this.onClickLogout}>Logout</button>
+          {/* here be the filtering stuff */}
         </div>
 
         <div className="newsfeed" />
