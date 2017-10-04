@@ -1,31 +1,40 @@
-import userConstants from '../constants/user_constants';
+import userConstants from "../constants/user_constants";
 
 const initialState = {
-	user: null,
-	userLoading: false,
-	userError: null
+  user: null,
+  userLoading: false,
+  userError: null,
+  isLoggedIn: false
 };
 
 export default (state = initialState, action = {}) => {
-	let updated = Object.assign({}, state);
+  let updated = Object.assign({}, state);
 
-	switch (action.type) {
-		case userConstants.SET_USER_LOADING:
-			updated.userLoading = action.payload;
+  switch (action.type) {
+    case userConstants.SET_USER_LOADING:
+      updated.userLoading = action.payload;
 
-			return updated;
+      return updated;
 
-		case userConstants.SET_CURRENT_USER:
-			updated.user = action.payload;
+    case userConstants.SET_CURRENT_USER:
+      updated.user = action.payload;
 
-			return updated;
+      return updated;
 
-		case userConstants.SET_USER_ERROR:
-			updated.userError = action.payload;
+    case userConstants.SET_USER_ERROR:
+      updated.userError = action.payload;
+      updated.isLoggedIn = false;
+      updated.user = null;
 
-			return updated;
+    case userConstants.SET_USER_STATUS:
+      updated.isLoggedIn = action.payload;
+      if (!updated.isLoggedIn) {
+        updated.user = null;
+      }
 
-		default:
-			return updated;
-	}
+      return updated;
+
+    default:
+      return updated;
+  }
 };
