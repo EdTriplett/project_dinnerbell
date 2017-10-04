@@ -9,17 +9,20 @@ const REDIRECTS = {
 const auth = passport => {
   router.get("/current-user", (req, res) => res.json(req.session.user));
 
-  router.get("/google", passport.authenticate("google"));
   router.get(
-    "/google/callback",
-    passport.authenticate("google", { ...REDIRECTS, scope: null })
+    "/google",
+    passport.authenticate("google", { scope: ["profile"] })
   );
+  router.get("/google/callback", passport.authenticate("google", REDIRECTS));
 
   router.get("/facebook", passport.authenticate("facebook"));
   router.get(
     "/facebook/callback",
-    passport.authenticate("facebook", { ...REDIRECTS, scope: null })
+    passport.authenticate("facebook", REDIRECTS)
   );
+
+  // Redirect back to the frontend on passport errors
+  router.use((err, req, res, next) => res.redirect(REDIRECTS.failureRedirect));
 
   router.post("/login", passport.authenticate("local"), (req, res) => {
     res.json(req.session.user);
@@ -27,14 +30,13 @@ const auth = passport => {
 
   router.post("/register", async (req, res, next) => {
     try {
-
       const { username, password, email } = req.body;
       const user = await User.createLocalUser({
         username,
         email,
         password
       });
-      if (!user.errors){
+      if (!user.errors) {
         req.session.user = user;
       }
       res.json(user);

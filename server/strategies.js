@@ -1,7 +1,7 @@
 // put in url of deployed server on Heroku in strategy callback urls
 
 const LocalStrategy = require("passport-local").Strategy;
-const GoogleStrategy = require("passport-google-oauth").Strategy;
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const User = require("./models/User");
 
@@ -65,8 +65,8 @@ const localOptions = {
 };
 
 const googleOptions = {
-  consumerKey: process.env.GOOGLE_CLIENT_ID,
-  consumerSecret: process.env.GOOGLE_CLIENT_SECRET,
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "http://localhost:3001/auth/google/callback",
   passReqToCallback: true
 };
