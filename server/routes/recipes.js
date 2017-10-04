@@ -4,23 +4,20 @@ const Recipe = require("../models/Recipe");
 const {
   buildRecipePrefs,
   buildRecipeURL,
-  sanitizeRecipes
+  sanitizeRecipes,
+  buildDbQuery
 } = require("../util/recipes");
 
 router.get("/", async (req, res, next) => {
   try {
     let { q, preferences } = req.query;
     preferences = preferences ? preferences : "";
+    const queryPrefs = buildRecipePrefs(preferences);
 
-    let apiResponse = await fetch(
-      buildRecipeURL([`q=${q}`, ...buildRecipePrefs(preferences)])
-    );
+    let apiResponse = await fetch(buildRecipeURL([`q=${q}`, ...queryPrefs]));
     apiResponse = sanitizeRecipes(await apiResponse.json());
-    q = q ? q : "";
-    const dbResponse = await Recipe.find({
-      $text: { $search: q },
-      preferences: { $all: preferences.split(",") }
-    });
+
+    const dbResponse = await Recipe.find(buildDbQuery(q, preferences));
     res.json(dbResponse.concat(apiResponse));
   } catch (error) {
     next(error);
