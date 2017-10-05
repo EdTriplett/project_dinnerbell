@@ -25,8 +25,11 @@ class SearchRecipes extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.searchReducer.results, "wtf");
     this.setState({
-      recipes: nextProps.searchReducer.results
+      recipes: !Array.isArray(nextProps.searchReducer.results)
+        ? []
+        : nextProps.searchReducer.results
     });
     console.log("nextProps: ", nextProps);
     if (nextProps.searchReducer.query !== this.props.searchReducer.query) {
@@ -51,14 +54,12 @@ class SearchRecipes extends Component {
 
   render() {
     const recipes = this.state.recipes
-      ? this.state.recipes.map(recipe =>
+      ? this.state.recipes.map(recipe => (
           <Card className="recipe-card">
             <CardMedia>
-              <img src={recipe.image.url} />
+              {recipe.image && <img src={recipe.image.url} />}
             </CardMedia>
-            <CardTitle className="card-title">
-              {recipe.name}
-            </CardTitle>
+            <CardTitle className="card-title">{recipe.name}</CardTitle>
             <StarRatingComponent
               className="star-rating"
               name="rating"
@@ -71,14 +72,12 @@ class SearchRecipes extends Component {
               id quid, est
             </CardText> */}
           </Card>
-        )
+        ))
       : null;
     return (
       <div className="background">
         <div className="search-recipes">
-          <div className="recipe-results">
-            {recipes}
-          </div>
+          <div className="recipe-results">{recipes}</div>
           <div className="newsfeed" />
         </div>
       </div>

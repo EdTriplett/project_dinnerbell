@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
-import TextField from 'material-ui/TextField';
-import asyncValidate from '../../services/AsyncValidate';
-import CircularProgress from 'material-ui/CircularProgress';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from "react";
+import { Field, reduxForm } from "redux-form";
+import TextField from "material-ui/TextField";
+import asyncValidate from "../../services/AsyncValidate";
+import CircularProgress from "material-ui/CircularProgress";
+import { withRouter } from "react-router-dom";
 
-import './SignupForm.css';
+import "./SignupForm.css";
 
 const validate = values => {
   const errors = {};
-  const requiredFields = ['username', 'email', 'password'];
+  const requiredFields = ["username", "email", "password"];
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = 'Required';
+      errors[field] = "Required";
     }
   });
   if (
     values.email &&
     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
   ) {
-    errors.email = 'Invalid email address';
+    errors.email = "Invalid email address";
   }
   const passwordLength = 6;
   if (values.password && values.password.length < passwordLength) {
@@ -27,21 +27,6 @@ const validate = values => {
   }
   return errors;
 };
-
-const renderTextField = ({
-  input,
-  label,
-  meta: { touched, error },
-  ...custom
-}) => (
-  <TextField
-    hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    {...input}
-    {...custom}
-  />
-);
 
 class SignupForm extends Component {
   onSubmit = () => {
@@ -60,6 +45,16 @@ class SignupForm extends Component {
       }
     });
   };
+
+  renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+    <TextField
+      hintText={label}
+      floatingLabelText={label}
+      errorText={touched && error}
+      {...input}
+      {...custom}
+    />
+  );
 
   render() {
     const {
@@ -96,7 +91,7 @@ class SignupForm extends Component {
               autoComplete="off"
               className="material-field"
               name="username"
-              component={renderTextField}
+              component={this.renderTextField}
               label="username"
               required="required"
             />
@@ -106,7 +101,7 @@ class SignupForm extends Component {
               autoComplete="off"
               className="material-field"
               name="email"
-              component={renderTextField}
+              component={this.renderTextField}
               label="email"
               required="required"
             />
@@ -117,7 +112,7 @@ class SignupForm extends Component {
               className="material-field"
               name="password"
               type="password"
-              component={renderTextField}
+              component={this.renderTextField}
               label="password"
               required="required"
             />
@@ -129,7 +124,7 @@ class SignupForm extends Component {
             </button>
             <button
               onClick={() => {
-                this.props.history.push('/');
+                this.props.history.push("/");
               }}
             >
               back
@@ -150,7 +145,7 @@ class SignupForm extends Component {
 }
 
 export default reduxForm({
-  form: 'SignupForm',
+  form: "SignupForm",
   validate,
   asyncValidate
 })(withRouter(SignupForm));

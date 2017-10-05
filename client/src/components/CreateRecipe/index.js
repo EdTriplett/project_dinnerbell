@@ -17,7 +17,7 @@ import "./InputTokenForm.css";
 
 const validate = values => {
 	const errors = {};
-	const requiredFields = ["name", "ingredients", "instructions", "serving"];
+	const requiredFields = ["name", "ingredients", "instructions"];
 	requiredFields.forEach(field => {
 		if (!values[field]) {
 			errors[field] = "Required";
@@ -26,21 +26,6 @@ const validate = values => {
 
 	return errors;
 };
-
-const renderTextField = ({
-	input,
-	label,
-	meta: { touched, error },
-	...custom
-}) => (
-	<TextField
-		hintText={label}
-		floatingLabelText={label}
-		errorText={touched && error}
-		{...input}
-		{...custom}
-	/>
-);
 
 const styles = {
 	right: "25px"
@@ -54,8 +39,8 @@ class CreateRecipe extends Component {
 			{ id: 1, name: "butter", element: <span>butter</span> },
 			{ id: 2, name: "milk", element: <span>milk</span> },
 			{ id: 3, name: "apple", element: <span>apple</span> },
-			{ id: 4, name: "chestnut", element: <span>tum</span> },
-			{ id: 5, name: "nutella", element: <span>tumpok</span> }
+			{ id: 4, name: "chestnut", element: <span>chestnut</span> },
+			{ id: 5, name: "nutella", element: <span>nutella</span> }
 		],
 		isLoading: false
 	};
@@ -65,16 +50,13 @@ class CreateRecipe extends Component {
 	handleKeyPress = e => {
 		if (e.key === "Enter") {
 			let optionsLen = this.state.options.length;
-			let newIngredient = {
+			const newIngredient = {
 				id: ++optionsLen,
 				name: e.target.value,
 				element: <span>{e.target.value}</span>
 			};
 
-			console.log(newIngredient, "what is this?");
-
 			let options = [...this.state.options, newIngredient];
-			console.log(options, "wat this");
 
 			this.setState({
 				options: options
@@ -87,47 +69,67 @@ class CreateRecipe extends Component {
 		console.log({ tokens });
 	};
 
+	renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+		<TextField
+			hintText={label}
+			floatingLabelText={label}
+			errorText={touched && error}
+			{...input}
+			{...custom}
+		/>
+	);
+
+	renderInputToken = () => (
+		<InputToken
+			name="ingredients"
+			isLoading={this.state.isLoading}
+			value={this.state.tokens}
+			placeholder="pick ingredient"
+			options={this.state.options}
+			onSelect={this.selectToken}
+			onKeyPress={this.handleKeyPress}
+		/>
+	);
+
+	renderTextArea = () => (
+		<textarea
+			placeholder="explain the steps needed to get the delicious creation :)"
+			className="text"
+			name="instructions"
+			rows="4"
+			style={{
+				overflow: "scroll",
+				wordWrap: "break-word",
+				resize: "none",
+				height: "500px",
+				width: "700px"
+			}}
+		/>
+	);
+
 	render() {
 		const { handleSubmit, pristine, reset, submitting } = this.props;
-		console.log(pristine, "what is this?");
+
 		return (
 			<div className="create-recipe">
 				<form>
 					<p className="label">Create your own recipe</p>
 					<div className="recipe-form-body">
-						<div>
+						<div className="recipe-name-ingredient-container">
 							<Field
 								autoComplete="off"
 								className="material-field"
 								name="name"
-								component={renderTextField}
-								label="name"
+								component={this.renderTextField}
+								label="enter your recipe name"
 								required="required"
 							/>
+							<Field name="ingredients" component={this.renderInputToken} />
 						</div>
-						<InputToken
-							name="ingredients"
-							isLoading={this.state.isLoading}
-							value={this.state.tokens}
-							placeholder="pick ingredient"
-							options={this.state.options}
-							onSelect={this.selectToken}
-							onKeyPress={this.handleKeyPress}
-						/>
+
 						<div className="wrapper">
 							<div className="paper">
-								<textarea
-									placeholder="Explain the steps needed to get the delicious creation :)"
-									className="text"
-									name="text"
-									rows="4"
-									style={{
-										overflow: "hidden",
-										wordWrap: "break-word",
-										resize: "none",
-										height: "400px"
-									}}
-								/>
+								<Field name="instructions" component={this.renderTextArea} />
 								<br />
 							</div>
 						</div>
