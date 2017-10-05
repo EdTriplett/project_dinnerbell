@@ -1,11 +1,21 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const sanitizer = require("../util/sparseSanitize")([
+  "name",
+  "ingredients",
+  "preferences",
+  "uri",
+  "url",
+  "source",
+  "serves",
+  "image"
+]);
+const Ratable = require("./Ratable");
 
 const RecipeSchema = new Schema(
   {
     name: String,
     ingredients: [String],
-    kind: String,
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     preferences: [String],
     uri: String,
@@ -15,10 +25,24 @@ const RecipeSchema = new Schema(
     calories: Number,
     serves: Number,
     image: { type: Schema.Types.ObjectId, ref: "Picture" },
-    wordList: String
+    wordList: String,
+    ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }]
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    discriminatorKey: "ratable"
+  }
 );
+
+RecipeSchema.statics.sparseUpdate = async function(id, newProps) {
+  const props = sanitizer(newProps);
+  return await this.update({ _id: id }, props, { new: true });
+};
+
+RecipeSchema.statics.sparseCreate = async function(newProps) {
+  const props = sanitizer(newProps);
+  return await this.create(props);
+};
 
 RecipeSchema.pre("save", async function(next) {
   try {
@@ -36,13 +60,21 @@ RecipeSchema.pre("save", async function(next) {
   next();
 });
 
+// const populateAll = function(next) {
+//    this.populate("image owner ratings");
+//   next();
+// };
+// RecipeSchema.pre("find", populateAll);
+// RecipeSchema.pre("findOne", populateAll);
+// RecipeSchema.pre("update", populateAll);
+
 RecipeSchema.pre("remove", async function(next) {
   try {
     await mongoose
       .model("User")
       .update(
-        { recipes: { $inc: this._id } },
-        { recipes: { $pull: this._id } }
+        { recipes: { $elemMatch: this._id } },
+        { $pull: { recipes: this._id } }
       );
   } catch (error) {
     console.log(e.stack);
@@ -65,6 +97,6 @@ RecipeSchema.pre("save", function(next) {
 
 RecipeSchema.index({ name: "text", wordList: "text" });
 
-const Recipe = mongoose.model("Recipe", RecipeSchema);
+const Recipe = Ratable.discriminator("Recipe", RecipeSchema);
 
 module.exports = Recipe;

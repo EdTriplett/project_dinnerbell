@@ -28,7 +28,12 @@ const auth = passport => {
     res.redirect(REDIRECTS.failureRedirect);
   });
 
-  router.get("/current-user", (req, res) => res.json(req.session.user));
+  router.get("/current-user", (req, res) => {
+    res.json(req.session.user);
+    if (req.session.user && req.session.user.error) {
+      req.session.user = null;
+    }
+  });
 
   router.post("/login", passport.authenticate("local"), (req, res) => {
     res.json(req.session.user);

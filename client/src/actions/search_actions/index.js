@@ -1,42 +1,35 @@
 import searchConstants from "../../constants/search_constants";
 import AsyncManager from "../../services/AsyncManager";
 
-export function getSearchRequest() {
+export const setSearchLoading = bool => {
   return {
-    type: searchConstants.GET_SEARCH_REQUEST
-  };
-}
-
-export function setTestLoading(bool) {
-  return {
-    type: searchConstants.TEST_LOADING,
+    type: searchConstants.SET_SEARCH_LOADING,
     payload: bool
   };
-}
+};
 
-export const setSearchRequest = query => {
+export const successSearchRequest = data => {
   return {
-    type: searchConstants.SET_SEARCH_REQUEST,
+    type: searchConstants.SUCCESS_SEARCH_REQUEST,
+    payload: data
+  };
+};
+
+export const setSearchQuery = query => {
+  return {
+    type: searchConstants.SET_SEARCH_QUERY,
     payload: query
   };
 };
 
-export const testFetch = (payload, params) => {
-  return {
-    type: searchConstants.TEST_FETCH,
-    payload: payload,
-    params: params
-  };
-};
-
-export const testSearch = () => async dispatch => {
+export const requestSearch = query => async dispatch => {
   try {
-    dispatch(setTestLoading(true));
+    dispatch(setSearchLoading(true));
     const payload = await AsyncManager.getRequest(
-      "https://swapi.co/api/planets/1/?format=wookiee"
+      `${searchConstants.BASE_URL}/recipes?q=${query}`
     );
-    dispatch(testFetch(payload));
-    dispatch(setTestLoading(false));
+    dispatch(successSearchRequest(payload));
+    dispatch(setSearchLoading(false));
   } catch (error) {
     // dispatch some error action
   }

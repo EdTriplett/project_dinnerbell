@@ -1,5 +1,5 @@
-import userConstants from '../../constants/user_constants';
-import AsyncManager from '../../services/AsyncManager';
+import userConstants from "../../constants/user_constants";
+import AsyncManager from "../../services/AsyncManager";
 
 export function setUserLoading(bool) {
   return {
@@ -36,7 +36,7 @@ export const setUserStatus = bool => {
 
 export const checkCurrentUser = () => async dispatch => {
   try {
-    const payload = await AsyncManager.getRequest('/auth/current-user');
+    const payload = await AsyncManager.getRequest("/auth/current-user");
     if (payload && payload.errors) throw new Error(payload.errors[0]);
     dispatch(setCurrentUser(payload));
   } catch (e) {
@@ -47,7 +47,7 @@ export const checkCurrentUser = () => async dispatch => {
 export const registerUser = data => async dispatch => {
   try {
     dispatch(setUserLoading(true));
-    const payload = await AsyncManager.postRequest('/auth/register', data);
+    const payload = await AsyncManager.postRequest("/auth/register", data);
     if (payload && payload.errors) throw new Error(payload.errors[0]);
     dispatch(setCurrentUser(payload));
     dispatch(setUserLoading(false));
@@ -59,7 +59,7 @@ export const registerUser = data => async dispatch => {
 export const loginUser = data => async dispatch => {
   try {
     dispatch(setUserLoading(true));
-    const payload = await AsyncManager.postRequest('/auth/login', data);
+    const payload = await AsyncManager.postRequest("/auth/login", data);
     if (payload && payload.errors) throw new Error(payload.errors[0]);
     dispatch(setCurrentUser(payload));
     dispatch(setUserLoading(false));
@@ -70,7 +70,7 @@ export const loginUser = data => async dispatch => {
 
 export const logoutUser = data => async dispatch => {
   try {
-    await AsyncManager.getRequest('/auth/logout');
+    await AsyncManager.getRequest("/auth/logout");
     dispatch(setCurrentUser(null));
   } catch (e) {
     dispatch(setUserError(e.message));
