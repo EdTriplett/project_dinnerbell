@@ -44,10 +44,8 @@ const renderTextField = ({
 );
 
 class SignupForm extends Component {
-  state = { error: false };
-
   onSubmit = () => {
-    const { registerUser, formData, history } = this.props;
+    const { registerUser, formData, history, setUserError } = this.props;
     const { username, email, password } = formData.SignupForm.values;
     console.log();
 
@@ -55,32 +53,38 @@ class SignupForm extends Component {
       username,
       email,
       password
+    }).then(() => {
+      if (this.props.userReducer.userError) {
+        alert(this.props.userReducer.userError);
+        setUserError(null);
+      }
     });
-    // .then(user => {
-    //   console.log(user, "what is this???");
-    //   history.push("/search");
-    // })
-    // .catch(e => {
-    //   console.log(e.stack);
-    // });
   };
 
   render() {
-    console.log(this.props);
     const {
       handleSubmit,
       pristine,
       reset,
       submitting,
       userLoading,
-      setUserError
+      setUserError,
+      userReducer
     } = this.props;
+
+    const authOptions = !userReducer.user ? (
+      <div className="oauth">
+        <a href="/auth/facebook">
+          <img src="https://imgur.com/Hw9YUrJ.png" />
+        </a>
+        <a href="/auth/google">
+          <img src="https://i.imgur.com/ETp8DOT.png" />
+        </a>
+      </div>
+    ) : null;
 
     if (userLoading && !this.props.userReducer.userError) {
       return <CircularProgress size={80} thickness={3} color="#fc5830" />;
-    } else if (this.props.userReducer.userError) {
-      alert(this.props.userReducer.userError);
-      setUserError(null);
     }
 
     return (
@@ -89,6 +93,7 @@ class SignupForm extends Component {
           <h3 className="label">register</h3>
           <div>
             <Field
+              autoComplete="off"
               className="material-field"
               name="username"
               component={renderTextField}
@@ -98,6 +103,7 @@ class SignupForm extends Component {
           </div>
           <div>
             <Field
+              autoComplete="off"
               className="material-field"
               name="email"
               component={renderTextField}
@@ -107,6 +113,7 @@ class SignupForm extends Component {
           </div>
           <div>
             <Field
+              autoComplete="off"
               className="material-field"
               name="password"
               type="password"
@@ -136,10 +143,7 @@ class SignupForm extends Component {
             </button>
           </div>
         </form>
-        <div className="oauth">
-          <img src="https://imgur.com/Hw9YUrJ.png" />
-          <img src="https://i.imgur.com/ETp8DOT.png" />
-        </div>
+        {authOptions}
       </div>
     );
   }

@@ -17,6 +17,38 @@ import "./Navbar.css";
 
 const URL_SHORT = "http://localhost3001/api/recipes";
 
+const ROUTE_MAP = {
+  login: (
+    <Link to="/login" className="non-logo-item" key="login">
+      login
+    </Link>
+  ),
+  logout: (
+    <a onClick={this.onClickLogout} className="non-logo-item" key="logout">
+      logout
+    </a>
+  ),
+  register: (
+    <Link to="/register" className="non-logo-item" key="register">
+      register
+    </Link>
+  ),
+  profile: (
+    <Link
+      to="/profile/user" // TODO: make dynamic
+      className="non-logo-item"
+      key="profile"
+    >
+      profile
+    </Link>
+  ),
+  createRecipe: (
+    <Link to="/create_recipe" className="non-logo-item" key="recipe">
+      create recipe
+    </Link>
+  )
+};
+
 const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
   return (
     <div>
@@ -67,47 +99,34 @@ class Navbar extends Component {
 
     switch (this.props.location.pathname) {
       case "/":
+        if (this.props.userReducer.user) {
+          navItems.push(ROUTE_MAP.profile, ROUTE_MAP.createRecipe);
+        }
         break;
 
       case "/login":
-        navItems.push(
-          <Link to="/register" className="non-logo-item" key="register">
-            register
-          </Link>
-        );
+        navItems.push(ROUTE_MAP.register);
         break;
 
       case "/register":
-        navItems.push(
-          <Link to="/login" className="non-logo-item" key="login">
-            login
-          </Link>
-        );
+        navItems.push(ROUTE_MAP.login);
+        break;
+
+      case "/create_recipe":
+        navItems.push(ROUTE_MAP.profile, ROUTE_MAP.logout);
         break;
 
       default:
         if (this.props.userReducer.user) {
           navItems.push(
-            <a
-              onClick={this.onClickLogout}
-              className="non-logo-item"
-              key="logout"
-            >
-              logout
-            </a>
+            ROUTE_MAP.profile,
+            ROUTE_MAP.createRecipe,
+            ROUTE_MAP.logout
           );
         } else {
-          navItems.push(
-            <Link to="/login" className="non-logo-item" key="login">
-              login
-            </Link>
-          );
-          navItems.push(
-            <Link to="/register" className="non-logo-item" key="register">
-              register
-            </Link>
-          );
+          navItems.push(ROUTE_MAP.login, ROUTE_MAP.register);
         }
+        break;
     }
 
     return (

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import SignupForm from '../SignupForm';
-import LoginForm from '../LoginForm';
-import * as userActions from '../../actions/user_actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-import './Authentication.css';
+import React, { Component } from "react";
+import SignupForm from "../SignupForm";
+import LoginForm from "../LoginForm";
+import * as userActions from "../../actions/user_actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
+import "./Authentication.css";
 
-import _ from 'lodash';
+import _ from "lodash";
 
 class Authentication extends Component {
   componentWillMount() {
@@ -16,7 +16,7 @@ class Authentication extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.userReducer.user, this.props.userReducer.user)) {
-      this.props.history.push('/search');
+      this.props.history.push("/search");
     }
   }
 
