@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
-import Landing from '../Landing';
-import SignupForm from '../SignupForm';
-import Navbar from '../Navbar';
-import Authentication from '../Authentication';
-import SearchRecipes from '../SearchRecipes';
-import Profile from '../Profile';
+import Landing from "../Landing";
+import SignupForm from "../SignupForm";
+import Navbar from "../Navbar";
+import Authentication from "../Authentication";
+import SearchRecipes from "../SearchRecipes";
+import Profile from "../Profile";
+import CreateRecipe from "../CreateRecipe";
 
-import './App.css';
+import "./App.css";
 
 class App extends Component {
   render() {
@@ -19,12 +20,10 @@ class App extends Component {
         <Router>
           <div>
             <Navbar />
-            <Route exact path="/" render={() => <Landing {...this.props} />} />
+            <Route exact path="/" render={() => <Landing />} />
             <Route
               path="/register"
-              render={() => (
-                <Authentication {...this.props} showLogin={false} />
-              )}
+              render={() => <Authentication showLogin={false} />}
             />
             <Route
               path="/login"
@@ -37,6 +36,10 @@ class App extends Component {
             <Route
               path="/profile/:name"
               render={() => <Profile {...this.props} />}
+            />
+            <Route
+              path="/create_recipe"
+              render={() => <CreateRecipe {...this.props} />}
             />
           </div>
         </Router>

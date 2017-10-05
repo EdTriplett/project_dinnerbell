@@ -48,33 +48,18 @@ const renderTextField = ({
 );
 
 class LoginForm extends Component {
-  state = { error: null };
-
-  componentDidUpdate() {
-    if (this.props.userReducer.userError) {
-      alert(this.props.userReducer.userError);
-      this.props.setUserError(null);
-    }
-  }
-
   onSubmit = () => {
-    const { loginUser, formData, history } = this.props;
+    const { loginUser, formData, history, setUserError } = this.props;
     const { username, password, email } = formData.LoginForm.values;
 
     console.log(email, password, 'FIELD VALUES');
 
-    loginUser({ password, email });
-    // .then(user => {
-    //   console.log("curr user: ", user);
-    //   history.push("/search");
-    // })
-    // .catch(e => {
-    //   this.setState({
-    //     error: e.message
-    //   });
-
-    //   alert("User does not exist!");
-    // });
+    loginUser({ password, email }).then(() => {
+      if (this.props.userReducer.userError) {
+        alert(this.props.userReducer.userError);
+        setUserError(null);
+      }
+    });
   };
 
   render() {
@@ -83,8 +68,20 @@ class LoginForm extends Component {
       pristine,
       reset,
       submitting,
-      userLoading
+      userLoading,
+      userReducer
     } = this.props;
+
+    const authOptions = !userReducer.user ? (
+      <div className="oauth">
+        <a href="/auth/facebook">
+          <img src="https://imgur.com/Hw9YUrJ.png" />
+        </a>
+        <a href="/auth/google">
+          <img src="https://i.imgur.com/ETp8DOT.png" />
+        </a>
+      </div>
+    ) : null;
 
     if (userLoading && !this.props.userReducer.userError) {
       return <CircularProgress size={80} thickness={3} color="#fc5830" />;
@@ -96,6 +93,7 @@ class LoginForm extends Component {
           <p className="label">dinnerbell</p>
           <div>
             <Field
+              autoComplete="off"
               className="material-field"
               name="email"
               component={renderTextField}
@@ -105,6 +103,7 @@ class LoginForm extends Component {
           </div>
           <div>
             <Field
+              autoComplete="off"
               className="material-field"
               name="password"
               type="password"
@@ -133,10 +132,7 @@ class LoginForm extends Component {
             </button>
           </div>
         </form>
-        <div className="oauth">
-          <img src="https://imgur.com/Hw9YUrJ.png" />
-          <img src="https://i.imgur.com/ETp8DOT.png" />
-        </div>
+        {authOptions}
       </div>
     );
   }

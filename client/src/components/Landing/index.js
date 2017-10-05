@@ -1,20 +1,16 @@
-import React, { Component } from 'react';
-import { Paper } from 'material-ui';
-import { withRouter } from 'react-router-dom';
-import * as userActions from '../../actions/user_actions';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { Paper } from "material-ui";
+import { withRouter } from "react-router-dom";
+import * as userActions from "../../actions/user_actions";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import './Landing.css';
+import "./Landing.css";
 
 const style = {
   height: 100,
   width: 100
 };
-
-// const onClickRegister = () => {
-//   this.props
-// }
 
 class Landing extends Component {
   state = {
@@ -27,20 +23,19 @@ class Landing extends Component {
   }
 
   render() {
-    console.log(this.props.userReducer, 'any error message');
     const buttonOptions = !this.state.finishedLoading ? null : !this.props
       .userReducer.user ? (
       <div className="landing-auth-container">
         <button
           onClick={() => {
-            this.props.history.push('/register');
+            this.props.history.push("/register");
           }}
         >
           register
         </button>
         <button
           onClick={() => {
-            this.props.history.push('/login');
+            this.props.history.push("/login");
           }}
         >
           login
@@ -49,7 +44,7 @@ class Landing extends Component {
     ) : (
       <div
         className="landing-auth-container"
-        style={{ justifyContent: 'center' }}
+        style={{ justifyContent: "center" }}
       >
         <button onClick={() => this.props.userActions.logoutUser()}>
           logout

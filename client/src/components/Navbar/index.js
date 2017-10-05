@@ -1,25 +1,57 @@
-import React, { Component } from 'react';
-import muiThemeable from 'material-ui/styles/muiThemeable';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
-import AssignmentIcon from 'material-ui/svg-icons/action/assignment';
+import React, { Component } from "react";
+import muiThemeable from "material-ui/styles/muiThemeable";
+import AppBar from "material-ui/AppBar";
+import IconButton from "material-ui/IconButton";
+import FlatButton from "material-ui/FlatButton";
+import AssignmentIcon from "material-ui/svg-icons/action/assignment";
 
-import * as userActions from '../../actions/user_actions';
-import * as searchActions from '../../actions/search_actions';
+import * as userActions from "../../actions/user_actions";
+import * as searchActions from "../../actions/search_actions";
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import { TextField, IconMenu, MenuItem } from 'material-ui';
-import { withRouter, Link } from 'react-router-dom';
-import './Navbar.css';
+import { TextField, IconMenu, MenuItem } from "material-ui";
+import { withRouter, Link } from "react-router-dom";
+import "./Navbar.css";
 
-const URL_SHORT = 'http://localhost3001/api/recipes';
+const URL_SHORT = "http://localhost3001/api/recipes";
+
+const ROUTE_MAP = {
+  login: (
+    <Link to="/login" className="non-logo-item" key="login">
+      login
+    </Link>
+  ),
+  logout: (
+    <a onClick={this.onClickLogout} className="non-logo-item" key="logout">
+      logout
+    </a>
+  ),
+  register: (
+    <Link to="/register" className="non-logo-item" key="register">
+      register
+    </Link>
+  ),
+  profile: (
+    <Link
+      to="/profile/user" // TODO: make dynamic
+      className="non-logo-item"
+      key="profile"
+    >
+      profile
+    </Link>
+  ),
+  createRecipe: (
+    <Link to="/create_recipe" className="non-logo-item" key="recipe">
+      create recipe
+    </Link>
+  )
+};
 
 const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
   return (
-    <form className="searchthis" method="get">
+    <div>
       <input
         className="namanyay-search-box"
         name="q"
@@ -35,19 +67,18 @@ const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
       >
         <i className="fa fa-search" aria-hidden="true" />
       </button>
-    </form>
+    </div>
   );
 };
 
 class Navbar extends Component {
   state = {
-    query: ''
+    query: ""
   };
 
-  onClickLogout = () => {
-    this.props.userActions.logoutUser().then(() => {
-      this.props.history.push('/');
-    });
+  onClickLogout = async () => {
+    await this.props.userActions.logoutUser();
+    this.props.history.push("/");
   };
 
   onSearchInputChange = e => {
@@ -56,57 +87,46 @@ class Navbar extends Component {
     });
   };
 
-  onSearchInputSubmit = () => {
-    searchActions.getSearchRequest(this.state.query);
-    this.props.history.push('/search');
+  onSearchInputSubmit = e => {
+    e.preventDefault();
+    console.log("query: ", this.state.query);
+    this.props.searchActions.setSearchQuery(this.state.query);
+    this.props.history.push("/search");
   };
 
   render() {
     let navItems = [];
 
     switch (this.props.location.pathname) {
-      case '/':
+      case "/":
+        if (this.props.userReducer.user) {
+          navItems.push(ROUTE_MAP.profile, ROUTE_MAP.createRecipe);
+        }
         break;
 
-      case '/login':
-        navItems.push(
-          <Link to="/register" className="non-logo-item" key="register">
-            register
-          </Link>
-        );
+      case "/login":
+        navItems.push(ROUTE_MAP.register);
         break;
 
-      case '/register':
-        navItems.push(
-          <Link to="/login" className="non-logo-item" key="login">
-            login
-          </Link>
-        );
+      case "/register":
+        navItems.push(ROUTE_MAP.login);
+        break;
+
+      case "/create_recipe":
+        navItems.push(ROUTE_MAP.profile, ROUTE_MAP.logout);
         break;
 
       default:
         if (this.props.userReducer.user) {
           navItems.push(
-            <a
-              onClick={this.onClickLogout}
-              className="non-logo-item"
-              key="logout"
-            >
-              logout
-            </a>
+            ROUTE_MAP.profile,
+            ROUTE_MAP.createRecipe,
+            ROUTE_MAP.logout
           );
         } else {
-          navItems.push(
-            <Link to="/login" className="non-logo-item" key="login">
-              login
-            </Link>
-          );
-          navItems.push(
-            <Link to="/register" className="non-logo-item" key="register">
-              register
-            </Link>
-          );
+          navItems.push(ROUTE_MAP.login, ROUTE_MAP.register);
         }
+        break;
     }
 
     return (
@@ -131,7 +151,8 @@ class Navbar extends Component {
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch)
+  userActions: bindActionCreators(userActions, dispatch),
+  searchActions: bindActionCreators(searchActions, dispatch)
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));
