@@ -4,10 +4,6 @@ const Schema = mongoose.Schema;
 const RatingSchema = new Schema(
   {
     user: { type: Schema.Types.ObjectId, ref: "User" },
-    rated: {
-      kind: String,
-      item: { type: Schema.Types.ObjectId, refPath: "connections.kind" }
-    },
     rating: { type: Number }
   },
   { timestamps: true }
