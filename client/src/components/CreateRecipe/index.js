@@ -117,7 +117,7 @@ class CreateRecipe extends Component {
 						<div className="wrapper">
 							<div className="paper">
 								<textarea
-									placeholder="Enter your recipe."
+									placeholder="Explain the steps needed to get the delicious creation :)"
 									className="text"
 									name="text"
 									rows="4"
