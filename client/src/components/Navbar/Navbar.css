@@ -6,6 +6,8 @@
   z-index: 2;
   padding: 10px;
   background-color: #3c8d41;
+  font-size: calc(10px + 1vw);
+  line-height: calc(1.1em + 0.5vw);
 }
 
 .nav-items {
