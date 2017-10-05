@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const wrapper = require("../util/errorWrappers").expressWrapper;
 
 const REDIRECTS = {
   successRedirect: "http://localhost:3000/search",
@@ -39,23 +40,15 @@ const auth = passport => {
     res.json(req.session.user);
   });
 
-  router.post("/register", async (req, res, next) => {
-    try {
-      const { username, password, email } = req.body;
-      const user = await User.createLocalUser({
-        username,
-        email,
-        password
-      });
-      if (!user.errors) {
-        req.session.user = user;
-      }
-
-      res.json(user);
-    } catch (e) {
-      next(e);
+  const register = async (req, res) => {
+    const { username, password, email } = req.body;
+    const user = await User.createLocalUser({ username, email, password });
+    if (!user.errors) {
+      req.session.user = user;
     }
-  });
+    res.json(user);
+  };
+  router.post("/register", wrapper(register));
 
   router.all("/logout", (req, res) => {
     req.session.destroy();

@@ -24,7 +24,7 @@
     "isomorphic-fetch": "^2.2.1",
     "md5": "^2.2.1",
     "mime": "^2.0.3",
-    "mongoose": "^4.11.14",
+    "mongoose": "^4.9.10",
     "mongoose-unique-validator": "^1.0.6",
     "mongooseeder": "^2.0.5",
     "morgan": "^1.9.0",

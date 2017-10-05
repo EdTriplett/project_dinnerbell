@@ -1,15 +1,10 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const FileUploader = require("../util/upload");
+const wrapper = require("../util/errorWrappers").expressWrapper;
+const uploadMw = FileUploader.single("photo");
 
-const wrapper = handler => (req, res, next) => {
-  try {
-    handler(req, res, next);
-  } catch (error) {
-    next(error);
-  }
-};
-
+// Authentication Middleware
 const allowed = (req, res, next) => {
   if (req.isAuthenticated() && req.session.user.id === req.params.id) {
     next();
@@ -17,69 +12,55 @@ const allowed = (req, res, next) => {
   res.json({ error: "unauthorized user action" });
 };
 
-router.get("/", async (req, res, next) => {
-  try {
-    res.json(await User.find({ public: true }));
-  } catch (error) {
-    next(error);
-  }
-});
+// Route Handlers
+const getUsers = async (req, res) => {
+  res.json(await User.find({ public: true }));
+};
 
-router.get("/:id", async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    res.json(await User.findOne({ _id: id }));
-  } catch (error) {
-    next(error);
-  }
-});
+const getUser = async (req, res) => {
+  const { id } = req.params;
+  res.json(await User.findOne({ _id: id }));
+};
 
-router.patch("/:id", allowed, async (req, res, next) => {
-  try {
-    const { user } = req.body;
-    const updated = await req.session.user.updateUser(user);
-    if (!updated.errors) {
-      req.session.user = updated;
-    }
-    res.json(updated);
-  } catch (error) {
-    next(error);
+const updateUser = async (req, res) => {
+  const { user } = req.body;
+  const updated = await req.session.user.updateUser(user);
+  if (!updated.errors) {
+    req.session.user = updated;
   }
-});
+  res.json(updated);
+};
 
-router.delete("/:id", allowed, async (req, res, next) => {
-  try {
-    req.session.user.remove();
-    req.logout();
-  } catch (error) {
-    next(error);
-  }
-});
+const removeUser = async (req, res) => {
+  const user = await User.remove({ _id: this.session.user._id });
+  req.session.user.remove();
+  req.logout();
+  res.json(user);
+};
 
-const uploadMw = FileUploader.single("photo");
-router.post("/picture", allowed, uploadMw, async (req, res, next) => {
-  try {
-    const file = {
-      data: req.file.buffer,
-      name: req.file.originalname,
-      mimetype: req.file.mimetype
-    };
-    const picture = await FileUploader.upload(file, req.session.user);
-    req.session.user.update({ profilePicture: picture });
-    res.json(picture);
-  } catch (error) {
-    next(error);
-  }
-});
+const addPicture = async (req, res) => {
+  const file = {
+    data: req.file.buffer,
+    name: req.file.originalname,
+    mimetype: req.file.mimetype
+  };
+  const picture = await FileUploader.upload(file, req.session.user);
+  req.session.user.update({ profilePicture: picture });
+  res.json(picture);
+};
 
-router.delete("/picture", allowed, async (req, res, next) => {
-  try {
-    const picture = Picture.findById(req.session.user.profilePicture);
-    await FileUploader.remove(picture.key);
-    res.json({ deleted: picture });
-  } catch (error) {
-    next(error);
-  }
-});
+const removePicture = async (req, res) => {
+  const picture = Picture.findById(req.session.user.profilePicture);
+  await FileUploader.remove(picture.key);
+  res.json({ deleted: picture });
+};
+
+// Register Route Handlers
+router.get("/", wrapper(getUsers));
+router.get("/:id", wrapper(getUser));
+router.patch("/:id", allowed, wrapper(updateUser));
+router.delete("/:id", allowed, wrapper(removeUser));
+router.post("/picture", allowed, uploadMw, wrapper(addPicture));
+router.delete("/picture", allowed, wrapper(removePicture));
 
 module.exports = router;

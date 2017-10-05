@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Ratable = require('./Ratable')
+const Ratable = require("./Ratable");
+const wrapper = require("../util/errorWrappers").mongooseWrapper;
 
 const MealSchema = new Schema(
   {
+    kind: String,
     name: String,
     date: Number,
     owner: { type: Schema.Types.ObjectId, ref: "User" },
@@ -12,29 +14,38 @@ const MealSchema = new Schema(
     registeredGuests: [{ type: Schema.Types.ObjectId, ref: "User" }],
     tasks: [String],
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
+    image: { type: Schema.Types.ObjectId, ref: "Picture" }
   },
-  { timestamps: true,
-  discriminatorKey: 'ratable' }
+  {
+    timestamps: true,
+    discriminatorKey: "ratable"
+  }
 );
 
+// Auto-Population
 const populateAll = function(next) {
-   this.populate("recipes owner ratings registeredGuests");
+  this.populate("recipes owner ratings registeredGuests");
   next();
 };
 MealSchema.pre("find", populateAll);
 MealSchema.pre("findOne", populateAll);
 MealSchema.pre("update", populateAll);
 
-MealSchema.pre("remove", async function(next) {
-  try {
-    await mongoose
-      .model("User")
-      .update({ id: this.owner }, { meals: { $pull: this._id } });
-  } catch (error) {
-    console.error(error.stack);
+// Propagation Hooks
+const propagateToOwner = async function() {
+  if (this.owner && this.owner.meals && !this.owner.meals.includes(this._id)) {
+    this.owner.meals.push(this._id);
+    await this.owner.save();
   }
-  next();
-});
+};
+MealSchema.pre("save", wrapper(propagateToOwner));
+
+const removeFromOwner = async function() {
+  await mongoose
+    .model("User")
+    .update({ _id: this.owner }, { $pull: { meals: this._id } });
+};
+MealSchema.pre("remove", wrapper(removeFromOwner));
 
 const Meal = Ratable.discriminator("Meal", MealSchema);
 

@@ -1,36 +1,28 @@
 const router = require("express").Router();
 const Meal = require("../models/Meal");
+const wrapper = require("../util/errorWrappers").expressWrapper;
 
-router.get("/", async (req, res, next) => {
-  try {
-    res.json(await Meal.find());
-  } catch (error) {
-    next(error);
-  }
-});
+// Route Handlers
+const getMeals = async (req, res) => {
+  res.json(await Meal.find());
+};
 
-router.get("/:id", async (req, res, next) => {
-  try {
-    res.json({ warning: "not implemented" });
-  } catch (error) {
-    next(error);
-  }
-});
+const getMeal = async (req, res) => {
+  res.json({ warning: "not implemented" });
+};
 
-router.patch("/:id", async (req, res, next) => {
-  try {
-    res.json({ warning: "not implemented" });
-  } catch (error) {
-    next(error);
-  }
-});
+const updateMeal = async (req, res) => {
+  res.json({ warning: "not implemented" });
+};
 
-router.delete("/:id", async (req, res, next) => {
-  try {
-    res.json({ warning: "not implemented" });
-  } catch (error) {
-    next(error);
-  }
-});
+const removeMeal = async (req, res) => {
+  res.json({ warning: "not implemented" });
+};
+
+// Register Route Handlers
+router.get("/", wrapper(getMeals));
+router.get("/:id", wrapper(getMeal));
+router.patch("/:id", wrapper(updateMeal));
+router.delete("/:id", wrapper(removeMeal));
 
 module.exports = router;

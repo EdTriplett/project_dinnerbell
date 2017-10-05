@@ -7,57 +7,48 @@ const {
   sanitizeRecipes,
   buildDbQuery
 } = require("../util/recipes");
+const wrapper = require("../util/errorWrappers").expressWrapper;
 
-router.get("/", async (req, res, next) => {
-  try {
-    let { q, preferences } = req.query;
-    preferences = preferences ? preferences : "";
-    const queryPrefs = buildRecipePrefs(preferences);
+// Route Handlers
+const getRecipes = async (req, res) => {
+  let { q, preferences } = req.query;
+  preferences = preferences ? preferences : "";
+  const queryPrefs = buildRecipePrefs(preferences);
 
-    let apiResponse = await fetch(buildRecipeURL([`q=${q}`, ...queryPrefs]));
-    apiResponse = sanitizeRecipes(await apiResponse.json());
+  let apiResponse = await fetch(buildRecipeURL([`q=${q}`, ...queryPrefs]));
+  apiResponse = sanitizeRecipes(await apiResponse.json());
 
-    const dbResponse = await Recipe.find(buildDbQuery(q, preferences));
-    res.json(dbResponse.concat(apiResponse));
-  } catch (error) {
-    next(error);
-  }
-});
+  q = q ? q : "";
+  const queryOpts = buildDbQuery(q.toLowerCase(), preferences);
+  const dbResponse = await Recipe.find(queryOpts);
+  res.json(dbResponse.concat(apiResponse));
+};
 
-router.get("/:id", async (req, res, next) => {
-  try {
-    const recipe = await Recipe.find({ _id: req.params.id });
-    res.json(recipe);
-  } catch (error) {
-    next(error);
-  }
-});
+const newRecipe = async (req, res) => {
+  const recipe = await Recipe.sparseCreate(req.body);
+  res.json(recipe);
+};
 
-router.post("/", async (req, res, next) => {
-  try {
-    const recipe = await Recipe.sparseCreate(req.body);
-    res.json(recipe);
-  } catch (error) {
-    next(error);
-  }
-});
+const getRecipe = async (req, res) => {
+  const recipe = await Recipe.find({ _id: req.params.id });
+  res.json(recipe);
+};
 
-router.patch("/:id", async (req, res, next) => {
-  try {
-    const recipe = await Recipe.sparseUpdate(req.params.id, req.body);
-    res.json(recipe);
-  } catch (error) {
-    next(error);
-  }
-});
+const updateRecipe = async (req, res) => {
+  const recipe = await Recipe.sparseUpdate(req.params.id, req.body);
+  res.json(recipe);
+};
 
-router.delete("/:id", async (req, res, next) => {
-  try {
-    const recipe = await Recipe.remove({ _id: req.params.id });
-    res.json(recipe);
-  } catch (error) {
-    next(error);
-  }
-});
+const removeRecipe = async (req, res) => {
+  const recipe = await Recipe.remove({ _id: req.params.id });
+  res.json(recipe);
+};
+
+// Register Route Handlers
+router.get("/", wrapper(getRecipes));
+router.post("/", wrapper(newRecipe));
+router.get("/:id", wrapper(getRecipe));
+router.patch("/:id", wrapper(updateRecipe));
+router.delete("/:id", wrapper(removeRecipe));
 
 module.exports = router;

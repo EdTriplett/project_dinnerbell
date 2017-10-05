@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const wrapper = require("../util/errorWrappers").mongooseWrapper;
 
 const RatingSchema = new Schema(
   {
@@ -9,32 +10,21 @@ const RatingSchema = new Schema(
   { timestamps: true }
 );
 
-RatingSchema.pre("save", async function(next) {
-  try {
-    const user = await mongoose.model("user").findOne({ _id: this.owner });
-    if (user && !user.ratings.includes(this._id)) {
-      await user.update({ ratings: { $push: this._id } });
-    }
-  } catch (error) {
-    console.error(error);
+// Propagation Hooks
+const propagateToUser = async function() {
+  const user = await mongoose.model("user").findOne({ _id: this.owner });
+  if (user && !user.ratings.includes(this._id)) {
+    await user.update({ ratings: { $push: this._id } });
   }
-  next();
-});
+};
+RatingSchema.pre("save", wrapper(propagateToUser));
 
-RatingSchema.pre("remove", async function(next) {
-  try {
-    await mongoose
-      .model("user")
-      .update(
-        { recipes: { $inc: this._id } },
-        { recipes: { $pull: this._id } }
-      );
-  } catch (error) {
-    console.error(error);
-  }
-  next();
-});
+const removeFromUser = async function() {
+  await mongoose
+    .model("user")
+    .update({ recipes: { $inc: this._id } }, { recipes: { $pull: this._id } });
+};
+RatingSchema.pre("remove", wrapper(removeFromUser));
 
 const Rating = mongoose.model("Rating", RatingSchema);
-
 module.exports = Rating;
