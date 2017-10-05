@@ -6,7 +6,7 @@
     "/auth/*": {
       "target": "http://localhost:3001/"
     },
-    "/recipes/*": {
+    "/api/*": {
       "target": "http://localhost:3001/"
     }
   },
