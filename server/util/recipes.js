@@ -76,8 +76,20 @@ const sanitizeRecipes = apiResponse => {
   return apiResponse.hits.map(_sanitizeRecipe);
 };
 
+const buildDbQuery = (q, preferences) => {
+  let options = {};
+  if (q) {
+    options["$text"] = { $search: q };
+  }
+  if (preferences) {
+    options.preferences = { $all: preferences.split(",") };
+  }
+  return options;
+};
+
 module.exports = {
   buildRecipePrefs,
   buildRecipeURL,
-  sanitizeRecipes
+  sanitizeRecipes,
+  buildDbQuery
 };

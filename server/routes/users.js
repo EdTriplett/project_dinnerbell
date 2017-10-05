@@ -2,6 +2,14 @@ const router = require("express").Router();
 const User = require("../models/User");
 const FileUploader = require("../util/upload");
 
+const wrapper = handler => (req, res, next) => {
+  try {
+    handler(req, res, next);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const allowed = (req, res, next) => {
   if (req.isAuthenticated() && req.session.user.id === req.params.id) {
     next();
@@ -12,8 +20,8 @@ const allowed = (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     res.json(await User.find({ public: true }));
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error);
   }
 });
 
@@ -21,8 +29,8 @@ router.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     res.json(await User.findOne({ _id: id }));
-  } catch (e) {
-    next(e);
+  } catch (error) {
+    next(error);
   }
 });
 
