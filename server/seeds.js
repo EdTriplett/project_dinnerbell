@@ -5,8 +5,8 @@ const faker = require("faker");
 const mongoose = require("mongoose");
 mongoose.Promise = require("bluebird");
 
-const seeds = () => {
-  mongoose.connection.db.dropDatabase();
+const seeds = async () => {
+  await mongoose.connection.db.dropDatabase();
   let users = [];
   for (let i = 0; i < 10; i++) {
     let user = new User({
