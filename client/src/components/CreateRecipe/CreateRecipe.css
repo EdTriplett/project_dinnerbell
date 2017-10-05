@@ -12,8 +12,14 @@
 	flex-direction: column;
 }
 
+.recipe-login-buttons {
+	display: flex;
+	justify-content: center;
+}
+
 .recipe-login-buttons button {
 	font-family: "Open Sans", sans-serif;
+	margin-left: 10px;
 	font-size: 16px;
 	padding: 5px;
 	padding-right: 10px;
