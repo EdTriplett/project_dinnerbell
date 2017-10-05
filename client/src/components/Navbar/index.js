@@ -70,7 +70,7 @@ class Navbar extends Component {
 
       case '/login':
         navItems.push(
-          <Link to="/register" className="non-logo-item">
+          <Link to="/register" className="non-logo-item" key="register">
             register
           </Link>
         );
@@ -78,7 +78,7 @@ class Navbar extends Component {
 
       case '/register':
         navItems.push(
-          <Link to="/login" className="non-logo-item">
+          <Link to="/login" className="non-logo-item" key="login">
             login
           </Link>
         );
@@ -87,18 +87,22 @@ class Navbar extends Component {
       default:
         if (this.props.userReducer.user) {
           navItems.push(
-            <a onClick={this.onClickLogout} className="non-logo-item">
+            <a
+              onClick={this.onClickLogout}
+              className="non-logo-item"
+              key="logout"
+            >
               logout
             </a>
           );
         } else {
           navItems.push(
-            <Link to="/login" className="non-logo-item">
+            <Link to="/login" className="non-logo-item" key="login">
               login
             </Link>
           );
           navItems.push(
-            <Link to="/register" className="non-logo-item">
+            <Link to="/register" className="non-logo-item" key="register">
               register
             </Link>
           );
