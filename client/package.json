@@ -3,25 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "/auth/google": {
+    "/auth/*": {
       "target": "http://localhost:3001/"
     },
-    "/auth/facebook": {
-      "target": "http://localhost:3001/"
-    },
-    "/auth/login": {
-      "target": "http://localhost:3001/"
-    },
-    "/auth/register": {
-      "target": "http://localhost:3001/"
-    },
-    "/auth/current-user": {
-      "target": "http://localhost:3001/"
-    },
-    "/auth/logout": {
-      "target": "http://localhost:3001/"
-    },
-    "/recipes/": {
+    "/recipes/*": {
       "target": "http://localhost:3001/"
     }
   },
