@@ -26,6 +26,7 @@ export function setUserError(error) {
 export const checkCurrentUser = () => async dispatch => {
   try {
     const payload = await AsyncManager.getRequest('/auth/current-user');
+    if (payload.errors) throw new Error(payload.errors[0]);
     dispatch(setCurrentUser(payload));
   } catch (e) {
     dispatch(setUserError(e.message));
