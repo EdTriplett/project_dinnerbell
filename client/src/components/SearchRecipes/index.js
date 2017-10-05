@@ -10,8 +10,10 @@ import { bindActionCreators } from "redux";
 
 import { withRouter } from "react-router-dom";
 import { Paper } from "material-ui";
+import { Card, CardHeader, CardTitle, CardText, CardMedia } from "material-ui";
 
 import "./SearchRecipes.css";
+import StarRatingComponent from "react-star-rating-component";
 
 class SearchRecipes extends Component {
   state = {
@@ -23,13 +25,17 @@ class SearchRecipes extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    this.setState({
+      recipes: nextProps.searchReducer.results
+    });
     console.log("nextProps: ", nextProps);
+    if (nextProps.searchReducer.query !== this.props.searchReducer.query) {
+      this.props.searchActions.requestSearch(nextProps.searchReducer.query);
+    }
   }
 
   componentWillMount() {
-    this.props.searchActions.requestSearch();
-    // console.log("this.props: ", this.props);
-    // this.props.userActions.checkCurrentUser();
+    this.props.searchActions.requestSearch(this.props.searchReducer.query);
   }
 
   // searchRecipes = () => {
@@ -44,30 +50,37 @@ class SearchRecipes extends Component {
   handleChange = (event, index, value) => this.setState({ value });
 
   render() {
-    const recipes = new Array(5).fill(0).map(() =>
-      <Paper className="recipe">
-        <img src="https://eat24hours.com/files/cuisines/v4/thai.jpg?e24v=103?e24v=178?e24v=178" />
-
-        <p>
-          Non incurreret philosophari, non sint fugiat ad litteris. Ea nescius
-          consectetur. Id ut irure appellat, culpa aut senserit id quid, est
-          nulla nisi o quamquam, summis in quamquam ab nulla. Quibusdam in elit
-          aut admodum o constias sed nam dolor multos ea senserit, e illum quis
-          de commodo si enim est arbitror ne excepteur tempor eiusmod, eram se
-          non noster ingeniis, aliquip fore aute qui export.Ubi velit pariatur,
-          sed summis voluptatibus ab mentitum sempiternum ad commodo se admodum
-          anim cillum ullamco summis. A malis sint culpa quamquam do ita fugiat
-          praetermissum, export voluptate nam quem eram iis incididunt cillum
-          quid vidisse sint. Si quorum voluptate.
-        </p>
-      </Paper>
-    );
+    const recipes = this.state.recipes
+      ? this.state.recipes.map(recipe =>
+          <Card className="recipe-card">
+            <CardMedia>
+              <img src={recipe.image.url} />
+            </CardMedia>
+            <CardTitle className="card-title">
+              {recipe.name}
+            </CardTitle>
+            <StarRatingComponent
+              className="star-rating"
+              name="rating"
+              value={Math.floor(Math.random() * 5)}
+              editing={false}
+            />
+            {/* <CardText className="card-text">
+              Non incurreret philosophari, non sint fugiat ad litteris. Ea
+              nescius // consectetur. Id ut irure appellat, culpa aut senserit
+              id quid, est
+            </CardText> */}
+          </Card>
+        )
+      : null;
     return (
-      <div className="search-recipes">
-        <div className="recipe-results">
-          {recipes}
+      <div className="background">
+        <div className="search-recipes">
+          <div className="recipe-results">
+            {recipes}
+          </div>
+          <div className="newsfeed" />
         </div>
-        <div className="newsfeed" />
       </div>
     );
   }

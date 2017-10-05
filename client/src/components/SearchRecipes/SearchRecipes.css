@@ -1,7 +1,31 @@
+.background {
+  background-color: #3c8d41;
+  /*height: auto;*/
+  /*min-height: 100%;*/
+  min-height: 100vh !important;
+  height: auto !important;
+  display: inline-block;
+  width: 100vw;
+}
+
+@media only screen and (min-width: 500px) {
+  .gridmenu {
+    width: 100%;
+  }
+
+  .gridmain {
+    width: 100%;
+  }
+
+  .gridright {
+    width: 100%;
+  }
+}
+
 .search-recipes {
   display: flex;
-  background-color: #3c8d41;
-  height: 100vh;
+  margin-top: 60px;
+  height: auto;
 }
 
 .newsfeed {
@@ -11,25 +35,21 @@
 
 .recipe-results {
   width: 80%;
-  border: 1px black solid;
-  flex-direction: column;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
+  flex-direction: row;
   align-items: center;
-  -webkit-justify-content: center;
-  justify-content: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
 }
 
-.recipe-results .recipe {
+.recipe-results .recipe-card {
   background-color: white;
   height: auto;
-  width: 80%;
-  margin-top: 10px;
+  width: 30%;
   border-radius: 5px;
   padding: 8px;
+  margin: 1%;
 }
 
 .recipe p {
@@ -39,4 +59,27 @@
 
 .recipe img {
   width: 80px;
+}
+
+.star-rating {
+  padding-left: 16px;
+}
+
+.card-title {
+  font-family: 'Open Sans', sans-serif;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  margin: 0px !important;
+  font-size: calc(0.3em + 1vw) !important;
+  line-height: calc(1.1em + 0.5vw) !important;
+}
+
+.card-text {
+  font-family: 'Open Sans', sans-serif;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  margin: 0px !important;
+  color: #9c9c9c;
+  font-size: calc(0.2em + 1vw) !important;
+  line-height: calc(1.1em + 0.5vw) !important;
 }

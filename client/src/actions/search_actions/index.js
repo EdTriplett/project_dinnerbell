@@ -22,11 +22,11 @@ export const setSearchQuery = query => {
   };
 };
 
-export const requestSearch = () => async dispatch => {
+export const requestSearch = query => async dispatch => {
   try {
     dispatch(setSearchLoading(true));
     const payload = await AsyncManager.getRequest(
-      "http://localhost:3001/api/recipes?q=bro&preferences=super"
+      `${searchConstants.BASE_URL}/recipes?q=${query}`
     );
     dispatch(successSearchRequest(payload));
     dispatch(setSearchLoading(false));
