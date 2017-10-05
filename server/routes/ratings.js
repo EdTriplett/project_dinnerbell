@@ -11,15 +11,18 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
   try {
-    res.json({ warning: "not implemented" });
+    const rating = await Rating.find({id: params.id})
+    res.json({ rating });
   } catch (error) {
     next(error);
   }
 });
 
+
 router.patch("/:id", async (req, res, next) => {
   try {
-    res.json({ warning: "not implemented" });
+    const rating = await Rating.update({id: params.id}, {rating: req.body.rating}, {new: true})
+    res.json(rating);
   } catch (error) {
     next(error);
   }
@@ -27,7 +30,8 @@ router.patch("/:id", async (req, res, next) => {
 
 router.delete("/:id", async (req, res, next) => {
   try {
-    res.json({ warning: "not implemented" });
+    const rating = await Rating.remove({id: params.id})
+    res.json(rating);
   } catch (error) {
     next(error);
   }

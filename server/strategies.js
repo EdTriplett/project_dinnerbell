@@ -31,7 +31,6 @@ const googleHandler = async (req, accessToken, refreshToken, profile, done) => {
     if (!user) {
       user = await User.create({
         googleID: profile.id,
-        username: profile.displayName
       });
     }
 
@@ -55,7 +54,6 @@ const facebookHandler = async (
     if (!user) {
       user = await User.create({
         facebookID: profile.id,
-        username: profile.displayName
       });
     }
 
