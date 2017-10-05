@@ -3,7 +3,7 @@
 	justify-content: center;
 	flex-direction: column;
 	align-items: center;
-	height: 100vh;
+	height: 130vh;
 	background-color: #3c8d41;
 }
 
@@ -13,7 +13,7 @@
 }
 
 .recipe-login-buttons button {
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 	font-size: 16px;
 	padding: 5px;
 	padding-right: 10px;
