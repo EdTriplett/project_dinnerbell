@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "/auth/*": {
-      "target": "http://localhost:3001/"
-    },
-    "/recipes/*": {
+    "/*": {
       "target": "http://localhost:3001/"
     }
   },
