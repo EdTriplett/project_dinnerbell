@@ -4,6 +4,7 @@ import { DropDownMenu, MenuItem } from "material-ui";
 import ReactSuperSelect from "react-super-select";
 
 import * as userActions from "../../actions/user_actions";
+import * as searchActions from "../../actions/search_actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -16,17 +17,28 @@ class SearchRecipes extends Component {
     sortFilter: null,
     sortValue: 1,
     dietaryFilter: null,
-    dietaryValue: 1
+    dietaryValue: 1,
+    recipes: []
   };
 
-  componentWillMount() {
-    this.props.userActions.checkCurrentUser();
+  componentWillReceiveProps(nextProps) {
+    console.log("nextProps: ", nextProps);
   }
 
-  onClickLogout = async () => {
-    await this.props.userActions.logoutUser();
-    this.props.history.push("/");
-  };
+  componentWillMount() {
+    this.props.searchActions.requestSearch();
+    // console.log("this.props: ", this.props);
+    // this.props.userActions.checkCurrentUser();
+  }
+
+  // searchRecipes = () => {
+  //   this.props.userReducer
+  // }
+  //
+  // onClickLogout = async () => {
+  //   await this.props.userActions.logoutUser();
+  //   this.props.history.push("/");
+  // };
 
   handleChange = (event, index, value) => this.setState({ value });
 
@@ -43,7 +55,8 @@ class SearchRecipes extends Component {
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch)
+  userActions: bindActionCreators(userActions, dispatch),
+  searchActions: bindActionCreators(searchActions, dispatch)
 });
 
 export default withRouter(

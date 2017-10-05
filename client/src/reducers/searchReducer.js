@@ -2,33 +2,26 @@ import searchConstants from "../constants/search_constants";
 
 const initialState = {
   isSearching: false,
-  searchQuery: "",
-  testing: false,
-  testResults: null
+  query: "",
+  results: null
 };
 
 export default (state = initialState, action = {}) => {
   let updated = Object.assign({}, state);
 
   switch (action.type) {
-    case searchConstants.GET_SEARCH_REQUEST:
-      updated.isSearching = true;
+    case searchConstants.SET_SEARCH_QUERY:
+      updated.query = action.payload;
 
       return updated;
 
-    case searchConstants.TEST_LOADING:
-      updated.testing = action.payload;
+    case searchConstants.SUCCESS_SEARCH_REQUEST:
+      updated.results = action.payload;
 
       return updated;
 
-    case searchConstants.TEST_FETCH:
-      updated.testResults = action.payload;
-
-      return updated;
-
-    case searchConstants.SET_SEARCH_REQUEST:
-      console.log("made it to serch request");
-      updated.searchQuery = action.payload;
+    case searchConstants.SET_SEARCH_LOADING:
+      updated.isSearching = action.payload;
 
       return updated;
 
