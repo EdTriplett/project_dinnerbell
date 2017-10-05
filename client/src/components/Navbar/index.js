@@ -23,11 +23,6 @@ const ROUTE_MAP = {
       login
     </Link>
   ),
-  logout: (
-    <a onClick={this.onClickLogout} className="non-logo-item" key="logout">
-      logout
-    </a>
-  ),
   register: (
     <Link to="/register" className="non-logo-item" key="register">
       register
@@ -113,7 +108,16 @@ class Navbar extends Component {
         break;
 
       case "/create_recipe":
-        navItems.push(ROUTE_MAP.profile, ROUTE_MAP.logout);
+        navItems.push(
+          ROUTE_MAP.profile,
+          <a
+            onClick={this.onClickLogout}
+            className="non-logo-item"
+            key="logout"
+          >
+            logout
+          </a>
+        );
         break;
 
       default:
@@ -121,7 +125,13 @@ class Navbar extends Component {
           navItems.push(
             ROUTE_MAP.profile,
             ROUTE_MAP.createRecipe,
-            ROUTE_MAP.logout
+            <a
+              onClick={this.onClickLogout}
+              className="non-logo-item"
+              key="logout"
+            >
+              logout
+            </a>
           );
         } else {
           navItems.push(ROUTE_MAP.login, ROUTE_MAP.register);
