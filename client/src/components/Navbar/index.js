@@ -16,8 +16,6 @@ import { withRouter, Link } from "react-router-dom";
 import "./Navbar.css";
 
 const URL_SHORT = "http://localhost3001/api/recipes";
-<<<<<<< HEAD
-=======
 
 const ROUTE_MAP = {
   login: (
@@ -45,7 +43,6 @@ const ROUTE_MAP = {
     </Link>
   )
 };
->>>>>>> 774b41318ead078b99ab8c9cab7074bd21f4486a
 
 const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
   return (
@@ -96,30 +93,6 @@ class Navbar extends Component {
     let navItems = [];
 
     switch (this.props.location.pathname) {
-      case "/":
-<<<<<<< HEAD
-        break;
-
-      case "/login":
-        navItems.push(
-          <Link to="/register" className="non-logo-item" key="register">
-            register
-          </Link>
-        );
-        break;
-
-      case "/register":
-        navItems.push(
-          <Link to="/login" className="non-logo-item" key="login">
-            login
-          </Link>
-        );
-=======
-        if (this.props.userReducer.user) {
-          navItems.push(ROUTE_MAP.profile, ROUTE_MAP.createRecipe);
-        }
-        break;
-
       case "/login":
         navItems.push(ROUTE_MAP.register);
         break;
@@ -129,10 +102,6 @@ class Navbar extends Component {
         break;
 
       case "/create_recipe":
-<<<<<<< HEAD
-        navItems.push(ROUTE_MAP.profile, ROUTE_MAP.logout);
->>>>>>> 774b41318ead078b99ab8c9cab7074bd21f4486a
-=======
         navItems.push(
           ROUTE_MAP.profile,
           <a
@@ -143,9 +112,7 @@ class Navbar extends Component {
             logout
           </a>
         );
->>>>>>> 42ac74b944ec18b0565e9bbc7987a2579405c39d
         break;
-
       default:
         if (this.props.userReducer.user) {
           navItems.push(
