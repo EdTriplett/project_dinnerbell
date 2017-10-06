@@ -10,6 +10,7 @@ import Authentication from "../Authentication";
 import SearchRecipes from "../SearchRecipes";
 import Profile from "../Profile";
 import CreateRecipe from "../CreateRecipe";
+import RecipeContainer from "../RecipeContainer";
 
 import "./App.css";
 
@@ -41,6 +42,7 @@ class App extends Component {
               path="/create_recipe"
               render={() => <CreateRecipe {...this.props} />}
             />
+            <Route path="/recipes/:id" component={RecipeContainer} />
           </div>
         </Router>
       </MuiThemeProvider>

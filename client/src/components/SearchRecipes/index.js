@@ -7,6 +7,7 @@ import * as userActions from "../../actions/user_actions";
 import * as searchActions from "../../actions/search_actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Link } from "react-router-dom";
 
 import { withRouter } from "react-router-dom";
 import { Paper } from "material-ui";
@@ -71,20 +72,22 @@ class SearchRecipes extends Component {
 
   render() {
     const recipes = this.state.recipes
-      ? this.state.recipes.map(recipe =>
+      ? this.state.recipes.map((recipe, index) =>
           <Card className="recipe-card">
-            <CardMedia>
-              {recipe.image && <img src={recipe.image.url} />}
-            </CardMedia>
-            <CardTitle className="card-title">
-              {recipe.name}
-            </CardTitle>
-            <StarRatingComponent
-              className="star-rating"
-              name="rating"
-              value={Math.floor(Math.random() * 5)}
-              editing={false}
-            />
+            <Link to={`/recipes/${index}`}>
+              <CardMedia>
+                {recipe.image && <img src={recipe.image.url} />}
+              </CardMedia>
+              <CardTitle className="card-title">
+                {recipe.name}
+              </CardTitle>
+              <StarRatingComponent
+                className="star-rating"
+                name="rating"
+                value={Math.floor(Math.random() * 5)}
+                editing={false}
+              />
+            </Link>
           </Card>
         )
       : null;
