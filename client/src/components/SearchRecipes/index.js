@@ -11,6 +11,11 @@ import { bindActionCreators } from "redux";
 import { withRouter } from "react-router-dom";
 import { Paper } from "material-ui";
 import { Card, CardHeader, CardTitle, CardText, CardMedia } from "material-ui";
+import CircularProgress from "material-ui/CircularProgress";
+
+import InputToken from "./InputTokenForm";
+
+import "./InputTokenForm.css";
 
 import "./SearchRecipes.css";
 import StarRatingComponent from "react-star-rating-component";
@@ -21,17 +26,24 @@ class SearchRecipes extends Component {
     sortValue: 1,
     dietaryFilter: null,
     dietaryValue: 1,
-    recipes: []
+    recipes: [],
+    value: 1,
+    tokens: [],
+    options: [
+      { id: 1, name: "butter", element: <span>butter</span> },
+      { id: 2, name: "milk", element: <span>milk</span> },
+      { id: 3, name: "apple", element: <span>apple</span> },
+      { id: 4, name: "chestnut", element: <span>chestnut</span> },
+      { id: 5, name: "nutella", element: <span>nutella</span> }
+    ]
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.searchReducer.results, "wtf");
     this.setState({
       recipes: !Array.isArray(nextProps.searchReducer.results)
         ? []
         : nextProps.searchReducer.results
     });
-    console.log("nextProps: ", nextProps);
     if (nextProps.searchReducer.query !== this.props.searchReducer.query) {
       this.props.searchActions.requestSearch(nextProps.searchReducer.query);
     }
@@ -41,44 +53,54 @@ class SearchRecipes extends Component {
     this.props.searchActions.requestSearch(this.props.searchReducer.query);
   }
 
-  // searchRecipes = () => {
-  //   this.props.userReducer
-  // }
-  //
-  // onClickLogout = async () => {
-  //   await this.props.userActions.logoutUser();
-  //   this.props.history.push("/");
-  // };
+  // handleChange = (event, index, value) => this.setState({ value });
 
-  handleChange = (event, index, value) => this.setState({ value });
+  selectToken = ({ target: { value: tokens } }) => {
+    this.setState({ tokens });
+    console.log({ tokens });
+  };
+
+  renderInputToken = () =>
+    <InputToken
+      name="filters"
+      value={this.state.tokens}
+      placeholder="pick filter"
+      options={this.state.options}
+      onSelect={this.selectToken}
+    />;
 
   render() {
     const recipes = this.state.recipes
-      ? this.state.recipes.map(recipe => (
+      ? this.state.recipes.map(recipe =>
           <Card className="recipe-card">
             <CardMedia>
               {recipe.image && <img src={recipe.image.url} />}
             </CardMedia>
-            <CardTitle className="card-title">{recipe.name}</CardTitle>
+            <CardTitle className="card-title">
+              {recipe.name}
+            </CardTitle>
             <StarRatingComponent
               className="star-rating"
               name="rating"
               value={Math.floor(Math.random() * 5)}
               editing={false}
             />
-            {/* <CardText className="card-text">
-              Non incurreret philosophari, non sint fugiat ad litteris. Ea
-              nescius // consectetur. Id ut irure appellat, culpa aut senserit
-              id quid, est
-            </CardText> */}
           </Card>
-        ))
+        )
       : null;
     return (
       <div className="background">
-        <div className="search-recipes">
-          <div className="recipe-results">{recipes}</div>
-          <div className="newsfeed" />
+        <div className="search-container">
+          <div className="search-recipes">
+            <p className="search-recipes-title">find delicious recipes</p>
+            {this.renderInputToken()}
+            <div className="recipe-results">
+              {this.props.searchReducer.isSearching
+                ? <CircularProgress />
+                : recipes}
+            </div>
+          </div>
+          <Paper className="newsfeed">placeholder</Paper>
         </div>
       </div>
     );

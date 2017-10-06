@@ -93,12 +93,6 @@ class Navbar extends Component {
     let navItems = [];
 
     switch (this.props.location.pathname) {
-      case "/":
-        if (this.props.userReducer.user) {
-          navItems.push(ROUTE_MAP.profile, ROUTE_MAP.createRecipe);
-        }
-        break;
-
       case "/login":
         navItems.push(ROUTE_MAP.register);
         break;
@@ -119,7 +113,6 @@ class Navbar extends Component {
           </a>
         );
         break;
-
       default:
         if (this.props.userReducer.user) {
           navItems.push(
