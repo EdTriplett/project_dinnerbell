@@ -13,12 +13,19 @@ import serialize from "form-serialize";
 
 import * as userActions from "../../actions/user_actions";
 
+import Dropzone from "react-dropzone";
+import sha1 from "sha1";
+import AsyncManager from "../../services/AsyncManager";
+
 import "./CreateRecipe.css";
 import "./InputTokenForm.css";
 
 class CreateRecipe extends Component {
 	state = {
 		value: 2,
+		recipeName: "",
+		recipeSteps: "",
+		isUpdatingImage: false,
 		ingredientTokens: [],
 		selectedIngredients: [],
 		ingredientsOptions: [
@@ -132,22 +139,67 @@ class CreateRecipe extends Component {
 		/>
 	);
 
+	onTextInputName = e => {
+		this.setState({
+			recipeName: e.target.value
+		});
+	};
+
+	onTextFieldInput = e => {
+		this.setState({
+			recipeSteps: e.target.value
+		});
+	};
+
 	onSubmitForm = e => {
 		e.preventDefault();
 		let form = serialize(e.target, { hash: true });
 		console.log(form, "?????");
 	};
 
+	imageSelected = files => {
+		const image = files[0];
+
+		console.log("touched this!");
+
+		// TODO: create recipe
+	};
+
 	render() {
-		const { handleSubmit, pristine, reset, submitting } = this.props;
+		const {
+			handleSubmit,
+			pristine,
+			reset,
+			submitting,
+			userReducer
+		} = this.props;
 		console.log(this.state, "selected ingredients");
 		return (
 			<div className="create-recipe">
 				<form onSubmit={this.onSubmitForm}>
 					<p className="label">Create your own recipe</p>
+					{!userReducer.recipeImage ? (
+						<div
+							className="user-recipe-img-default"
+							style={{ margin: "0 auto" }}
+						/>
+					) : (
+						<div
+							className="user-recipe-img-custom"
+							style={{ margin: "0 auto" }}
+						>
+							<img src={userReducer.recipeImage} />
+						</div>
+					)}
 					<div className="recipe-form-body">
 						<div className="recipe-name-ingredient-container">
-							<div style={{ marginBottom: 20 }}>
+							<div
+								style={{
+									marginBottom: 20,
+									display: "flex",
+									alignItems: "center"
+								}}
+							>
 								<TextField
 									name="name"
 									hintText={"recipe name"}
@@ -156,7 +208,14 @@ class CreateRecipe extends Component {
 									hintStyle={{ color: "white" }}
 									inputStyle={{ color: "white" }}
 									autoComplete="off"
+									onChange={this.onTextInputName}
 								/>
+								<Dropzone
+									onDrop={this.imageSelected}
+									style={{ border: "none" }}
+								>
+									<i className="fa fa-camera" aria-hidden="true" />
+								</Dropzone>
 							</div>
 
 							<InputToken
@@ -195,6 +254,7 @@ class CreateRecipe extends Component {
 										height: "500px",
 										width: "700px"
 									}}
+									onChange={this.onTextFieldInput}
 								/>
 								<br />
 							</div>

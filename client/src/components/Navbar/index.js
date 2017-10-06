@@ -28,15 +28,6 @@ const ROUTE_MAP = {
       register
     </Link>
   ),
-  profile: (
-    <Link
-      to="/profile/user" // TODO: make dynamic
-      className="non-logo-item"
-      key="profile"
-    >
-      profile
-    </Link>
-  ),
   createRecipe: (
     <Link to="/create_recipe" className="non-logo-item" key="recipe">
       create recipe
@@ -71,6 +62,10 @@ class Navbar extends Component {
     query: ""
   };
 
+  componentDidMount() {
+    this.props.userActions.checkCurrentUser();
+  }
+
   onClickLogout = async () => {
     await this.props.userActions.logoutUser();
     this.props.history.push("/");
@@ -90,6 +85,7 @@ class Navbar extends Component {
   };
 
   render() {
+    console.log(this.props.userReducer.user, "who is the user??");
     let navItems = [];
 
     switch (this.props.location.pathname) {
@@ -102,8 +98,17 @@ class Navbar extends Component {
         break;
 
       case "/create_recipe":
+        const showProfile = this.props.userReducer.user && (
+          <Link
+            to={`/profile/${this.props.userReducer.user.username}`}
+            className="non-logo-item"
+            key="profile"
+          >
+            profile
+          </Link>
+        );
         navItems.push(
-          ROUTE_MAP.profile,
+          showProfile,
           <a
             onClick={this.onClickLogout}
             className="non-logo-item"
@@ -116,7 +121,13 @@ class Navbar extends Component {
       default:
         if (this.props.userReducer.user) {
           navItems.push(
-            ROUTE_MAP.profile,
+            <Link
+              to={`/profile/${this.props.userReducer.user.username}`}
+              className="non-logo-item"
+              key="profile"
+            >
+              profile
+            </Link>,
             ROUTE_MAP.createRecipe,
             <a
               onClick={this.onClickLogout}

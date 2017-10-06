@@ -34,6 +34,20 @@ export const setUserStatus = bool => {
   };
 };
 
+export const setUserImage = img => {
+  return {
+    type: userConstants.SET_USER_IMAGE,
+    payload: img
+  };
+};
+
+export const setUserRecipeImage = img => {
+  return {
+    type: userConstants.SET_USER_RECIPE_IMAGE,
+    payload: img
+  };
+};
+
 export const checkCurrentUser = () => async dispatch => {
   try {
     const payload = await AsyncManager.getRequest("/auth/current-user");
@@ -72,6 +86,15 @@ export const logoutUser = data => async dispatch => {
   try {
     await AsyncManager.getRequest("/auth/logout");
     dispatch(setCurrentUser(null));
+  } catch (e) {
+    dispatch(setUserError(e.message));
+  }
+};
+
+export const setUserProfileImage = file => async dispatch => {
+  try {
+    const response = await AsyncManager.uploadFile("/api/users/picture", file);
+    dispatch(setUserImage(response.url));
   } catch (e) {
     dispatch(setUserError(e.message));
   }

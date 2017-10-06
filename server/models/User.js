@@ -10,17 +10,18 @@ const UserSchema = new Schema(
     kind: String,
     username: { type: String, unique: true },
     email: { type: String, unique: true },
+    profilePicture: { type: String, default: null },
     googleID: { type: String, unique: true },
     facebookID: { type: String, unique: true },
     passwordHash: { type: String, select: false },
-    // recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
     // meals we have created
     meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
     // users we are following
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     public: { type: Boolean, default: true },
-    image: { type: Schema.Types.ObjectId, ref: "Picture" },
+    image: { type: Schema.Types.ObjectId, ref: "Picture", default: null },
     dietaryRestrictions: [String]
   },
   {
@@ -81,7 +82,7 @@ UserSchema.pre("remove", wrapper(removeRatings));
 
 // Populate ALL THE FIELDS
 const populateAll = function(next) {
-  // this.populate("recipes meals profilePicture following ratings");
+  // this.populate("recipes meals image following ratings");
   next();
 };
 UserSchema.pre("find", populateAll);

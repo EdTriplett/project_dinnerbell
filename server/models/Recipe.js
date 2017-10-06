@@ -27,6 +27,7 @@ const RecipeSchema = new Schema(
     calories: Number,
     serves: Number,
     image: { type: Schema.Types.ObjectId, ref: "Picture" },
+    recipePicture: { type: String, default: null },
     wordList: String,
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }]
   },

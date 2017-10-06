@@ -1,7 +1,9 @@
-import userConstants from '../constants/user_constants';
+import userConstants from "../constants/user_constants";
 
 const initialState = {
   user: null,
+  profileImage: null,
+  recipeImage: null,
   userLoading: false,
   userError: null
 };
@@ -27,6 +29,12 @@ export default (state = initialState, action = {}) => {
       updated.user = null;
 
       return updated;
+
+    case userConstants.SET_USER_IMAGE:
+      updated.profileImage = action.payload;
+
+    case userConstants.SET_USER_RECIPE_IMAGE:
+      updated.recipeImage = action.payload;
 
     default:
       return updated;

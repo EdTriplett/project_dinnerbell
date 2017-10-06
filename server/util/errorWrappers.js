@@ -1,4 +1,5 @@
 const expressWrapper = handler => async (req, res, next) => {
+  console.log("do we hit here in wrapper");
   try {
     await handler(req, res, next);
   } catch (error) {
