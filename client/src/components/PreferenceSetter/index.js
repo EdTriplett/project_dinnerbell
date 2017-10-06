@@ -46,7 +46,7 @@ class PreferenceSetter extends Component {
     <Checkbox
       label={label}
       handleCheckboxChange={this.toggleCheckbox}
-      key={label} isChecked={user && user.dietaryRestrictions.includes(label)}
+      key={label} isChecked={user && Array.isArray(user.dietaryRestrictions) && user.dietaryRestrictions.includes(label)}
     />
     );
   }

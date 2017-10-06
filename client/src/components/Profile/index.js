@@ -44,7 +44,6 @@ class Profile extends Component {
 			<div className="profile">
 				
 				<p className="profile-name">{loadUsername}</p>
-				<PreferenceSetter updateUser={this.props.userActions.updateUser} user={this.props.user}/>
 				<Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
 					{userReducer.user && !userReducer.user.profilePicture ? (
 						<div className="profile-pic-default" />
@@ -57,7 +56,7 @@ class Profile extends Component {
 				{this.state.isUpdatingImage && (
 					<a style={{ color: "white", marginTop: "10px" }}>save</a>
 				)}
->>>>>>> 534e6a23451416008e42ba5efc7582cf9f671fe9
+				<PreferenceSetter updateUser={this.props.userActions.updateUser} user={this.props.user}/>
 
 				<div className="user-logs-container">
 					<div className="user-logs-col">
@@ -68,7 +67,7 @@ class Profile extends Component {
 						<Searchbar />
 
 						<div className="user-logs">
-							{userReducer.user && userReducer.user.recipes.length ? (
+							{userReducer.user ? (
 								userReducer.user.recipes
 							) : (
 								<p>No saved recipes</p>
@@ -82,8 +81,8 @@ class Profile extends Component {
 						</div>
 						<Searchbar />
 						<div className="user-logs">
-							{userReducer.user && userReducer.user.meals.length ? (
-								userReducer.user.recipes
+							{userReducer.user ? (
+								userReducer.user.meals
 							) : (
 								<p>No saved meals</p>
 							)}

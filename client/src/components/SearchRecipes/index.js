@@ -61,17 +61,17 @@ class SearchRecipes extends Component {
 
   componentWillMount() {
     this.props.searchActions.requestSearch(this.props.searchReducer.query);
-    const defaultDietaryRestrictions = [
-      "vegetarian",
-      "peanut-free",
-      "balanced"
-    ];
-    console.log("defaults: ", defaultDietaryRestrictions);
-    this.setDefaultDietaryPreferences(defaultDietaryRestrictions);
-    if (this.props.user) {
+    // const defaultDietaryRestrictions = [
+    //   "vegetarian",
+    //   "peanut-free",
+    //   "balanced"
+    // ];
+    // console.log("defaults: ", defaultDietaryRestrictions);
+    // this.setDefaultDietaryPreferences(defaultDietaryRestrictions);
+    // if (this.props.user) {
       // TODO add intial user preferences
       // this.setDefaultDietaryPreferences()
-    }
+    // }
   }
 
   selectToken = e => {

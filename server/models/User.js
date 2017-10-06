@@ -82,11 +82,7 @@ UserSchema.pre("remove", wrapper(removeRatings));
 
 // Populate ALL THE FIELDS
 const populateAll = function(next) {
-<<<<<<< HEAD
-  this.populate("recipes meals image following ratings");
-=======
   // this.populate("recipes meals image following ratings");
->>>>>>> 534e6a23451416008e42ba5efc7582cf9f671fe9
   next();
 };
 UserSchema.pre("find", populateAll);
