@@ -21,10 +21,13 @@ export default {
 	},
 
 	patchRequest: async (path, params) => {
+		console.log("making patch request")
 		const response = await superagent
 			.patch(path)
 			.set('Accept', 'application/json')
 			.send(params);
+			console.log("response = ", response)
+		return response.body;
 	}
 
 };

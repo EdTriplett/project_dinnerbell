@@ -71,6 +71,10 @@ class Navbar extends Component {
     query: ""
   };
 
+  componentDidMount() {
+    this.props.userActions.checkCurrentUser()
+  }
+
   onClickLogout = async () => {
     await this.props.userActions.logoutUser();
     this.props.history.push("/");

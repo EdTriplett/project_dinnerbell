@@ -18,7 +18,7 @@ FileUploader.single = field => {
 };
 
 FileUploader.upload = async (file, pictured) => {
-  const extension = mime.extension(file.mimetype);
+  const extension = mime.getExtension(file.mimetype);
   const filename = path.parse(file.name).name;
   const key = `${filename}-${md5(Date.now())}.${extension}`;
   const options = {

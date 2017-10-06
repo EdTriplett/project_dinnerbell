@@ -80,8 +80,9 @@ export const logoutUser = data => async dispatch => {
 export const updateUser = dataObj =>
   async dispatch => {
     try{
+      console.log("dataObj = ", dataObj)
       dispatch(setUserLoading(true));
-      const payload = await AsyncManager.patchRequest(`/user/${dataObj.id}`);
+      const payload = await AsyncManager.patchRequest(`/user/${this.props.userReducer.user._id}`);
       if (payload && payload.errors) throw new Error(payload.errors[0]);
       dispatch(setCurrentUser(payload));
       dispatch(setUserLoading(false));
