@@ -19,6 +19,7 @@ const Recipe = ({ recipe }) =>
     <h2>
       Serves {recipe.serves} hungry people
     </h2>
+    <button>Save this recipe!</button>
     <p>
       Calories: {Math.floor(recipe.calories)}
     </p>
