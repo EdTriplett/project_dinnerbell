@@ -59,13 +59,19 @@ class SearchRecipes extends Component {
   }
 
   componentWillMount() {
-    this.props.searchActions.requestSearch(
-      this.props.searchReducer.query,
-      this.props.searchReducer.preferences
-    );
+    this.props.searchActions.requestSearch(this.props.searchReducer.query);
+    const defaultDietaryRestrictions = [
+      "vegetarian",
+      "peanut-free",
+      "balanced"
+    ];
+    console.log("defaults: ", defaultDietaryRestrictions);
+    this.setDefaultDietaryPreferences(defaultDietaryRestrictions);
+    if (this.props.user) {
+      // TODO add intial user preferences
+      // this.setDefaultDietaryPreferences()
+    }
   }
-
-  // handleChange = (event, index, value) => this.setState({ value });
 
   selectToken = e => {
     const filterType = e.target.name;
@@ -78,15 +84,54 @@ class SearchRecipes extends Component {
     });
   };
 
+  setDefaultDietaryPreferences = preferences => {
+    const dietTokens = [];
+    const dietFilters = [];
+    const healthTokens = [];
+    const healthFilters = [];
+    ["diet", "health"].forEach(filterType => {
+      preferences.forEach(userPreference => {
+        const foundPreference = this.state[`${filterType}Options`].find(
+          preference =>
+            preference.name.toLowerCase() === userPreference.toLowerCase()
+        );
+
+        if (foundPreference) {
+          switch (filterType) {
+            case "health":
+              healthTokens.push(foundPreference.id);
+              healthFilters.push(foundPreference.name);
+              break;
+            case "diet":
+              dietTokens.push(foundPreference.id);
+              dietFilters.push(foundPreference.name);
+              break;
+          }
+        }
+      });
+      this.setState({
+        dietTokens,
+        dietFilters,
+        healthTokens,
+        healthFilters
+      });
+    });
+  };
+
   filterRecipes = () => {
     return this.state.recipes.filter(recipe => {
       return this.isValidRecipe(recipe);
     });
   };
 
+  filterRecipesLength = filteredRecipes => {
+    return filteredRecipes.length <= 9
+      ? filteredRecipes
+      : new Array(9).fill(0).map((_, index) => filteredRecipes[index]);
+  };
+
   isValidRecipe = recipe => {
     const filters = [...this.state.dietFilters, ...this.state.healthFilters];
-    console.log("filters: ", filters);
     return filters.reduce(
       (isValid, filter) =>
         recipe.preferences &&
@@ -117,8 +162,14 @@ class SearchRecipes extends Component {
     />;
 
   render() {
-    const recipes = this.filterRecipes(this.state.recipes).map(recipe =>
-      <Card className="recipe-card" key={recipe.name}>
+    console.log("this.state: ", this.state);
+    const recipes = this.filterRecipesLength(
+      this.filterRecipes(this.state.recipes)
+    ).map(recipe =>
+      <Card
+        className="recipe-card"
+        key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
+      >
         <CardMedia>
           {recipe.image && <img src={recipe.image.url} />}
         </CardMedia>

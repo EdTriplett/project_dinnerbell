@@ -46,7 +46,7 @@ const ROUTE_MAP = {
 
 const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
   return (
-    <div>
+    <form action="" method="get" onSubmit={onSearchInputSubmit}>
       <input
         className="namanyay-search-box"
         name="q"
@@ -62,7 +62,7 @@ const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
       >
         <i className="fa fa-search" aria-hidden="true" />
       </button>
-    </div>
+    </form>
   );
 };
 
@@ -83,6 +83,7 @@ class Navbar extends Component {
   };
 
   onSearchInputSubmit = e => {
+    console.log("successfully submitted");
     e.preventDefault();
     console.log("query: ", this.state.query);
     this.props.searchActions.setSearchQuery(this.state.query);
