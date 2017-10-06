@@ -9,15 +9,41 @@
 
 .profile-name {
 	color: white;
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 	font-size: 2em;
 }
 
-.profile-pic {
-	width: 150px;
-	height: 150px;
+.profile-pic-default {
+	width: 75px;
+	height: 75px;
 	border: 3px solid white;
 	border-radius: 200px;
+	background-image: url("https://pbs.twimg.com/profile_images/740272510420258817/sd2e6kJy.jpg");
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	cursor: pointer;
+}
+
+.profile-pic-custom {
+	width: 75px;
+	height: 75px;
+	border: 3px solid white;
+	border-radius: 200px;
+	overflow: auto;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	cursor: pointer;
+}
+
+.profile-pic-custom img,
+.profile-pic-default img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 
 .user-logs-container {
@@ -39,11 +65,11 @@
 }
 
 .user-logs-recipes p {
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 	color: white;
 	font-size: 0.9em;
 	position: absolute;
-	bottom: -10px;
+	bottom: -12px;
 	left: 25px;
 }
 
@@ -58,11 +84,11 @@
 }
 
 .user-logs-meals p {
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 	color: white;
 	font-size: 0.9em;
 	position: absolute;
-	bottom: -10px;
+	bottom: -12px;
 	left: 30px;
 }
 
@@ -77,11 +103,11 @@
 }
 
 .user-logs-activities p {
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 	color: white;
 	font-size: 0.9em;
 	position: absolute;
-	bottom: -10px;
+	bottom: -12px;
 	left: 20px;
 }
 
@@ -107,7 +133,7 @@
 .logs-search-btn {
 	background: black;
 	color: white;
-	font-family: 'Open Sans', sans-serif;
+	font-family: "Open Sans", sans-serif;
 	padding: 5px 10px;
 	border-radius: 0 10px 10px 0;
 	-moz-border-radius: 0 10px 10px 0;

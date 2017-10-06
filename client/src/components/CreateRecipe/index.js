@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Field, reduxForm } from "redux-form";
 import { withRouter } from "react-router-dom";
 
-import asyncValidate from "../../services/AsyncValidate";
 import TextField from "material-ui/TextField";
 import CircularProgress from "material-ui/CircularProgress";
 import InputToken from "./InputTokenForm";
@@ -13,12 +11,18 @@ import serialize from "form-serialize";
 
 import * as userActions from "../../actions/user_actions";
 
+import Dropzone from "react-dropzone";
+import AsyncManager from "../../services/AsyncManager";
+
 import "./CreateRecipe.css";
 import "./InputTokenForm.css";
 
 class CreateRecipe extends Component {
 	state = {
 		value: 2,
+		recipeName: "",
+		recipeSteps: "",
+		isUpdatingImage: false,
 		ingredientTokens: [],
 		selectedIngredients: [],
 		ingredientsOptions: [
@@ -91,7 +95,7 @@ class CreateRecipe extends Component {
 		let tokens = e.target.value;
 		let selectedPreferences = [];
 		let copy = [...tokens];
-		const preferencesIndex = copy.pop();
+		copy.pop();
 		let result = this.state.preferencesOptions.filter(
 			x => x.id === selectedPreferences
 		);
@@ -132,22 +136,61 @@ class CreateRecipe extends Component {
 		/>
 	);
 
+	onTextInputName = e => {
+		this.setState({
+			recipeName: e.target.value
+		});
+	};
+
+	onTextFieldInput = e => {
+		this.setState({
+			recipeSteps: e.target.value
+		});
+	};
+
 	onSubmitForm = e => {
 		e.preventDefault();
 		let form = serialize(e.target, { hash: true });
 		console.log(form, "?????");
 	};
 
+	imageSelected = files => {
+		const image = files[0];
+
+		console.log("touched this!");
+
+		// TODO: create recipe
+	};
+
 	render() {
-		const { handleSubmit, pristine, reset, submitting } = this.props;
+		const { userReducer } = this.props;
 		console.log(this.state, "selected ingredients");
 		return (
 			<div className="create-recipe">
 				<form onSubmit={this.onSubmitForm}>
 					<p className="label">Create your own recipe</p>
+					{!userReducer.recipeImage ? (
+						<div
+							className="user-recipe-img-default"
+							style={{ margin: "0 auto" }}
+						/>
+					) : (
+						<div
+							className="user-recipe-img-custom"
+							style={{ margin: "0 auto" }}
+						>
+							<img src={userReducer.recipeImage} />
+						</div>
+					)}
 					<div className="recipe-form-body">
 						<div className="recipe-name-ingredient-container">
-							<div style={{ marginBottom: 20 }}>
+							<div
+								style={{
+									marginBottom: 20,
+									display: "flex",
+									alignItems: "center"
+								}}
+							>
 								<TextField
 									name="name"
 									hintText={"recipe name"}
@@ -156,7 +199,14 @@ class CreateRecipe extends Component {
 									hintStyle={{ color: "white" }}
 									inputStyle={{ color: "white" }}
 									autoComplete="off"
+									onChange={this.onTextInputName}
 								/>
+								<Dropzone
+									onDrop={this.imageSelected}
+									style={{ border: "none" }}
+								>
+									<i className="fa fa-camera" aria-hidden="true" />
+								</Dropzone>
 							</div>
 
 							<InputToken
@@ -195,6 +245,7 @@ class CreateRecipe extends Component {
 										height: "500px",
 										width: "700px"
 									}}
+									onChange={this.onTextFieldInput}
 								/>
 								<br />
 							</div>

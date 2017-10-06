@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-import muiThemeable from "material-ui/styles/muiThemeable";
-import AppBar from "material-ui/AppBar";
-import IconButton from "material-ui/IconButton";
-import FlatButton from "material-ui/FlatButton";
-import AssignmentIcon from "material-ui/svg-icons/action/assignment";
 
 import * as userActions from "../../actions/user_actions";
 import * as searchActions from "../../actions/search_actions";
@@ -11,11 +6,8 @@ import * as searchActions from "../../actions/search_actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { TextField, IconMenu, MenuItem } from "material-ui";
 import { withRouter, Link } from "react-router-dom";
 import "./Navbar.css";
-
-const URL_SHORT = "http://localhost3001/api/recipes";
 
 const ROUTE_MAP = {
   login: (
@@ -26,15 +18,6 @@ const ROUTE_MAP = {
   register: (
     <Link to="/register" className="non-logo-item" key="register">
       register
-    </Link>
-  ),
-  profile: (
-    <Link
-      to="/profile/user" // TODO: make dynamic
-      className="non-logo-item"
-      key="profile"
-    >
-      profile
     </Link>
   ),
   createRecipe: (
@@ -72,7 +55,7 @@ class Navbar extends Component {
   };
 
   componentDidMount() {
-    this.props.userActions.checkCurrentUser()
+    this.props.userActions.checkCurrentUser();
   }
 
   onClickLogout = async () => {
@@ -95,6 +78,7 @@ class Navbar extends Component {
   };
 
   render() {
+    console.log(this.props.userReducer.user, "who is the user??");
     let navItems = [];
 
     switch (this.props.location.pathname) {
@@ -107,8 +91,17 @@ class Navbar extends Component {
         break;
 
       case "/create_recipe":
+        const showProfile = this.props.userReducer.user && (
+          <Link
+            to={`/profile/${this.props.userReducer.user.username}`}
+            className="non-logo-item"
+            key="profile"
+          >
+            profile
+          </Link>
+        );
         navItems.push(
-          ROUTE_MAP.profile,
+          showProfile,
           <a
             onClick={this.onClickLogout}
             className="non-logo-item"
@@ -121,7 +114,13 @@ class Navbar extends Component {
       default:
         if (this.props.userReducer.user) {
           navItems.push(
-            ROUTE_MAP.profile,
+            <Link
+              to={`/profile/${this.props.userReducer.user.username}`}
+              className="non-logo-item"
+              key="profile"
+            >
+              profile
+            </Link>,
             ROUTE_MAP.createRecipe,
             <a
               onClick={this.onClickLogout}

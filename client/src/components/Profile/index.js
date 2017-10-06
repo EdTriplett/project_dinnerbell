@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
+import Dropzone from "react-dropzone";
 import "./Profile.css";
 import PreferenceSetter from '../PreferenceSetter'
 import { withRouter } from "react-router-dom";
@@ -22,13 +23,41 @@ const Searchbar = () => (
 );
 
 class Profile extends Component {
+	state = {
+		isUpdatingImage: false
+	};
+
+	imageSelected = files => {
+		const image = files[0];
+
+		this.props.userActions.setUserProfileImage(image);
+	};
+
 	render() {
+		const { userReducer } = this.props;
+		const loadUsername =
+			userReducer.user && userReducer.user.username
+				? userReducer.user.username
+				: null;
+
 		return (
 			<div className="profile">
-				<p className="profile-name">Username's Profile page</p>
-				<div className="profile-pic" />
 				
+				<p className="profile-name">{loadUsername}</p>
 				<PreferenceSetter updateUser={this.props.userActions.updateUser} user={this.props.user}/>
+				<Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
+					{userReducer.user && !userReducer.user.profilePicture ? (
+						<div className="profile-pic-default" />
+					) : (
+						<div className="profile-pic-custom">
+							<img src={userReducer.user && userReducer.user.profilePicture} />
+						</div>
+					)}
+				</Dropzone>
+				{this.state.isUpdatingImage && (
+					<a style={{ color: "white", marginTop: "10px" }}>save</a>
+				)}
+>>>>>>> 534e6a23451416008e42ba5efc7582cf9f671fe9
 
 				<div className="user-logs-container">
 					<div className="user-logs-col">
@@ -39,10 +68,11 @@ class Profile extends Component {
 						<Searchbar />
 
 						<div className="user-logs">
-							<a>This is a single log</a>
-							<a>This is a single log</a>
-							<a>This is a single log</a>
-							<a>This is a single log</a>
+							{userReducer.user && userReducer.user.recipes.length ? (
+								userReducer.user.recipes
+							) : (
+								<p>No saved recipes</p>
+							)}
 						</div>
 					</div>
 
@@ -52,7 +82,11 @@ class Profile extends Component {
 						</div>
 						<Searchbar />
 						<div className="user-logs">
-							<a>This is a single log</a>
+							{userReducer.user && userReducer.user.meals.length ? (
+								userReducer.user.recipes
+							) : (
+								<p>No saved meals</p>
+							)}
 						</div>
 					</div>
 
@@ -62,7 +96,7 @@ class Profile extends Component {
 						</div>
 						<Searchbar />
 						<div className="user-logs">
-							<a>This is a single log</a>
+							<p>Activities (Sprint 2)</p>
 						</div>
 					</div>
 				</div>

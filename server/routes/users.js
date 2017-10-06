@@ -6,10 +6,14 @@ const uploadMw = FileUploader.single("photo");
 
 // Authentication Middleware
 const allowed = (req, res, next) => {
-  if (req.isAuthenticated() && req.session.user.id === req.params.id) {
+  if (req.session.user) {
     next();
+  } else {
+    res.json({ error: "unauthorized user action" });
   }
-  res.json({ error: "unauthorized user action" });
+
+  console.log(req.session.user, "?????? req user");
+  console.log(req.isAuthenticated(), "????");
 };
 
 // Route Handlers
@@ -45,7 +49,16 @@ const addPicture = async (req, res) => {
     mimetype: req.file.mimetype
   };
   const picture = await FileUploader.upload(file, req.session.user);
-  req.session.user.update({ profilePicture: picture });
+
+  // req.session.user.update({ profilePicture: picture }); // TODO: fix this
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: req.session.user._id },
+    { $set: { profilePicture: picture.url } },
+    { new: true }
+  );
+
+  req.session.user = updatedUser;
+
   res.json(picture);
 };
 
