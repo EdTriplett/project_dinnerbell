@@ -3,6 +3,7 @@ const uniqueValidator = require("mongoose-unique-validator");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
 const validate = require("validate.js");
+const wrapper = require("../util/errorWrappers").mongooseWrapper;
 
 const UserSchema = new Schema(
   {
@@ -12,17 +13,20 @@ const UserSchema = new Schema(
     googleID: { type: String, unique: true },
     facebookID: { type: String, unique: true },
     passwordHash: { type: String, select: false },
-    recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
+    // recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
     // meals we have created
     meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
     // users we are following
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     public: { type: Boolean, default: true },
-    profilePicture: { type: Schema.Types.ObjectId, ref: "Picture" },
+    image: { type: Schema.Types.ObjectId, ref: "Picture" },
     dietaryRestrictions: [String]
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    virtuals: true
+  }
 );
 
 // Pretty error messages for violated unique constraints
@@ -70,14 +74,10 @@ UserSchema.methods.verifyPassword = function(password) {
 };
 
 // Remove ratings from deleted users
-UserSchema.pre("remove", async function(next) {
-  try {
-    await mongoose.model("Rating").remove({ user: this._id });
-  } catch (error) {
-    console.error(error.stack);
-  }
-  next();
-});
+const removeRatings = async function() {
+  await mongoose.model("Rating").remove({ user: this._id });
+};
+UserSchema.pre("remove", wrapper(removeRatings));
 
 // Populate ALL THE FIELDS
 const populateAll = function(next) {

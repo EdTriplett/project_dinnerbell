@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const wrapper = require("../util/errorWrappers").mongooseWrapper;
 
 const PictureSchema = new Schema(
   {
@@ -13,14 +14,11 @@ const PictureSchema = new Schema(
   { timestamps: true }
 );
 
-PictureSchema.pre("remove", async function(next) {
-  try {
-    mongoose.model("User").update({ user: this._id });
-  } catch (error) {
-    console.error(error.stack);
-  }
-  next();
-});
+// Propagation Hooks
+const propagateToPictured = async function(next) {
+  mongoose.model(this.pictured.kind).update({ user: this._id });
+};
+PictureSchema.pre("save", wrapper(propagateToPictured));
 
 const Picture = mongoose.model("Picture", PictureSchema);
 

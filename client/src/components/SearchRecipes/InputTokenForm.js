@@ -19,6 +19,8 @@ class TokenInput extends Component {
   get selected() {
     const { options, value } = this.props;
 
+    console.log(options, "???");
+
     return options.filter(option => value.indexOf(option.id) > -1);
   }
 
@@ -109,8 +111,7 @@ class TokenInput extends Component {
       name,
       placeholder,
       value,
-      onKeyPress,
-      color
+      onKeyPress
     } = this.props;
     const isMaxLengthReached =
       maxLength !== 0 && value.length !== 0 && maxLength === value.length;
@@ -153,7 +154,7 @@ class TokenInput extends Component {
                 this.options.map(this.renderOption)
               ) : (
                 <div className="text-muted p-1">
-                  Press enter to add custom input
+                  press enter to add custom ingredient
                 </div>
               )}
             </div>
@@ -176,16 +177,10 @@ class TokenInput extends Component {
   };
 
   renderSelectedToken = selected => {
-    const { color } = this.props;
-
     return (
       <div
         key={`token_${selected.id}-${Math.floor(Math.random() * 99)}`}
-        className={
-          color === "blue"
-            ? "ReactTokenInput__token"
-            : "ReactTokenInput__token-orange"
-        }
+        className="ReactTokenInput__token"
       >
         <span className="icon-times" onClick={this.handleRemove(selected.id)}>
           &times;
