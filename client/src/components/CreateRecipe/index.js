@@ -7,125 +7,193 @@ import { withRouter } from "react-router-dom";
 import asyncValidate from "../../services/AsyncValidate";
 import TextField from "material-ui/TextField";
 import CircularProgress from "material-ui/CircularProgress";
-
 import InputToken from "./InputTokenForm";
+
+import serialize from "form-serialize";
 
 import * as userActions from "../../actions/user_actions";
 
 import "./CreateRecipe.css";
 import "./InputTokenForm.css";
 
-const validate = values => {
-	const errors = {};
-	const requiredFields = ["name", "ingredients", "instructions", "serving"];
-	requiredFields.forEach(field => {
-		if (!values[field]) {
-			errors[field] = "Required";
-		}
-	});
-
-	return errors;
-};
-
-const renderTextField = ({
-	input,
-	label,
-	meta: { touched, error },
-	...custom
-}) => (
-	<TextField
-		hintText={label}
-		floatingLabelText={label}
-		errorText={touched && error}
-		{...input}
-		{...custom}
-	/>
-);
-
-const styles = {
-	right: "25px"
-};
-
 class CreateRecipe extends Component {
 	state = {
 		value: 2,
-		tokens: [],
-		options: [
+		ingredientTokens: [],
+		selectedIngredients: [],
+		ingredientsOptions: [
 			{ id: 1, name: "butter", element: <span>butter</span> },
 			{ id: 2, name: "milk", element: <span>milk</span> },
 			{ id: 3, name: "apple", element: <span>apple</span> },
-			{ id: 4, name: "chestnut", element: <span>tum</span> },
-			{ id: 5, name: "nutella", element: <span>tumpok</span> }
+			{ id: 4, name: "chestnut", element: <span>chestnut</span> },
+			{ id: 5, name: "nutella", element: <span>nutella</span> }
+		],
+		preferencesTokens: [],
+		selectedPreferences: [],
+		preferencesOptions: [
+			{ id: 1, name: "low carb", element: <span>low carb</span> },
+			{ id: 2, name: "gluten free", element: <span>gluten free</span> },
+			{ id: 3, name: "paleo", element: <span>paleo</span> },
+			{ id: 4, name: "carnivore", element: <span>carnivore</span> },
+			{ id: 5, name: "vegetarian", element: <span>vegetarian</span> }
 		],
 		isLoading: false
 	};
 
-	handleChange = (event, index, value) => this.setState({ value });
-
-	handleKeyPress = e => {
+	handlePreferencesKeyPress = e => {
 		if (e.key === "Enter") {
-			let optionsLen = this.state.options.length;
-			let newIngredient = {
+			e.stopPropagation();
+			e.preventDefault();
+
+			let optionsLen = this.state.preferencesOptions.length;
+			const newIngredient = {
 				id: ++optionsLen,
 				name: e.target.value,
 				element: <span>{e.target.value}</span>
 			};
 
-			console.log(newIngredient, "what is this?");
+			let preferencesOptions = [
+				...this.state.preferencesOptions,
+				newIngredient
+			];
+			let preferencesTokens = [
+				...this.state.preferencesTokens,
+				newIngredient.id
+			];
 
-			let options = [...this.state.options, newIngredient];
-			console.log(options, "wat this");
-
-			this.setState({
-				options: options
-			});
+			this.setState({ preferencesOptions, preferencesTokens });
 		}
 	};
 
-	selectToken = ({ target: { value: tokens } }) => {
-		this.setState({ tokens });
-		console.log({ tokens });
+	handleIngredientKeyPress = e => {
+		if (e.key === "Enter") {
+			e.stopPropagation();
+			e.preventDefault();
+
+			let optionsLen = this.state.ingredientsOptions.length;
+			const newIngredient = {
+				id: ++optionsLen,
+				name: e.target.value,
+				element: <span>{e.target.value}</span>
+			};
+
+			let ingredientsOptions = [
+				...this.state.ingredientsOptions,
+				newIngredient
+			];
+			let ingredientTokens = [...this.state.ingredientTokens, newIngredient.id];
+
+			this.setState({ ingredientsOptions, ingredientTokens });
+		}
+	};
+
+	selectedPreferencesToken = e => {
+		let tokens = e.target.value;
+		let selectedPreferences = [];
+		let copy = [...tokens];
+		const preferencesIndex = copy.pop();
+		let result = this.state.preferencesOptions.filter(
+			x => x.id === selectedPreferences
+		);
+		if (result.length) {
+			selectedPreferences = [...this.state.selectedPreferences, result[0].name];
+		} else {
+			selectedPreferences.pop();
+		}
+
+		this.setState({ preferencesTokens: tokens, selectedPreferences });
+	};
+
+	selectIngredientToken = e => {
+		let tokens = e.target.value;
+		let selectedIngredients = [];
+		let copy = [...tokens];
+		const ingredientIndex = copy.pop();
+		let result = this.state.ingredientsOptions.filter(
+			x => x.id === ingredientIndex
+		);
+
+		if (result.length) {
+			selectedIngredients = [...this.state.selectedIngredients, result[0].name];
+		} else {
+			selectedIngredients.pop();
+		}
+
+		this.setState({ ingredientTokens: tokens, selectedIngredients });
+	};
+
+	renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+		<TextField
+			hintText={label}
+			floatingLabelText={label}
+			errorText={touched && error}
+			{...input}
+			{...custom}
+		/>
+	);
+
+	onSubmitForm = e => {
+		e.preventDefault();
+		let form = serialize(e.target, { hash: true });
+		console.log(form, "?????");
 	};
 
 	render() {
 		const { handleSubmit, pristine, reset, submitting } = this.props;
-		console.log(pristine, "what is this?");
+		console.log(this.state, "selected ingredients");
 		return (
 			<div className="create-recipe">
-				<form>
+				<form onSubmit={this.onSubmitForm}>
 					<p className="label">Create your own recipe</p>
 					<div className="recipe-form-body">
-						<div>
-							<Field
-								autoComplete="off"
-								className="material-field"
-								name="name"
-								component={renderTextField}
-								label="name"
-								required="required"
+						<div className="recipe-name-ingredient-container">
+							<div style={{ marginBottom: 20 }}>
+								<TextField
+									name="name"
+									hintText={"recipe name"}
+									floatingLabelText={"name of your recipe"}
+									floatingLabelStyle={{ color: "white" }}
+									hintStyle={{ color: "white" }}
+									inputStyle={{ color: "white" }}
+									autoComplete="off"
+								/>
+							</div>
+
+							<InputToken
+								name="ingredients"
+								isLoading={this.state.isLoading}
+								value={this.state.ingredientTokens}
+								placeholder="pick ingredient"
+								options={this.state.ingredientsOptions}
+								onSelect={this.selectIngredientToken}
+								onKeyPress={this.handleIngredientKeyPress}
+								color="blue"
+							/>
+							<InputToken
+								name="preferences"
+								isLoading={this.state.isLoading}
+								value={this.state.preferencesTokens}
+								placeholder="pick preferences"
+								options={this.state.preferencesOptions}
+								onSelect={this.selectedPreferencesToken}
+								onKeyPress={this.handlePreferencesKeyPress}
+								color="orange"
 							/>
 						</div>
-						<InputToken
-							name="ingredients"
-							isLoading={this.state.isLoading}
-							value={this.state.tokens}
-							placeholder="pick ingredient"
-							options={this.state.options}
-							onSelect={this.selectToken}
-							onKeyPress={this.handleKeyPress}
-						/>
+
 						<div className="wrapper">
 							<div className="paper">
 								<textarea
-									placeholder="Explain the steps needed to get the delicious creation :)"
+									placeholder="explain the steps needed to get the delicious creation :)"
 									className="text"
-									name="text"
+									name="instructions"
 									rows="4"
 									style={{
-										overflow: "hidden",
+										overflow: "scroll",
 										wordWrap: "break-word",
 										resize: "none",
-										height: "400px"
+										height: "500px",
+										width: "700px"
 									}}
 								/>
 								<br />
@@ -134,22 +202,13 @@ class CreateRecipe extends Component {
 					</div>
 
 					<div className="recipe-login-buttons">
-						<button type="submit" disabled={pristine || submitting}>
-							submit
-						</button>
+						<button type="submit">submit</button>
 						<button
 							onClick={() => {
-								this.props.history.push("/");
+								this.props.history.goBack;
 							}}
 						>
-							back
-						</button>
-						<button
-							type="button"
-							disabled={pristine || submitting}
-							onClick={reset}
-						>
-							clear
+							cancel
 						</button>
 					</div>
 				</form>
@@ -164,10 +223,6 @@ const mapDispatchToProps = dispatch => ({
 	userActions: bindActionCreators(userActions, dispatch)
 });
 
-CreateRecipe = connect(mapStateToProps, mapDispatchToProps)(CreateRecipe);
-
-export default reduxForm({
-	form: "CreateRecipeForm",
-	validate,
-	asyncValidate
-})(withRouter(CreateRecipe));
+export default withRouter(
+	connect(mapStateToProps, mapDispatchToProps)(CreateRecipe)
+);

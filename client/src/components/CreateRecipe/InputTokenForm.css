@@ -4,13 +4,13 @@
   align-items: center;
   position: relative;
   justify-content: flex-start;
-  padding: 0.5rem 0;
-  max-width: 258px;
+  max-width: 700px;
   margin: 0 0 1rem;
   border-bottom: none;
 }
 
 .ReactTokenInput__loading-label {
+  font-family: "Open Sans", sans-serif;
   display: block;
   padding: 5px 0;
   color: #ccc;
@@ -19,6 +19,7 @@
 }
 
 .ReactTokenInput__token {
+  font-family: "Open Sans", sans-serif;
   border-radius: 3px;
   background: #14b3ff;
   color: #fff !important;
@@ -28,6 +29,25 @@
   padding: 2px 10px;
   border-radius: 10px;
 }
+
+.ReactTokenInput__token-orange {
+  font-family: "Open Sans", sans-serif;
+  border-radius: 3px;
+  background: #e14c31;
+  color: #fff !important;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 5px 5px 5px 0;
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+
+.ReactTokenInput__token-orange .icon-times {
+  cursor: pointer;
+  margin: 0 3px;
+  font-size: 1.2em;
+}
+
 .ReactTokenInput__token .icon-times {
   cursor: pointer;
   margin: 0 3px;
@@ -39,7 +59,8 @@
 }
 
 .ReactTokenInput__input {
-  width: 68%;
+  width: 100%;
+  text-align: center;
   height: calc(2em + 3px);
   border: 0;
   padding: 10px;
@@ -47,16 +68,20 @@
 }
 
 .ReactTokenInput__options-list {
+  font-family: "Open Sans", sans-serif;
   display: none;
   position: absolute;
   top: 100%;
   background-color: #fff;
   left: 0;
-  width: 100%;
+  width: 200px;
   z-index: 1;
   max-height: 150px;
   overflow: scroll;
   border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  padding-left: 18px;
 }
 .ReactTokenInput--open .ReactTokenInput__options-list {
   display: block;
