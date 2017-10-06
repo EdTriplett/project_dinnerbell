@@ -22,19 +22,20 @@ import StarRatingComponent from "react-star-rating-component";
 
 class SearchRecipes extends Component {
   state = {
-    sortFilter: null,
-    sortValue: 1,
-    dietaryFilter: null,
-    dietaryValue: 1,
+    // sortFilter: null,
+    // sortValue: 1,
+    // dietaryFilter: null,
+    // dietaryValue: 1,
     recipes: [],
-    value: 1,
-    tokens: [],
-    options: [
-      { id: 1, name: "butter", element: <span>butter</span> },
-      { id: 2, name: "milk", element: <span>milk</span> },
-      { id: 3, name: "apple", element: <span>apple</span> },
-      { id: 4, name: "chestnut", element: <span>chestnut</span> },
-      { id: 5, name: "nutella", element: <span>nutella</span> }
+    // healthValue: 1,
+    healthTokens: [],
+    healthOptions: [
+      { id: 1, name: "vegan", element: <span>vegan</span> }
+      // { id: 2, name: "vegetarian", element: <span>vegetarian</span> },
+      // { id: 3, name: "sugar-conscious", element: <span>sugar-conscious</span> },
+      // { id: 4, name: "peanut-free", element: <span>peanut-free</span> },
+      // { id: 5, name: "tree-nut-free", element: <span>tree-nut-free</span> },
+      // { id: 5, name: "alcohol-free", element: <span>alcohol-free</span> }
     ]
   };
 
@@ -55,17 +56,16 @@ class SearchRecipes extends Component {
 
   // handleChange = (event, index, value) => this.setState({ value });
 
-  selectToken = ({ target: { value: tokens } }) => {
-    this.setState({ tokens });
-    console.log({ tokens });
+  selectHealthToken = ({ target: { value: healthTokens } }) => {
+    this.setState({ healthTokens });
   };
 
   renderInputToken = () =>
     <InputToken
-      name="filters"
-      value={this.state.tokens}
-      placeholder="pick filter"
-      options={this.state.options}
+      name="healthFilters"
+      value={this.state.healthTokens}
+      placeholder="pick health option"
+      options={this.state.healthOptions}
       onSelect={this.selectToken}
     />;
 
