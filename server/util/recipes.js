@@ -3,7 +3,7 @@ const ID = process.env.EDAMAM_ID;
 const KEY = process.env.EDAMAM_KEY;
 
 const buildRecipeURL = params =>
-  `${BASE}?app_id=${ID}&app_key=${KEY}&${params.join("&")}`;
+  `${BASE}?app_id=${ID}&app_key=${KEY}&${params.join("&")}&to=30`;
 
 const DIET = new Set(["balanced", "high-protein", "low-fat", "low-carb"]);
 const HEALTH = new Set([
