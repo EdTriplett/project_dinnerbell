@@ -18,5 +18,15 @@ export default {
 			.send(params);
 
 		return response.body;
+	},
+
+	patchRequest: async (path, params) => {
+		const response = await superagent
+			.patch(path)
+			.set('Accept', 'application/json')
+			.send(params);
 	}
+
 };
+
+

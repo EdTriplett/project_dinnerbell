@@ -76,3 +76,16 @@ export const logoutUser = data => async dispatch => {
     dispatch(setUserError(e.message));
   }
 };
+
+export const updateUser = dataObj =>
+  async dispatch => {
+    try{
+      dispatch(setUserLoading(true));
+      const payload = await AsyncManager.patchRequest(`/user/${dataObj.id}`);
+      if (payload && payload.errors) throw new Error(payload.errors[0]);
+      dispatch(setCurrentUser(payload));
+      dispatch(setUserLoading(false));
+    } catch (e) {
+      dispatch(setUserError(e.message));
+    }
+  }
