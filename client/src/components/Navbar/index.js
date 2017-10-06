@@ -1,9 +1,4 @@
 import React, { Component } from "react";
-import muiThemeable from "material-ui/styles/muiThemeable";
-import AppBar from "material-ui/AppBar";
-import IconButton from "material-ui/IconButton";
-import FlatButton from "material-ui/FlatButton";
-import AssignmentIcon from "material-ui/svg-icons/action/assignment";
 
 import * as userActions from "../../actions/user_actions";
 import * as searchActions from "../../actions/search_actions";
@@ -11,11 +6,8 @@ import * as searchActions from "../../actions/search_actions";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { TextField, IconMenu, MenuItem } from "material-ui";
 import { withRouter, Link } from "react-router-dom";
 import "./Navbar.css";
-
-const URL_SHORT = "http://localhost3001/api/recipes";
 
 const ROUTE_MAP = {
   login: (

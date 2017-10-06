@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Field, reduxForm } from "redux-form";
 import { withRouter } from "react-router-dom";
 
-import asyncValidate from "../../services/AsyncValidate";
 import TextField from "material-ui/TextField";
 import CircularProgress from "material-ui/CircularProgress";
 import InputToken from "./InputTokenForm";
@@ -14,7 +12,6 @@ import serialize from "form-serialize";
 import * as userActions from "../../actions/user_actions";
 
 import Dropzone from "react-dropzone";
-import sha1 from "sha1";
 import AsyncManager from "../../services/AsyncManager";
 
 import "./CreateRecipe.css";
@@ -98,7 +95,7 @@ class CreateRecipe extends Component {
 		let tokens = e.target.value;
 		let selectedPreferences = [];
 		let copy = [...tokens];
-		const preferencesIndex = copy.pop();
+		copy.pop();
 		let result = this.state.preferencesOptions.filter(
 			x => x.id === selectedPreferences
 		);
@@ -166,13 +163,7 @@ class CreateRecipe extends Component {
 	};
 
 	render() {
-		const {
-			handleSubmit,
-			pristine,
-			reset,
-			submitting,
-			userReducer
-		} = this.props;
+		const { userReducer } = this.props;
 		console.log(this.state, "selected ingredients");
 		return (
 			<div className="create-recipe">

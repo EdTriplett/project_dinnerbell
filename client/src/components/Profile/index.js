@@ -3,8 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import Dropzone from "react-dropzone";
-import sha1 from "sha1";
-import AsyncManager from "../../services/AsyncManager";
 import "./Profile.css";
 
 const Searchbar = () => (
@@ -34,7 +32,7 @@ class Profile extends Component {
 	};
 
 	render() {
-		const { userReducer, userActions } = this.props;
+		const { userReducer } = this.props;
 		const loadUsername =
 			userReducer.user && userReducer.user.username
 				? userReducer.user.username
