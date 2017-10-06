@@ -25,13 +25,21 @@ const localHandler = async (req, email, password, done) => {
 
 const googleHandler = async (req, accessToken, refreshToken, profile, done) => {
   try {
-    let user = await User.findOne({ googleID: profile.id });
+    let user = req.session.user;
+    if (user) {
+      user = await User.findOne({
+        _id: user.id
+      })
+      .update({
+        googleID: profile.id
+      }, {new:true})
+    } 
+    user = await User.findOne({ googleID: profile.id });
     if (!user) {
       user = await User.create({
-        googleID: profile.id
+          googleID: profile.id
       });
     }
-
     req.session.user = user;
     done(null, user);
   } catch (error) {
@@ -48,13 +56,21 @@ const facebookHandler = async (
   done
 ) => {
   try {
-    let user = await User.findOne({ facebookID: profile.id });
-    if (!user) {
-      user = await User.create({
+    let user = req.session.user;
+    if (user) {
+      user = await User.findOne({
+        _id: user.id
+      })
+      .update({
         facebookID: profile.id
+      }, {new:true})
+    }
+    user = await User.findOne({ facebookID: profile.id });
+    if (!user) {
+    user = await User.create({
+      facebookID: profile.id
       });
     }
-
     req.session.user = user;
     done(null, user);
   } catch (error) {
