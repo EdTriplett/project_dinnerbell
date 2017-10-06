@@ -41,8 +41,8 @@ const auth = passport => {
   });
 
   const register = async (req, res) => {
-    const { username, password, email } = req.body;
-    const user = await User.createLocalUser({ username, email, password });
+    const { password, email } = req.body;
+    const user = await User.createLocalUser({ email, password });
     if (!user.errors) {
       req.session.user = user;
     }
