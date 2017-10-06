@@ -22,12 +22,23 @@ export const setSearchQuery = query => {
   };
 };
 
-export const requestSearch = query => async dispatch => {
+export const setSearchPreferences = preferences => {
+  return {
+    type: searchConstants.SET_SEARCH_PREFERENCES,
+    payload: preferences
+  };
+};
+
+export const requestSearch = (query, preferences) => async dispatch => {
   try {
+    query = (typeof query).toLowerCase() === "string" ? query : "";
+    preferences = Array.isArray(preferences) ? preferences : [];
     dispatch(setSearchLoading(true));
-    const payload = await AsyncManager.getRequest(
-      `${searchConstants.BASE_URL}/recipes?q=${query}`
-    );
+    const url = `${searchConstants.BASE_URL}/recipes?q=${query}&preferences=${preferences.join(
+      ","
+    )}`;
+    console.log("url: ", url);
+    const payload = await AsyncManager.getRequest(url);
     dispatch(successSearchRequest(payload));
     dispatch(setSearchLoading(false));
   } catch (error) {

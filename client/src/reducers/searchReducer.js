@@ -3,6 +3,7 @@ import searchConstants from "../constants/search_constants";
 const initialState = {
   isSearching: false,
   query: "",
+  preferences: [],
   results: null
 };
 
@@ -12,6 +13,11 @@ export default (state = initialState, action = {}) => {
   switch (action.type) {
     case searchConstants.SET_SEARCH_QUERY:
       updated.query = action.payload;
+
+      return updated;
+
+    case searchConstants.SET_SEARCH_PREFERENCES:
+      updated.preferences = action.payload;
 
       return updated;
 

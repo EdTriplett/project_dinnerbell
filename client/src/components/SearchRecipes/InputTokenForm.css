@@ -22,7 +22,6 @@
 .ReactTokenInput__token {
   font-family: "Open Sans", sans-serif;
   border-radius: 3px;
-  background: #14b3ff;
   color: #fff !important;
   font-size: 12px;
   line-height: 1.5;
@@ -30,6 +29,15 @@
   padding: 2px 10px;
   border-radius: 10px;
 }
+
+.health-filter-instance {
+  background: #14b3ff;
+}
+
+.diet-filter-instance {
+  background: #f44336 !important;
+}
+
 .ReactTokenInput__token .icon-times {
   cursor: pointer;
   margin: 0 3px;

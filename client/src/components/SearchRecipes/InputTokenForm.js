@@ -4,16 +4,16 @@ import _without from "lodash/without";
 import classNames from "classnames";
 
 class TokenInput extends Component {
+  state = {
+    filter: "",
+    isOpen: false
+  };
+
   static defaultProps = {
     maxLength: 0,
     options: [],
     placeholder: "Choose option",
     value: []
-  };
-
-  state = {
-    filter: "",
-    isOpen: false
   };
 
   get selected() {
@@ -128,7 +128,7 @@ class TokenInput extends Component {
         })}
       >
         {this.selected.map(this.renderSelectedToken)}
-        {!isMaxLengthReached && (
+        {!isMaxLengthReached &&
           <div className="ReactTokenInput__input-col">
             <input
               autoComplete="off"
@@ -145,21 +145,17 @@ class TokenInput extends Component {
             />
             <div className="ReactTokenInput__options-list">
               {isLoading &&
-                (loaderElement || (
+                (loaderElement ||
                   <span className="ReactTokenInput__loading-label">
                     Loading...
-                  </span>
-                ))}
-              {this.options.length ? (
-                this.options.map(this.renderOption)
-              ) : (
-                <div className="text-muted p-1">
-                  press enter to add custom ingredient
-                </div>
-              )}
+                  </span>)}
+              {this.options.length
+                ? this.options.map(this.renderOption)
+                : <div className="text-muted p-1">
+                    press enter to add custom ingredient
+                  </div>}
             </div>
-          </div>
-        )}
+          </div>}
       </div>
     );
   }
@@ -180,7 +176,7 @@ class TokenInput extends Component {
     return (
       <div
         key={`token_${selected.id}-${Math.floor(Math.random() * 99)}`}
-        className="ReactTokenInput__token"
+        className={`ReactTokenInput__token ${this.props.name}-filter-instance`}
       >
         <span className="icon-times" onClick={this.handleRemove(selected.id)}>
           &times;
