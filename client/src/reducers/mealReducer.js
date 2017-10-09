@@ -1,7 +1,8 @@
 import mealConstants from "../constants/meal_constants";
 
 const initialState = {
-  meal: null
+  meal: null,
+  mealPicture: ''
 };
 
 const mealReducer = (state = initialState, action) => {
@@ -11,6 +12,12 @@ const mealReducer = (state = initialState, action) => {
         ...state,
         meal: action.payload
       };
+
+    case mealConstants.SET_MEAL_IMAGE:
+      return { ...state.meal, 
+        mealPicture: action.payload 
+      };
+
     default:
       return state;
   }

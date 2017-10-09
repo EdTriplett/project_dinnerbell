@@ -16,7 +16,7 @@ const wrapper = require("../util/errorWrappers").mongooseWrapper;
 const RecipeSchema = new Schema(
   {
     kind: String,
-    name: String,
+    name: { type: String, index: true },
     ingredients: [String],
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     preferences: [String],
