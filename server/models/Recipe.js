@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const sanitizer = require("../util/sparseSanitize")([
+  "edamamId",
   "name",
   "ingredients",
   "preferences",
@@ -15,10 +16,10 @@ const wrapper = require("../util/errorWrappers").mongooseWrapper;
 
 const RecipeSchema = new Schema(
   {
+    edamamId: { type: String, required: true, unique: true },
     kind: String,
     name: { type: String, index: true },
     ingredients: [String],
-    owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     preferences: [String],
     uri: String,
     url: String,
@@ -26,7 +27,7 @@ const RecipeSchema = new Schema(
     digest: [Object],
     calories: Number,
     serves: Number,
-    image: { type: Schema.Types.ObjectId, ref: "Picture" },
+    image: { type: String, default: null },
     recipePicture: { type: String, default: null },
     wordList: String,
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }]
@@ -45,6 +46,7 @@ RecipeSchema.statics.sparseUpdate = async function(id, newProps) {
 
 RecipeSchema.statics.sparseCreate = async function(newProps) {
   const props = sanitizer(newProps);
+  console.log("new recipe: ", props);
   return await this.create(props);
 };
 

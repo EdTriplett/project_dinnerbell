@@ -1,5 +1,6 @@
 import userConstants from "../../constants/user_constants";
 import AsyncManager from "../../services/AsyncManager";
+// import {findOrCreateRecipe} from ".."
 
 export function setUserLoading(bool) {
   return {
@@ -125,3 +126,8 @@ export const getUsers = () => async dispatch => {
     console.log(err);
   }
 };
+// export const addRecipe = recipe => async dispatch => {
+//   try {
+//
+//   }
+// }

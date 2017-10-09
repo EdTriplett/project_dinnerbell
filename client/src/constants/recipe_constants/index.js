@@ -1,4 +1,7 @@
 export default {
   FORK_RECIPE: "FORK_RECIPE",
-  base_url: "http://localhost/api/"
+  base_url: "http://localhost/api/",
+  SET_RECIPE_LOADING: "SET_RECIPE_LOADING",
+  SET_RECIPE_ERROR: "SET_RECIPE_ERROR",
+  SUCCESS_FIND_OR_CREATE_RECIPE: "SUCCESS_FIND_OR_CREATE_RECIPE"
 };

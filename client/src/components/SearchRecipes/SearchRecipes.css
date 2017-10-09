@@ -124,3 +124,23 @@
   align-items: center;
   justify-content: center !important;
 }
+
+.rating-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  -ms-align-items: center;
+  align-items: center;
+}
+
+.rating-users {
+  margin: 0px;
+  padding: 0px;
+  padding-left: calc(0.1em + 1vw);
+  font-size: calc(0.08em + 0.8vw) !important;
+  color: black;
+}
+
+.link-container {
+  text-decoration: none !important;
+}
