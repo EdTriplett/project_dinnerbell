@@ -57,7 +57,7 @@ UserSchema.statics.createLocalUser = async function(fields) {
 };
 
 // Update and return a user, or an error object if any constraints are violated
-UserSchema.methods.updateUser = async function(fields) {
+UserSchema.statics.updateUser = async function(fields) {
   const results = Object.entries(fields).map((field, value) => {
     if (constraints[field]) {
       return validate.single(value, constraints[field]);

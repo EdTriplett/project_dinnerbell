@@ -96,7 +96,7 @@ export const updateUser = dataObj =>
     try{
       console.log("dataObj = ", dataObj)
       dispatch(setUserLoading(true));
-      const payload = await AsyncManager.patchRequest(`/user/${this.props.userReducer.user._id}`);
+      const payload = await AsyncManager.patchRequest(`/api/users/${dataObj._id}`);
       if (payload && payload.errors) throw new Error(payload.errors[0]);
       dispatch(setCurrentUser(payload));
       dispatch(setUserLoading(false));

@@ -27,6 +27,7 @@ const getUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+  console.log('Updating user from route')
   const { user } = req.body;
   const updated = await req.session.user.updateUser(user);
   if (!updated.errors) {

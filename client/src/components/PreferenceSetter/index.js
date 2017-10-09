@@ -41,7 +41,6 @@ class PreferenceSetter extends Component {
 
   createCheckbox = label => {
     const user = this.props.userReducer.user
-
     return (
     <Checkbox
       label={label}
@@ -50,8 +49,6 @@ class PreferenceSetter extends Component {
     />
     );
   }
-    
-
 
   render() {
     return (

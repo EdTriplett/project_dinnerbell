@@ -30,6 +30,7 @@
     "react-super-select": "^1.0.7",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
     "redux-form": "^7.0.4",
     "redux-thunk": "^2.2.0",
     "sha1": "^1.1.1",

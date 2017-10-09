@@ -44,6 +44,7 @@ const auth = passport => {
     const { password, email } = req.body;
     const user = await User.createLocalUser({ email, password });
     if (!user.errors) {
+      console.log(user)
       req.session.user = user;
     }
     res.json(user);
