@@ -31,28 +31,36 @@ class PreferenceSetter extends Component {
     this.state = allPreferences.reduce(buildCheckboxes, {});
   }
 
+  populatePreferences = user => {
+    const checkboxes = { ...this.state };
+    if (user && Array.isArray(user.dietaryRestrictions)) {
+      user.dietaryRestrictions.forEach(restriction => {
+        if (allPreferences.includes(restriction)) {
+          checkboxes[restriction] = true;
+        }
+      });
+      this.setState(checkboxes);
+    }
+  };
+
   componentWillReceiveProps = nextProps => {
     if (
       this.props.userReducer.user === null &&
       nextProps.userReducer.user !== null
     ) {
-      const user = nextProps.userReducer.user;
-      const checkboxes = { ...this.state };
-      if (user && Array.isArray(user.dietaryRestrictions)) {
-        user.dietaryRestrictions.forEach(restriction => {
-          if (allPreferences.includes(restriction)) {
-            checkboxes[restriction] = true;
-          }
-        });
-        this.setState(checkboxes);
-      }
+      this.populatePreferences(nextProps.userReducer.user);
+    }
+  };
+
+  componentDidMount = () => {
+    if (this.props.userReducer.user) {
+      this.populatePreferences(this.props.userReducer.user);
     }
   };
 
   onCheck = preference => () => {
     this.setState({ ...this.state, [preference]: !this.state[preference] });
   };
-
 
   buildCheckbox = label => (
     <Checkbox
@@ -79,21 +87,19 @@ class PreferenceSetter extends Component {
   render() {
     return (
       <div className="preference-setter">
-          Select your dietary requirements:
-            <form onSubmit={this.handleFormSubmit}>
-              {allPreferences.map(pref => this.buildCheckbox(pref))}
+        Select your dietary requirements:
+        <form onSubmit={this.handleFormSubmit}>
+          {allPreferences.map(pref => this.buildCheckbox(pref))}
 
-              <FlatButton
-                primary
-                backgroundColor="#fff"
-                hoverColor="#aaa"
-                onClick={this.handleFormSubmit}
-              >
-                Save
-              </FlatButton>
-            </form>
-
-
+          <FlatButton
+            primary
+            backgroundColor="#fff"
+            hoverColor="#aaa"
+            onClick={this.handleFormSubmit}
+          >
+            Save
+          </FlatButton>
+        </form>
       </div>
     );
   }
