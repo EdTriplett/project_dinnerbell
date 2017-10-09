@@ -93,7 +93,6 @@ export const logoutUser = data => async dispatch => {
   }
 };
 
-
 export const updateUser = dataObj => async dispatch => {
   try {
     dispatch(setUserLoading(true));
@@ -112,11 +111,11 @@ export const updateUser = dataObj => async dispatch => {
 export const setUserProfileImage = file => async dispatch => {
   try {
     const response = await AsyncManager.uploadFile("/api/users/picture", file);
-    dispatch(setUserImage(response.url));
+    dispatch(setUserImage(response));
   } catch (e) {
     dispatch(setUserError(e.message));
   }
-}
+};
 
 export const getUsers = () => async dispatch => {
   try {

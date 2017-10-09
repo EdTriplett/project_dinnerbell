@@ -30,9 +30,8 @@ export default (state = initialState, action = {}) => {
 
       return updated;
 
-
     case userConstants.SET_USER_IMAGE:
-      updated.profileImage = action.payload;
+      updated.user = { ...state.user, profilePicture: action.payload };
       return updated;
 
     case userConstants.SET_USER_RECIPE_IMAGE:

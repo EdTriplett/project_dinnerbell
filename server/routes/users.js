@@ -26,7 +26,7 @@ const getUser = async (req, res) => {
 const updateUser = async (req, res) => {
   const user = req.body;
   const updated = await User.updateUser(user, req.session.user._id);
-  console.log('updated = ', updated)
+  console.log("updated = ", updated);
   if (!updated.errors) {
     req.session.user = updated;
   }
@@ -61,7 +61,7 @@ const addPicture = async (req, res) => {
 
   req.session.user = updatedUser;
 
-  res.json(picture);
+  res.json(picture.url);
 };
 
 const removePicture = async (req, res) => {
