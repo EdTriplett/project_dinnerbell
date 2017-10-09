@@ -34,5 +34,3 @@ export const getMeal = id => async dispatch => {
     console.log(err);
   }
 };
-
-

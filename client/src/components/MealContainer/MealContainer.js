@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getMeal } from "../../actions/meal_actions";
+import Meal from "./Meal";
 
 class MealContainer extends Component {
   componentDidMount() {
@@ -11,9 +12,8 @@ class MealContainer extends Component {
   }
 
   render() {
-    console.log(this.props);
-    const mealId = this.props.match.params.id;
-    return <div>mealcontainer</div>;
+    console.log(this.props.meal);
+    return <Meal meal={this.props.meal} />;
   }
 }
 

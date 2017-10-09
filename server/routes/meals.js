@@ -18,7 +18,8 @@ const getMeals = async (req, res) => {
 };
 
 const getMeal = async (req, res) => {
-  res.json({ warning: "not implemented" });
+  const meal = await Meal.find({ id: req.params.id });
+  res.json({ meal });
 };
 
 const updateMeal = async (req, res) => {
@@ -26,7 +27,8 @@ const updateMeal = async (req, res) => {
 };
 
 const removeMeal = async (req, res) => {
-  res.json({ warning: "not implemented" });
+  const meal = await Meal.remove({ id: params.id });
+  res.json(meal);
 };
 
 const addPicture = async (req, res) => {
