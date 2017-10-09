@@ -56,10 +56,10 @@ class Landing extends Component {
       !this.props.userReducer.user && this.state.finishedLoading ? (
         <div className="oauth-landing">
           <a href="/auth/facebook">
-            <img src="https://imgur.com/Hw9YUrJ.png" />
+            <img src="https://imgur.com/Hw9YUrJ.png" alt="" />
           </a>
           <a href="/auth/google">
-            <img src="https://i.imgur.com/ETp8DOT.png" />
+            <img src="https://i.imgur.com/ETp8DOT.png" alt="" />
           </a>
         </div>
       ) : null;

@@ -7,10 +7,6 @@ import { withRouter } from "react-router-dom";
 
 import "./LoginForm.css";
 
-const style = {
-  color: "white"
-};
-
 const validate = values => {
   const errors = {};
   const requiredFields = ["username", "email", "password"];
@@ -34,8 +30,8 @@ const validate = values => {
 
 class LoginForm extends Component {
   onSubmit = () => {
-    const { loginUser, formData, history, setUserError } = this.props;
-    const { username, password, email } = formData.LoginForm.values;
+    const { loginUser, formData, setUserError } = this.props;
+    const { password, email } = formData.LoginForm.values;
 
     console.log(email, password, "FIELD VALUES");
 
@@ -70,10 +66,10 @@ class LoginForm extends Component {
     const authOptions = !userReducer.user ? (
       <div className="oauth">
         <a href="/auth/facebook">
-          <img src="https://imgur.com/Hw9YUrJ.png" />
+          <img src="https://imgur.com/Hw9YUrJ.png" alt="" />
         </a>
         <a href="/auth/google">
-          <img src="https://i.imgur.com/ETp8DOT.png" />
+          <img src="https://i.imgur.com/ETp8DOT.png" alt="" />
         </a>
       </div>
     ) : null;

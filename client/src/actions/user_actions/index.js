@@ -9,14 +9,9 @@ export function setUserLoading(bool) {
 }
 
 export function setCurrentUser(user) {
-  // if (user.errors) {
-  //   return setUserError(user.errors[0]);
-  // }
-
   return {
     type: userConstants.SET_CURRENT_USER,
-    payload: user,
-    userError: null
+    payload: user
   };
 }
 
@@ -91,19 +86,20 @@ export const logoutUser = data => async dispatch => {
   }
 };
 
-export const updateUser = dataObj =>
-  async dispatch => {
-    try{
-      console.log("dataObj = ", dataObj)
-      dispatch(setUserLoading(true));
-      const payload = await AsyncManager.patchRequest(`/user/${this.props.userReducer.user._id}`);
-      if (payload && payload.errors) throw new Error(payload.errors[0]);
-      dispatch(setCurrentUser(payload));
-      dispatch(setUserLoading(false));
-    } catch (e) {
-      dispatch(setUserError(e.message));
-    }
+export const updateUser = dataObj => async dispatch => {
+  try {
+    dispatch(setUserLoading(true));
+    const payload = await AsyncManager.patchRequest(
+      `/api/users/${dataObj._id}`,
+      dataObj
+    );
+    if (payload && payload.errors) throw new Error(payload.errors[0]);
+    if (payload && payload.error) throw new Error(payload.error);
+    dispatch(setCurrentUser(payload));
+  } catch (e) {
+    dispatch(setUserError(e.message));
   }
+};
 
 export const setUserProfileImage = file => async dispatch => {
   try {

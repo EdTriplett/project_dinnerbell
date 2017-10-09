@@ -1,62 +1,58 @@
 import superagent from "superagent";
-import _ from "lodash";
 
 export default {
-	getRequest: async (path, params) => {
-		const response = await superagent
-			.get(path)
-			.set("Accept", "application/json")
-			.query(params);
+  getRequest: async (path, params) => {
+    const response = await superagent
+      .get(path)
+      .set("Accept", "application/json")
+      .query(params);
 
-		return response.body;
-	},
+    return response.body;
+  },
 
-	postRequest: async (path, params) => {
-		const response = await superagent
-			.post(path)
-			.set("Accept", "application/json")
-			.send(params);
+  postRequest: async (path, params) => {
+    const response = await superagent
+      .post(path)
+      .set("Accept", "application/json")
+      .send(params);
 
-		return response.body;
-	},
+    return response.body;
+  },
 
-	patchRequest: async (path, params) => {
-		console.log("making patch request")
-		const response = await superagent
-			.patch(path)
-			.set('Accept', 'application/json')
-			.send(params);
-			console.log("response = ", response)
-		return response.body;
-	},
-	
-	uploadFile: (url, file, params) => {
-		return new Promise((resolve, reject) => {
-			let uploadRequest = superagent.post(url);
-			uploadRequest.attach("photo", file);
-			console.log(uploadRequest, "uploadRequest???");
+  patchRequest: async (path, params) => {
+    console.log("making patch request");
+    const response = await superagent
+      .patch(path)
+      .set("Accept", "application/json")
+      .send(params);
+    console.log("response = ", response);
+    return response.body;
+  },
 
-			if (params) {
-				Object.keys(params).forEach(key => {
-					uploadRequest.field(key, params[key]);
-				});
-			}
+  uploadFile: (url, file, params) => {
+    return new Promise((resolve, reject) => {
+      let uploadRequest = superagent.post(url);
+      uploadRequest.attach("photo", file);
+      console.log(uploadRequest, "uploadRequest???");
 
-			uploadRequest.end((err, response) => {
-				if (err) {
-					reject(err);
-					return;
-				}
+      if (params) {
+        Object.keys(params).forEach(key => {
+          uploadRequest.field(key, params[key]);
+        });
+      }
 
-				const uploaded = response.body;
+      uploadRequest.end((err, response) => {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-				console.log(uploaded, "uploaded file is here");
+        const uploaded = response.body;
 
-				resolve(uploaded);
-			});
-		});
-	}
+        console.log(uploaded, "uploaded file is here");
 
+        resolve(uploaded);
+      });
+    });
+  }
 };
-
-

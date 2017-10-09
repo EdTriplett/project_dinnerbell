@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import _uniq from "lodash/uniq";
 import _without from "lodash/without";
 import classNames from "classnames";
@@ -128,7 +128,7 @@ class TokenInput extends Component {
         })}
       >
         {this.selected.map(this.renderSelectedToken)}
-        {!isMaxLengthReached &&
+        {!isMaxLengthReached && (
           <div className="ReactTokenInput__input-col">
             <input
               autoComplete="off"
@@ -145,17 +145,21 @@ class TokenInput extends Component {
             />
             <div className="ReactTokenInput__options-list">
               {isLoading &&
-                (loaderElement ||
+                (loaderElement || (
                   <span className="ReactTokenInput__loading-label">
                     Loading...
-                  </span>)}
-              {this.options.length
-                ? this.options.map(this.renderOption)
-                : <div className="text-muted p-1">
-                    press enter to add custom ingredient
-                  </div>}
+                  </span>
+                ))}
+              {this.options.length ? (
+                this.options.map(this.renderOption)
+              ) : (
+                <div className="text-muted p-1">
+                  press enter to add custom ingredient
+                </div>
+              )}
             </div>
-          </div>}
+          </div>
+        )}
       </div>
     );
   }
