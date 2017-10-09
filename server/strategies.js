@@ -3,7 +3,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const faker = require("faker");
+const buildUsername = require('./util/buildUsername')
 const User = require("./models/User");
 
 const localHandler = async (req, email, password, done) => {
@@ -37,16 +37,9 @@ const googleHandler = async (req, accessToken, refreshToken, profile, done) => {
     } 
     user = await User.findOne({ googleID: profile.id });
     if (!user) {
-      const randomColor = upCaseFirst(faker.commerce.color());
-      const randomAdjOne = upCaseFirst(faker.commerce.productAdjective());
-      const randomAdjTwo = upCaseFirst(faker.hacker.adjective());
-      const randomNounOne = upCaseFirst(faker.company.catchPhraseNoun());
-      const randomNounTwo = upCaseFirst(faker.hacker.noun());
-      
-
       user = await User.create({
           googleID: profile.id,
-          username: randomColor + randomAdjOne + randomAdjTwo + randomNounOne + randomNounTwo
+          username: buildUsername()
       });
     }
 
@@ -77,16 +70,9 @@ const facebookHandler = async (
     }
     user = await User.findOne({ facebookID: profile.id });
     if (!user) {
-      const randomColor = upCaseFirst(faker.commerce.color());
-      const randomAdjOne = upCaseFirst(faker.commerce.productAdjective());
-      const randomAdjTwo = upCaseFirst(faker.hacker.adjective());
-      const randomNounOne = upCaseFirst(faker.company.catchPhraseNoun());
-      const randomNounTwo = upCaseFirst(faker.hacker.noun());
-      
-
       user = await User.create({
-        facebookID: profile.id,
-        username: randomColor + randomAdjOne + randomAdjTwo + randomNounOne + randomNounTwo
+      facebookID: profile.id,
+      username: buildUsername()
         });
       }
 
@@ -136,11 +122,6 @@ const authenticate = passport => {
   );
 };
 
-const upCaseFirst = str => {
-  let firstLetter = str[0].toUpperCase();
-  let restOfWord = str.slice(1);
 
-  return firstLetter + restOfWord;
-}
 
 module.exports = authenticate;

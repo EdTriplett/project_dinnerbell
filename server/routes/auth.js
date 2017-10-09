@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const wrapper = require("../util/errorWrappers").expressWrapper;
+const buildUsername = require('../util/buildUsername')
 
 const REDIRECTS = {
   successRedirect: "http://localhost:3000/search",
@@ -41,8 +42,8 @@ const auth = passport => {
   });
 
   const register = async (req, res) => {
-    const { password, email, username } = req.body;
-    console.log(username, 'what is this??')
+    const { password, email } = req.body;
+    const username = buildUsername()
     const user = await User.createLocalUser({ email, password, username });
     if (!user.errors) {
       req.session.user = user;
