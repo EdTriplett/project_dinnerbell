@@ -125,6 +125,7 @@ export const getUsers = () => async dispatch => {
   } catch (err) {
     console.log(err);
   }
+}
 export const addRecipe = (userId, recipeId) => async dispatch => {
   const userId = this.props.userReducer.user.id;
   console.log("userId: ", userId);

@@ -171,7 +171,6 @@ class SearchRecipes extends Component {
     />
   );
 
-<<<<<<< HEAD
   render() {
     const recipes = this.state.recipes
       ? this.state.recipes.map((recipe, index) => (
@@ -189,67 +188,8 @@ class SearchRecipes extends Component {
                 name="rating"
                 value={Math.floor(Math.random() * 5)}
                 editing={false}
-=======
-  renderRecipeRating = recipe => {
-    return recipe.length > 0
-      ? <div className="rating-container">
-          <StarRatingComponent
-            className="star-rating"
-            name="rating"
-            value={3}
-            editing={false}
-          />
-          <p className="rating-users">
-            ({recipe.length} user ratings)
-          </p>
-          <button onClick={this.findOrCreateRecipe(recipe)}>Recipe</button>
-        </div>
-      : <div className="rating-container">
-          <StarRatingComponent
-            className="star-rating"
-            name="rating"
-            value={0}
-            editing={false}
-          />
-          <p className="rating-users">(0 user ratings)</p>
-          {recipe._id
-            ? <button onClick={this.findOrCreateRecipe(recipe)}>
-                Add (database)
-              </button>
-            : <button onClick={this.findOrCreateRecipe(recipe)}>
-                Add (!database)
-              </button>}
-        </div>;
-  };
-
-  render() {
-    console.log("this.props: ", this.props);
-    const recipes = Array.isArray(this.state.recipes)
-      ? this.filterRecipesLength(
-          this.filterRecipes(this.state.recipes)
-        ).map((recipe, index) =>
-          <Card
-            className="recipe-card"
-            key={
-              recipe._id ? recipe._id : recipe.uri ? recipe.uri : "bad recipe"
-            }
-          >
-            {/* <Link to={`/recipes/${index}`} className="link-container"> */}
-            <CardMedia>
-              <img
-                src={
-                  !recipe.image
-                    ? null
-                    : recipe.image.url ? recipe.image.url : recipe.image
-                }
->>>>>>> 5cf82c0bd5db54861cd440da78d03fd902454896
               />
-            </CardMedia>
-            <CardTitle className="card-title">
-              {recipe.name}
-            </CardTitle>
-            {this.renderRecipeRating(recipe)}
-            {/* </Link> */}
+            </Link>
           </Card>
         ))
       : null;
@@ -267,17 +207,9 @@ class SearchRecipes extends Component {
               </div>
             </div>
             <div className="recipe-results">
-<<<<<<< HEAD
-              {this.props.searchReducer.isSearching ? (
-                <CircularProgress />
-              ) : (
-                recipes
-              )}
-=======
               {this.props.searchReducer.isSearching
                 ? <CustomLoader />
                 : recipes}
->>>>>>> 5cf82c0bd5db54861cd440da78d03fd902454896
             </div>
           </div>
           <Paper className="newsfeed">placeholder</Paper>
