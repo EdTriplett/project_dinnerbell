@@ -4,8 +4,13 @@ import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import "../Profile/Profile.css";
 import { withRouter } from "react-router-dom";
+<<<<<<< HEAD
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
+=======
+import Checkbox from "../Checkbox";
+import './PreferenceSetter.css';
+>>>>>>> 2c36a2f75c8e70071a88635ab13e329fb95ced4a
 
 const allPreferences = [
   "balanced",
@@ -78,10 +83,8 @@ class PreferenceSetter extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            Select your dietary requirements:
+      <div className="preference-setter">
+          Select your dietary requirements:
             <form onSubmit={this.handleFormSubmit}>
               {allPreferences.map(pref => this.buildCheckbox(pref))}
 
@@ -94,8 +97,8 @@ class PreferenceSetter extends Component {
                 Save
               </FlatButton>
             </form>
-          </div>
-        </div>
+
+
       </div>
     );
   }

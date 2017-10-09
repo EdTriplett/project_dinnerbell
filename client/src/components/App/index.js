@@ -8,10 +8,10 @@ import Navbar from "../Navbar";
 import Authentication from "../Authentication";
 import SearchRecipes from "../SearchRecipes";
 import Profile from "../Profile";
-import CreateRecipe from "../CreateRecipe";
 import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
 import Test from "../Test";
+import CreateMeal from "../CreateMeal";
 
 import "./App.css";
 
@@ -40,8 +40,8 @@ class App extends Component {
               render={() => <Profile {...this.props} />}
             />
             <Route
-              path="/create_recipe"
-              render={() => <CreateRecipe {...this.props} />}
+              path="/create_meal"
+              render={() => <CreateMeal {...this.props} />}
             />
             <Route
               path="/users"

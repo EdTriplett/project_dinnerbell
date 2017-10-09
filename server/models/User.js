@@ -34,9 +34,9 @@ const UserSchema = new Schema(
 UserSchema.plugin(uniqueValidator);
 
 const constraints = {
-  username: {
-    presence: true
-  },
+  // username: {
+  //   presence: true
+  // },
   email: {
     presence: true,
     email: true
@@ -59,7 +59,9 @@ UserSchema.statics.createLocalUser = async function(fields) {
 // Update and return a user, or an error object if any constraints are violated
 UserSchema.statics.updateUser = async function(fields, _id) {
   const results = Object.entries(fields).reduce((acc, [field, value]) => {
+
     if (constraints[field]) {
+      console.log('field = ', field, 'value = ', value)
       acc.push(validate.single(value, constraints[field]));
     }
     return acc;

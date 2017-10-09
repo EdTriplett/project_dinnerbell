@@ -33,8 +33,6 @@ class LoginForm extends Component {
     const { loginUser, formData, setUserError } = this.props;
     const { password, email } = formData.LoginForm.values;
 
-    console.log(email, password, "FIELD VALUES");
-
     loginUser({ password, email }).then(() => {
       if (this.props.userReducer.userError) {
         alert(this.props.userReducer.userError);

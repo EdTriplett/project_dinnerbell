@@ -53,7 +53,7 @@ class Landing extends Component {
     );
 
     const authOptions =
-      !this.props.userReducer.user && this.state.finishedLoading ? (
+      !this.props.userReducer.user  && this.state.finishedLoading ? (
         <div className="oauth-landing">
           <a href="/auth/facebook">
             <img src="https://imgur.com/Hw9YUrJ.png" alt="" />

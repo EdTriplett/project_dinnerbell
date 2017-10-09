@@ -41,10 +41,10 @@ const auth = passport => {
   });
 
   const register = async (req, res) => {
-    const { password, email } = req.body;
-    const user = await User.createLocalUser({ email, password });
+    const { password, email, username } = req.body;
+    console.log(username, 'what is this??')
+    const user = await User.createLocalUser({ email, password, username });
     if (!user.errors) {
-      console.log(user)
       req.session.user = user;
     }
     res.json(user);
