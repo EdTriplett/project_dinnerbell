@@ -14,7 +14,7 @@ const MealSchema = new Schema(
     registeredGuests: [{ type: Schema.Types.ObjectId, ref: "User" }],
     tasks: [String],
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
-    image: { type: Schema.Types.ObjectId, ref: "Picture" }
+    image: String
   },
   {
     timestamps: true,

@@ -149,7 +149,6 @@ class CreateMeal extends Component {
 	onSubmitForm = e => {
 		e.preventDefault();
 		let form = serialize(e.target, { hash: true });
-		console.log(form, "?????");
 	};
 
 	imageSelected = files => {
