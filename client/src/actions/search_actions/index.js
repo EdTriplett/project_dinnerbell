@@ -34,6 +34,7 @@ export const requestSearch = (query, preferences) => async dispatch => {
     query = (typeof query).toLowerCase() === "string" ? query : "";
     preferences = Array.isArray(preferences) ? preferences : [];
     dispatch(setSearchLoading(true));
+    dispatch(setSearchPreferences(preferences));
     const url = `${searchConstants.BASE_URL}/recipes?q=${query}&preferences=${preferences.join(
       ","
     )}`;

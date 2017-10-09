@@ -48,7 +48,7 @@ class SearchRecipes extends Component {
         ? []
         : nextProps.searchReducer.results
     });
-    if (nextProps.searchReducer.query !== this.props.searchReducer.query) {
+    if (nextProps.searchReducer.query !== this.props.searchReducer.query || nextProps.searchReducer.preferences !== this.props.searchReducer.preferences) {
       this.props.searchActions.requestSearch(
         nextProps.searchReducer.query,
         nextProps.searchReducer.preferences
@@ -57,18 +57,14 @@ class SearchRecipes extends Component {
   }
 
   componentWillMount() {
+    console.log("WillMount this.props = ", this.props)
+    if (this.props.userReducer.user) {
+      const defaultPrefs = this.props.userReducer.user.dietaryRestrictions
+      this.setDefaultDietaryPreferences(defaultPrefs)
+      this.props.searchActions.requestSearch(this.props.searchReducer.query, defaultPrefs);
+    } else {
     this.props.searchActions.requestSearch(this.props.searchReducer.query);
-    // const defaultDietaryRestrictions = [
-    //   "vegetarian",
-    //   "peanut-free",
-    //   "balanced"
-    // ];
-    // console.log("defaults: ", defaultDietaryRestrictions);
-    // this.setDefaultDietaryPreferences(defaultDietaryRestrictions);
-    // if (this.props.user) {
-    // TODO add intial user preferences
-    // this.setDefaultDietaryPreferences()
-    // }
+    }
   }
 
   selectToken = e => {
@@ -80,7 +76,7 @@ class SearchRecipes extends Component {
         token => this.state[`${filterType}Options`][token - 1].name
       )
     });
-  };
+  }; 
 
   setDefaultDietaryPreferences = preferences => {
     const dietTokens = [];

@@ -18,10 +18,12 @@ const getRecipes = async (req, res) => {
   let apiResponse = await fetch(buildRecipeURL([`q=${q}`, ...queryPrefs]));
   apiResponse = sanitizeRecipes(await apiResponse.json());
 
-  q = q ? q : "";
-  const queryOpts = buildDbQuery(q.toLowerCase(), preferences);
-  const dbResponse = await Recipe.find(queryOpts);
-  res.json(dbResponse.concat(apiResponse));
+  // q = q ? q : "";
+  // const queryOpts = buildDbQuery(q.toLowerCase(), preferences);
+  // const dbResponse = await Recipe.find(queryOpts);
+  // res.json(dbResponse.concat(apiResponse));
+  res.json(apiResponse);
+
 };
 
 const newRecipe = async (req, res) => {

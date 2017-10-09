@@ -70,9 +70,7 @@ class Navbar extends Component {
   };
 
   onSearchInputSubmit = e => {
-    console.log("successfully submitted");
     e.preventDefault();
-    console.log("query: ", this.state.query);
     this.props.searchActions.setSearchQuery(this.state.query);
     this.props.history.push("/search");
   };
