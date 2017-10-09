@@ -29,6 +29,16 @@ const newRecipe = async (req, res) => {
   res.json(recipe);
 };
 
+const findOrCreateRecipe = async (req, res) => {
+  let recipe;
+  recipe = await Recipe.findOne({ edamamId: req.body.edamamId });
+  if (!recipe) {
+    recipe = await Recipe.sparseCreate(req.body);
+  }
+  console.log("recipe to send back: ", recipe);
+  res.json(recipe);
+};
+
 const getRecipe = async (req, res) => {
   const recipe = await Recipe.find({ _id: req.params.id });
   res.json(recipe);
@@ -46,7 +56,8 @@ const removeRecipe = async (req, res) => {
 
 // Register Route Handlers
 router.get("/", wrapper(getRecipes));
-router.post("/", wrapper(newRecipe));
+// router.post("/", wrapper(newRecipe));
+router.post("/", wrapper(findOrCreateRecipe));
 router.get("/:id", wrapper(getRecipe));
 router.patch("/:id", wrapper(updateRecipe));
 router.delete("/:id", wrapper(removeRecipe));

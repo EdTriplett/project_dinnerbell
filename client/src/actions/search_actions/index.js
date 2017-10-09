@@ -37,8 +37,8 @@ export const requestSearch = (query, preferences) => async dispatch => {
     const url = `${searchConstants.BASE_URL}/recipes?q=${query}&preferences=${preferences.join(
       ","
     )}`;
-    console.log("url: ", url);
     const payload = await AsyncManager.getRequest(url);
+
     dispatch(successSearchRequest(payload));
     dispatch(setSearchLoading(false));
   } catch (error) {

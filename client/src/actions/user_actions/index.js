@@ -1,5 +1,6 @@
 import userConstants from "../../constants/user_constants";
 import AsyncManager from "../../services/AsyncManager";
+// import {findOrCreateRecipe} from ".."
 
 export function setUserLoading(bool) {
   return {
@@ -91,19 +92,20 @@ export const logoutUser = data => async dispatch => {
   }
 };
 
-export const updateUser = dataObj =>
-  async dispatch => {
-    try{
-      console.log("dataObj = ", dataObj)
-      dispatch(setUserLoading(true));
-      const payload = await AsyncManager.patchRequest(`/user/${this.props.userReducer.user._id}`);
-      if (payload && payload.errors) throw new Error(payload.errors[0]);
-      dispatch(setCurrentUser(payload));
-      dispatch(setUserLoading(false));
-    } catch (e) {
-      dispatch(setUserError(e.message));
-    }
+export const updateUser = dataObj => async dispatch => {
+  try {
+    console.log("dataObj = ", dataObj);
+    dispatch(setUserLoading(true));
+    const payload = await AsyncManager.patchRequest(
+      `/user/${this.props.userReducer.user._id}`
+    );
+    if (payload && payload.errors) throw new Error(payload.errors[0]);
+    dispatch(setCurrentUser(payload));
+    dispatch(setUserLoading(false));
+  } catch (e) {
+    dispatch(setUserError(e.message));
   }
+};
 
 export const setUserProfileImage = file => async dispatch => {
   try {
@@ -113,3 +115,9 @@ export const setUserProfileImage = file => async dispatch => {
     dispatch(setUserError(e.message));
   }
 };
+
+// export const addRecipe = recipe => async dispatch => {
+//   try {
+//
+//   }
+// }

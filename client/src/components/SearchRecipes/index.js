@@ -5,6 +5,8 @@ import ReactSuperSelect from "react-super-select";
 
 import * as userActions from "../../actions/user_actions";
 import * as searchActions from "../../actions/search_actions";
+import * as recipeActions from "../../actions/recipe_actions";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
@@ -13,18 +15,16 @@ import { withRouter } from "react-router-dom";
 import { Paper } from "material-ui";
 import { Card, CardHeader, CardTitle, CardText, CardMedia } from "material-ui";
 
-// import LoadingFork from "../CustomLoader";
-
-import LoadingFork from "./loading-fork.gif";
 import CustomLoader from "../CustomLoader";
 import CircularProgress from "material-ui/CircularProgress";
 
 import InputToken from "./InputTokenForm";
-
 import "./InputTokenForm.css";
 
 import "./SearchRecipes.css";
 import StarRatingComponent from "react-star-rating-component";
+
+import { parseRecipe } from "../../services/RecipeParser";
 
 class SearchRecipes extends Component {
   state = {
@@ -50,7 +50,6 @@ class SearchRecipes extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps: ", nextProps);
     this.setState({
       recipes: !Array.isArray(nextProps.searchReducer.results)
         ? []
@@ -136,6 +135,13 @@ class SearchRecipes extends Component {
       : new Array(9).fill(0).map((_, index) => filteredRecipes[index]);
   };
 
+  findOrCreateRecipe = recipe => async () => {
+    console.log("originalRecipe: ", recipe);
+    const parsedRecipe = parseRecipe(recipe);
+    console.log("parsedRecipe: ", parsedRecipe);
+    this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
+  };
+
   isValidRecipe = recipe => {
     const filters = [...this.state.dietFilters, ...this.state.healthFilters];
     return filters.reduce(
@@ -167,27 +173,65 @@ class SearchRecipes extends Component {
       onSelect={this.selectToken}
     />;
 
+  renderRecipeRating = recipe => {
+    return recipe.length > 0
+      ? <div className="rating-container">
+          <StarRatingComponent
+            className="star-rating"
+            name="rating"
+            value={3}
+            editing={false}
+          />
+          <p className="rating-users">
+            ({recipe.length} user ratings)
+          </p>
+          <button onClick={this.findOrCreateRecipe(recipe)}>Recipe</button>
+        </div>
+      : <div className="rating-container">
+          <StarRatingComponent
+            className="star-rating"
+            name="rating"
+            value={0}
+            editing={false}
+          />
+          <p className="rating-users">(0 user ratings)</p>
+          {recipe._id
+            ? <button onClick={this.findOrCreateRecipe(recipe)}>
+                Add (database)
+              </button>
+            : <button onClick={this.findOrCreateRecipe(recipe)}>
+                Add (!database)
+              </button>}
+        </div>;
+  };
+
   render() {
-    const recipes = this.state.recipes
-      ? this.state.recipes.map((recipe, index) =>
+    console.log("this.props: ", this.props);
+    const recipes = Array.isArray(this.state.recipes)
+      ? this.filterRecipesLength(
+          this.filterRecipes(this.state.recipes)
+        ).map((recipe, index) =>
           <Card
             className="recipe-card"
-            key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
+            key={
+              recipe._id ? recipe._id : recipe.uri ? recipe.uri : "bad recipe"
+            }
           >
-            <Link to={`/recipes/${index}`}>
-              <CardMedia>
-                {recipe.image && <img src={recipe.image.url} />}
-              </CardMedia>
-              <CardTitle className="card-title">
-                {recipe.name}
-              </CardTitle>
-              <StarRatingComponent
-                className="star-rating"
-                name="rating"
-                value={Math.floor(Math.random() * 5)}
-                editing={false}
+            {/* <Link to={`/recipes/${index}`} className="link-container"> */}
+            <CardMedia>
+              <img
+                src={
+                  !recipe.image
+                    ? null
+                    : recipe.image.url ? recipe.image.url : recipe.image
+                }
               />
-            </Link>
+            </CardMedia>
+            <CardTitle className="card-title">
+              {recipe.name}
+            </CardTitle>
+            {this.renderRecipeRating(recipe)}
+            {/* </Link> */}
           </Card>
         )
       : null;
@@ -221,7 +265,8 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
-  searchActions: bindActionCreators(searchActions, dispatch)
+  searchActions: bindActionCreators(searchActions, dispatch),
+  recipeActions: bindActionCreators(recipeActions, dispatch)
 });
 
 export default withRouter(
