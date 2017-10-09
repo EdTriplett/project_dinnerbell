@@ -6,3 +6,4 @@ module.exports =
   process.env.NODE_ENV === "production"
     ? process.env[config.use_env_variable]
     : `mongodb://${config.host}/${config.database}`;
+
