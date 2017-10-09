@@ -11,7 +11,7 @@ module.exports = () => {
   const randomColor = upCaseFirst(faker.commerce.color());
   const randomAdjOne = upCaseFirst(faker.commerce.productAdjective());
   const randomAdjTwo = upCaseFirst(faker.hacker.adjective());
-  const randomNounOne = upCaseFirst(faker.company.catchPhraseNoun());
+  const randomNounOne = upCaseFirst(faker.hacker.noun());
   const randomNounTwo = upCaseFirst(faker.hacker.noun());
   
 

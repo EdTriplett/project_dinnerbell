@@ -9,7 +9,7 @@ import "./SignupForm.css";
 
 const validate = values => {
   const errors = {};
-  const requiredFields = ["username", "email", "password"];
+  const requiredFields = ["email", "password"];
   requiredFields.forEach(field => {
     if (!values[field]) {
       errors[field] = "Required";
@@ -31,11 +31,10 @@ const validate = values => {
 class SignupForm extends Component {
   onSubmit = () => {
     const { registerUser, formData, setUserError } = this.props;
-    const { username, email, password } = formData.SignupForm.values;
+    const {  email, password } = formData.SignupForm.values;
     console.log();
 
     registerUser({
-      username,
       email,
       password
     }).then(() => {
@@ -85,16 +84,6 @@ class SignupForm extends Component {
       <div>
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <h3 className="label">register</h3>
-          <div>
-            <Field
-              autoComplete="off"
-              className="material-field"
-              name="username"
-              component={this.renderTextField}
-              label="username"
-              required="required"
-            />
-          </div>
           <div>
             <Field
               autoComplete="off"
