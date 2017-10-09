@@ -21,8 +21,6 @@ import "./InputTokenForm.css";
 import "./SearchRecipes.css";
 import StarRatingComponent from "react-star-rating-component";
 
-import { parseRecipe } from "../../services/RecipeParser";
-
 class SearchRecipes extends Component {
   state = {
     recipes: [],
@@ -135,10 +133,7 @@ class SearchRecipes extends Component {
   };
 
   findOrCreateRecipe = recipe => async () => {
-    console.log("originalRecipe: ", recipe);
-    const parsedRecipe = parseRecipe(recipe);
-    console.log("parsedRecipe: ", parsedRecipe);
-    this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
+    this.props.recipeActions.findOrCreateRecipe(recipe);
   };
 
   isValidRecipe = recipe => {
@@ -217,22 +212,18 @@ class SearchRecipes extends Component {
           <Card
             className="recipe-card"
             key={
-              recipe._id ? recipe._id : recipe.uri ? recipe.uri : "bad recipe"
+              recipe._id
+                ? recipe._id
+                : recipe.edamamId ? recipe.edamamId : "bad recipe"
             }
           >
-            {/* <Link to={`/recipes/${index}`} className="link-container"> */}
-            <CardMedia>
-              <img
-                src={
-                  !recipe.image
-                    ? null
-                    : recipe.image.url ? recipe.image.url : recipe.image
-                }
-              />
-            </CardMedia>
-            <CardTitle className="card-title">{recipe.name}</CardTitle>
-            {this.renderRecipeRating(recipe)}
-            {/* </Link> */}
+            <Link to={`/recipes/${index}`} className="link-container">
+              <CardMedia>
+                <img src={recipe.image ? recipe.image : ""} />
+              </CardMedia>
+              <CardTitle className="card-title">{recipe.name}</CardTitle>
+              {this.renderRecipeRating(recipe)}
+            </Link>
           </Card>
         ))
       : null;

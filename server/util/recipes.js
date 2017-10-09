@@ -38,9 +38,9 @@ const buildRecipePrefs = preferences => {
 
 const _sanitizeRecipe = recipe => {
   let {
+    edamamId,
     label,
     image,
-    uri,
     url,
     source,
     digest,
@@ -61,14 +61,14 @@ const _sanitizeRecipe = recipe => {
   return {
     name: label,
     ingredients: ingredientLines,
-    uri,
+    edamamId,
     url,
     source,
     digest,
     calories,
     serves: recipe.recipe.yield,
     preferences: dietLabels.concat(healthLabels),
-    image: { url: image }
+    image
   };
 };
 
