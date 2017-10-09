@@ -4,7 +4,8 @@ import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import "../Profile/Profile.css";
 import { withRouter } from "react-router-dom";
-import Checkbox from "../Checkbox";
+import Checkbox from "material-ui/Checkbox";
+import FlatButton from "material-ui/FlatButton";
 
 const allPreferences = [
   "balanced",
@@ -19,52 +20,78 @@ const allPreferences = [
   "alcohol-free"
 ];
 
-class PreferenceSetter extends Component {
-  componentWillMount = () => {
-    this.selectedCheckboxes = new Set();
-  };
+const buildCheckboxes = (acc, preference) => {
+  acc[preference] = false;
+  return acc;
+};
 
-  toggleCheckbox = label => {
-    if (this.selectedCheckboxes.has(label)) {
-      this.selectedCheckboxes.delete(label);
-    } else {
-      this.selectedCheckboxes.add(label);
+class PreferenceSetter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = allPreferences.reduce(buildCheckboxes, {});
+  }
+
+  componentWillReceiveProps = nextProps => {
+    if (
+      this.props.userReducer.user === null &&
+      nextProps.userReducer.user !== null
+    ) {
+      const user = nextProps.userReducer.user;
+      const checkboxes = { ...this.state };
+      if (user && Array.isArray(user.dietaryRestrictions)) {
+        user.dietaryRestrictions.forEach(restriction => {
+          if (allPreferences.includes(restriction)) {
+            checkboxes[restriction] = true;
+          }
+        });
+        this.setState(checkboxes);
+      }
     }
   };
 
-  handleFormSubmit = e => {
-    e.preventDefault();
-    const user = this.props.userReducer.user
-    const {updateUser} = this.props;
-    updateUser({...user, dietaryRestrictions: [...this.selectedCheckboxes]})
+  onCheck = preference => () => {
+    this.setState({ ...this.state, [preference]: !this.state[preference] });
   };
 
-  createCheckbox = label => {
-    const user = this.props.userReducer.user
-
-    return (
+  buildCheckbox = label => (
     <Checkbox
+      key={label}
       label={label}
-      handleCheckboxChange={this.toggleCheckbox}
-      key={label} isChecked={user && Array.isArray(user.dietaryRestrictions) && user.dietaryRestrictions.includes(label)}
+      checked={this.state[label]}
+      onCheck={this.onCheck(label)}
     />
-    );
-  }
-    
+  );
 
+  handleFormSubmit = e => {
+    e.preventDefault();
+    const user = this.props.userReducer.user;
+    const { updateUser } = this.props;
+    const preferences = Object.entries(
+      this.state
+    ).reduce((acc, [pref, selected]) => {
+      if (selected) acc.push(pref);
+      return acc;
+    }, []);
+    updateUser({ ...user, dietaryRestrictions: preferences });
+  };
 
   render() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-          Select your dietary requirements:
+            Select your dietary requirements:
             <form onSubmit={this.handleFormSubmit}>
-              {allPreferences.map(pref=>this.createCheckbox(pref))}
+              {allPreferences.map(pref => this.buildCheckbox(pref))}
 
-              <button className="btn btn-default" type="submit">
+              <FlatButton
+                primary
+                backgroundColor="#fff"
+                hoverColor="#aaa"
+                onClick={this.handleFormSubmit}
+              >
                 Save
-              </button>
+              </FlatButton>
             </form>
           </div>
         </div>
@@ -80,4 +107,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(PreferenceSetter));
+  connect(mapStateToProps, mapDispatchToProps)(PreferenceSetter)
+);
