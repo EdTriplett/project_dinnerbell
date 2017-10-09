@@ -68,10 +68,17 @@ const removePicture = async (req, res) => {
   res.json({ deleted: picture });
 };
 
+const addRecipe = async (req, res) => {
+  const user = await User.findById(req.params.userId);
+  user.recipes.push(recipes._id);
+  await User.updateUser(user);
+};
+
 // Register Route Handlers
 router.get("/", wrapper(getUsers));
 router.get("/:id", wrapper(getUser));
 router.patch("/:id", allowed, wrapper(updateUser));
+router.patch("/:userId/recipes/:recipeId", wrapper(addRecipe));
 router.delete("/:id", allowed, wrapper(removeUser));
 router.post("/picture", allowed, uploadMw, wrapper(addPicture));
 router.delete("/picture", allowed, wrapper(removePicture));

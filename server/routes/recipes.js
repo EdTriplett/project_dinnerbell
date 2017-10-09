@@ -35,7 +35,6 @@ const findOrCreateRecipe = async (req, res) => {
   if (!recipe) {
     recipe = await Recipe.sparseCreate(req.body);
   }
-  console.log("recipe to send back: ", recipe);
   res.json(recipe);
 };
 

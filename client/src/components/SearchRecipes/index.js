@@ -65,6 +65,7 @@ class SearchRecipes extends Component {
 
   componentWillMount() {
     this.props.searchActions.requestSearch(this.props.searchReducer.query);
+    this.props.userActions.checkCurrentUser();
     // const defaultDietaryRestrictions = [
     //   "vegetarian",
     //   "peanut-free",
@@ -139,7 +140,7 @@ class SearchRecipes extends Component {
     console.log("originalRecipe: ", recipe);
     const parsedRecipe = parseRecipe(recipe);
     console.log("parsedRecipe: ", parsedRecipe);
-    this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
+    // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
   };
 
   isValidRecipe = recipe => {

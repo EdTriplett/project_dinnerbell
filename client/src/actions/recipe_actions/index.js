@@ -24,10 +24,7 @@ export const successFindOrCreateRecipe = recipe => {
 export const findOrCreateRecipe = recipe => async dispatch => {
   try {
     dispatch(setRecipeLoading(true));
-    console.log("req.body recipe: ", recipe);
-
     const payload = await AsyncManager.postRequest(`/api/recipes`, recipe);
-    console.log("recipe payload: ", payload);
     dispatch(successFindOrCreateRecipe(payload));
     dispatch(setRecipeLoading(false));
   } catch (error) {

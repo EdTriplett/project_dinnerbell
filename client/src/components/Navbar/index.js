@@ -78,7 +78,6 @@ class Navbar extends Component {
   };
 
   render() {
-    console.log(this.props.userReducer.user, "who is the user??");
     let navItems = [];
 
     switch (this.props.location.pathname) {
@@ -91,15 +90,15 @@ class Navbar extends Component {
         break;
 
       case "/create_recipe":
-        const showProfile = this.props.userReducer.user && (
+        const showProfile =
+          this.props.userReducer.user &&
           <Link
             to={`/profile/${this.props.userReducer.user._id}`}
             className="non-logo-item"
             key="profile"
           >
             profile
-          </Link>
-        );
+          </Link>;
         navItems.push(
           showProfile,
           <a
