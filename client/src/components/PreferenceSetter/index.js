@@ -4,13 +4,8 @@ import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import "../Profile/Profile.css";
 import { withRouter } from "react-router-dom";
-<<<<<<< HEAD
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
-=======
-import Checkbox from "../Checkbox";
-import './PreferenceSetter.css';
->>>>>>> 2c36a2f75c8e70071a88635ab13e329fb95ced4a
 
 const allPreferences = [
   "balanced",
