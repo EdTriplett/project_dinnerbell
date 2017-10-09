@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import _uniq from "lodash/uniq";
 import _without from "lodash/without";
 import classNames from "classnames";
@@ -109,8 +109,7 @@ class TokenInput extends Component {
       name,
       placeholder,
       value,
-      onKeyPress,
-      color
+      onKeyPress
     } = this.props;
     const isMaxLengthReached =
       maxLength !== 0 && value.length !== 0 && maxLength === value.length;

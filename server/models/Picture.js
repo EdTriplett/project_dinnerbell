@@ -6,7 +6,7 @@ const PictureSchema = new Schema(
   {
     pictured: {
       kind: String,
-      item: { type: Schema.Types.ObjectId, ref: "Recipe" }
+      item: { type: Schema.Types.ObjectId }
     },
     url: String,
     key: String

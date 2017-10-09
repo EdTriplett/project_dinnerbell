@@ -1,8 +1,5 @@
 import React, { Component } from "react";
 
-import { DropDownMenu, MenuItem } from "material-ui";
-import ReactSuperSelect from "react-super-select";
-
 import * as userActions from "../../actions/user_actions";
 import * as searchActions from "../../actions/search_actions";
 import { connect } from "react-redux";
@@ -11,7 +8,7 @@ import { Link } from "react-router-dom";
 
 import { withRouter } from "react-router-dom";
 import { Paper } from "material-ui";
-import { Card, CardHeader, CardTitle, CardText, CardMedia } from "material-ui";
+import { Card, CardTitle, CardMedia } from "material-ui";
 import CircularProgress from "material-ui/CircularProgress";
 
 import InputToken from "./InputTokenForm";
@@ -69,8 +66,8 @@ class SearchRecipes extends Component {
     // console.log("defaults: ", defaultDietaryRestrictions);
     // this.setDefaultDietaryPreferences(defaultDietaryRestrictions);
     // if (this.props.user) {
-      // TODO add intial user preferences
-      // this.setDefaultDietaryPreferences()
+    // TODO add intial user preferences
+    // this.setDefaultDietaryPreferences()
     // }
   }
 
@@ -106,6 +103,8 @@ class SearchRecipes extends Component {
             case "diet":
               dietTokens.push(foundPreference.id);
               dietFilters.push(foundPreference.name);
+              break;
+            default:
               break;
           }
         }
@@ -144,37 +143,38 @@ class SearchRecipes extends Component {
     );
   };
 
-  renderHealthInputToken = () =>
+  renderHealthInputToken = () => (
     <InputToken
       name="health"
       value={this.state.healthTokens}
       placeholder="pick health option"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />;
+    />
+  );
 
-  renderDietInputToken = () =>
+  renderDietInputToken = () => (
     <InputToken
       name="diet"
       value={this.state.dietTokens}
       placeholder="pick diet option"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />;
+    />
+  );
 
   render() {
-
     const recipes = this.state.recipes
-      ? this.state.recipes.map((recipe, index) =>
-          <Card className="recipe-card" 
-        key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}>
+      ? this.state.recipes.map((recipe, index) => (
+          <Card
+            className="recipe-card"
+            key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
+          >
             <Link to={`/recipes/${index}`}>
               <CardMedia>
-                {recipe.image && <img src={recipe.image.url} />}
+                {recipe.image && <img src={recipe.image.url} alt="" />}
               </CardMedia>
-              <CardTitle className="card-title">
-                {recipe.name}
-              </CardTitle>
+              <CardTitle className="card-title">{recipe.name}</CardTitle>
               <StarRatingComponent
                 className="star-rating"
                 name="rating"
@@ -183,7 +183,7 @@ class SearchRecipes extends Component {
               />
             </Link>
           </Card>
-        )
+        ))
       : null;
     return (
       <div className="background">
@@ -199,9 +199,11 @@ class SearchRecipes extends Component {
               </div>
             </div>
             <div className="recipe-results">
-              {this.props.searchReducer.isSearching
-                ? <CircularProgress />
-                : recipes}
+              {this.props.searchReducer.isSearching ? (
+                <CircularProgress />
+              ) : (
+                recipes
+              )}
             </div>
           </div>
           <Paper className="newsfeed">placeholder</Paper>

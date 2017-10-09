@@ -30,7 +30,7 @@ const validate = values => {
 
 class SignupForm extends Component {
   onSubmit = () => {
-    const { registerUser, formData, history, setUserError } = this.props;
+    const { registerUser, formData, setUserError } = this.props;
     const { username, email, password } = formData.SignupForm.values;
     console.log();
 
@@ -63,17 +63,16 @@ class SignupForm extends Component {
       reset,
       submitting,
       userLoading,
-      setUserError,
       userReducer
     } = this.props;
 
     const authOptions = !userReducer.user ? (
       <div className="oauth">
         <a href="/auth/facebook">
-          <img src="https://imgur.com/Hw9YUrJ.png" />
+          <img src="https://imgur.com/Hw9YUrJ.png" alt="" />
         </a>
         <a href="/auth/google">
-          <img src="https://i.imgur.com/ETp8DOT.png" />
+          <img src="https://i.imgur.com/ETp8DOT.png" alt="" />
         </a>
       </div>
     ) : null;

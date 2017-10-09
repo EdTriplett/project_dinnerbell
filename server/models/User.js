@@ -17,9 +17,9 @@ const UserSchema = new Schema(
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
     // meals we have created
-    meals: [{ type: Schema.Types.ObjectId, ref: "Meal", }],
+    meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
     // users we are following
-    following: [{ type: Schema.Types.ObjectId, ref: "User", }],
+    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     public: { type: Boolean, default: true },
     image: { type: Schema.Types.ObjectId, ref: "Picture", default: null },
     dietaryRestrictions: [String]
@@ -57,13 +57,18 @@ UserSchema.statics.createLocalUser = async function(fields) {
 };
 
 // Update and return a user, or an error object if any constraints are violated
-UserSchema.statics.updateUser = async function(fields) {
-  const results = Object.entries(fields).map((field, value) => {
+UserSchema.statics.updateUser = async function(fields, _id) {
+  const results = Object.entries(fields).reduce((acc, [field, value]) => {
     if (constraints[field]) {
-      return validate.single(value, constraints[field]);
+      acc.push(validate.single(value, constraints[field]));
     }
-  });
-  return results ? { errors: results } : this.update(fields);
+    return acc;
+  }, []);
+  return results.length
+    ? { errors: results }
+    : await mongoose
+        .model("User")
+        .findOneAndUpdate({ _id }, fields, { new: true });
 };
 
 // Password management

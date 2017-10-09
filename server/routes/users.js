@@ -11,9 +11,6 @@ const allowed = (req, res, next) => {
   } else {
     res.json({ error: "unauthorized user action" });
   }
-
-  console.log(req.session.user, "?????? req user");
-  console.log(req.isAuthenticated(), "????");
 };
 
 // Route Handlers
@@ -27,9 +24,8 @@ const getUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  console.log('Updating user from route')
-  const { user } = req.body;
-  const updated = await req.session.user.updateUser(user);
+  const user = req.body;
+  const updated = await User.updateUser(user, req.session.user._id);
   if (!updated.errors) {
     req.session.user = updated;
   }
@@ -49,7 +45,11 @@ const addPicture = async (req, res) => {
     name: req.file.originalname,
     mimetype: req.file.mimetype
   };
-  const picture = await FileUploader.upload(file, req.session.user);
+  const pictured = {
+    kind: "User",
+    item: req.session.user._id
+  };
+  const picture = await FileUploader.upload(file, pictured);
 
   // req.session.user.update({ profilePicture: picture }); // TODO: fix this
   const updatedUser = await User.findOneAndUpdate(

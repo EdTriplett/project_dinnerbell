@@ -20,7 +20,7 @@ export default (state = initialState, action = {}) => {
 
     case userConstants.SET_CURRENT_USER:
       updated.user = action.payload;
-      updated.userError = action.userError;
+      updated.userLoading = false;
 
       return updated;
 
@@ -33,9 +33,11 @@ export default (state = initialState, action = {}) => {
 
     case userConstants.SET_USER_IMAGE:
       updated.profileImage = action.payload;
+      return updated;
 
     case userConstants.SET_USER_RECIPE_IMAGE:
       updated.recipeImage = action.payload;
+      return updated;
 
     case userConstants.SET_ALL_USERS:
       updated.users = action.payload;

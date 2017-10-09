@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 import Landing from "../Landing";
-import SignupForm from "../SignupForm";
 import Navbar from "../Navbar";
 import Authentication from "../Authentication";
 import SearchRecipes from "../SearchRecipes";

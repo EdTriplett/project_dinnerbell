@@ -78,7 +78,6 @@ class Navbar extends Component {
   };
 
   render() {
-    console.log(this.props.userReducer.user, "who is the user??");
     let navItems = [];
 
     switch (this.props.location.pathname) {

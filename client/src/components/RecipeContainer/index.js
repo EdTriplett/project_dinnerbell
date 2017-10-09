@@ -15,10 +15,10 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    // forkRecipe: recipe => dispatch(forkRecipe(recipe))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     forkRecipe: recipe => dispatch(forkRecipe(recipe))
+//   };
+// };
 
 export default connect(mapStateToProps, null)(RecipeContainer);
