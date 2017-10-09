@@ -9,6 +9,7 @@ import InputToken from "./InputTokenForm";
 import serialize from "form-serialize";
 
 import * as userActions from "../../actions/user_actions";
+import * as mealActions from "../../actions/meal_actions";
 
 import Dropzone from "react-dropzone";
 
@@ -33,14 +34,32 @@ class CreateMeal extends Component {
 		userTokens: [],
 		selectedUsers: [],
 		userOptions: [
-			{ id: 1, name: "user 1", element: <span>user 1</span> },
-			{ id: 2, name: "user 2", element: <span>user 2</span> },
-			{ id: 3, name: "user 3", element: <span>user 3</span> },
-			{ id: 4, name: "user 4", element: <span>user 4</span> },
-			{ id: 5, name: "user 5", element: <span>user 5</span> }
+			
 		],
 		isLoading: false
 	};
+
+	componentDidMount() {
+		this.props.userActions.getUsers()
+	}
+
+	componentDidUpdate() {
+		const { userReducer } = this.props;
+		if (this.props.userReducer.users && !this.state.userOptions.length) {
+			let filtered = userReducer.users.filter(user => user.username !== userReducer.user.username);
+
+			filtered.forEach((item, index) => {
+				item.id = index;
+				item.name = item.username;
+				item.element = <span>{item.username}</span>
+			})
+
+			this.setState({
+				userOptions: filtered
+			})
+		}
+	}
+
 
 	handleUsersKeyPress = e => {
 		if (e.key === "Enter") {
@@ -149,25 +168,24 @@ class CreateMeal extends Component {
 	onSubmitForm = e => {
 		e.preventDefault();
 		let form = serialize(e.target, { hash: true });
-		console.log(form, "?????");
 	};
 
 	imageSelected = files => {
 		const image = files[0];
 
 		console.log("touched this!");
+		this.props.mealActions.setMealProfileImage(image);
 
 		// TODO: create meals
 	};
 
 	render() {
-		const { userReducer } = this.props;
-		console.log(this.state, "selected ingredients");
+		const { userReducer, mealReducer } = this.props;
 		return (
 			<div className="create-recipe">
 				<form onSubmit={this.onSubmitForm}>
 					<p className="label">Plan out your meal</p>
-					{!userReducer.recipeImage ? (
+					{!mealReducer.mealPicture ? (
 						<div
 							className="user-recipe-img-default"
 							style={{ margin: "0 auto" }}
@@ -177,7 +195,7 @@ class CreateMeal extends Component {
 							className="user-recipe-img-custom"
 							style={{ margin: "0 auto" }}
 						>
-							<img src={userReducer.recipeImage} />
+							<img src={mealReducer.mealPicture} />
 						</div>
 					)}
 					<div className="recipe-form-body">
@@ -270,7 +288,8 @@ class CreateMeal extends Component {
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch)
+  userActions: bindActionCreators(userActions, dispatch),
+  mealActions: bindActionCreators(mealActions, dispatch)
 });
 
 export default withRouter(

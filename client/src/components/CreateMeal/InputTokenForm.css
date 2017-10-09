@@ -69,6 +69,7 @@
 
 .ReactTokenInput__options-list {
   font-family: "Open Sans", sans-serif;
+  width: auto;
   display: none;
   position: absolute;
   top: 100%;
