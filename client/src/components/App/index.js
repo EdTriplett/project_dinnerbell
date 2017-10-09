@@ -11,6 +11,8 @@ import SearchRecipes from "../SearchRecipes";
 import Profile from "../Profile";
 import CreateRecipe from "../CreateRecipe";
 import RecipeContainer from "../RecipeContainer";
+import UsersContainer from "../UsersContainer/UsersContainer";
+import Test from "../Test";
 
 import "./App.css";
 
@@ -41,6 +43,13 @@ class App extends Component {
             <Route
               path="/create_recipe"
               render={() => <CreateRecipe {...this.props} />}
+            />
+            <Route
+              path="/users"
+              render={() =>
+                <UsersContainer>
+                  <Test />
+                </UsersContainer>}
             />
             <Route path="/recipes/:id" component={RecipeContainer} />
           </div>

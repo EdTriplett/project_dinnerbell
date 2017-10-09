@@ -34,6 +34,13 @@ export const setUserStatus = bool => {
   };
 };
 
+export const setAllUsers = users => {
+  return {
+    type: userConstants.SET_ALL_USERS,
+    payload: users
+  };
+};
+
 export const checkCurrentUser = () => async dispatch => {
   try {
     const payload = await AsyncManager.getRequest("/auth/current-user");
@@ -74,5 +81,14 @@ export const logoutUser = data => async dispatch => {
     dispatch(setCurrentUser(null));
   } catch (e) {
     dispatch(setUserError(e.message));
+  }
+};
+
+export const getUsers = () => async dispatch => {
+  try {
+    let users = await AsyncManager.getRequest("/api/users");
+    dispatch(setAllUsers(users));
+  } catch (err) {
+    console.log(err);
   }
 };

@@ -1,7 +1,8 @@
-import userConstants from '../constants/user_constants';
+import userConstants from "../constants/user_constants";
 
 const initialState = {
   user: null,
+  users: null,
   userLoading: false,
   userError: null
 };
@@ -27,6 +28,9 @@ export default (state = initialState, action = {}) => {
       updated.user = null;
 
       return updated;
+
+    case userConstants.SET_ALL_USERS:
+      updated.users = action.payload;
 
     default:
       return updated;
