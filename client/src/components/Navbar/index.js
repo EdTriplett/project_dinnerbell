@@ -20,9 +20,9 @@ const ROUTE_MAP = {
       register
     </Link>
   ),
-  createRecipe: (
-    <Link to="/create_recipe" className="non-logo-item" key="recipe">
-      create recipe
+  createMeal: (
+    <Link to="/create_meal" className="non-logo-item" key="meal">
+      create meal
     </Link>
   )
 };
@@ -90,10 +90,10 @@ class Navbar extends Component {
         navItems.push(ROUTE_MAP.login);
         break;
 
-      case "/create_recipe":
+      case "/create_meal":
         const showProfile = this.props.userReducer.user && (
           <Link
-            to={`/profile/${this.props.userReducer.user._id}`}
+            to={`/profile/${this.props.userReducer.user.username}`}
             className="non-logo-item"
             key="profile"
           >
@@ -115,13 +115,13 @@ class Navbar extends Component {
         if (this.props.userReducer.user) {
           navItems.push(
             <Link
-              to={`/profile/${this.props.userReducer.user._id}`}
+              to={`/profile/${this.props.userReducer.user.username}`}
               className="non-logo-item"
               key="profile"
             >
               profile
             </Link>,
-            ROUTE_MAP.createRecipe,
+            ROUTE_MAP.createMeal,
             <a
               onClick={this.onClickLogout}
               className="non-logo-item"

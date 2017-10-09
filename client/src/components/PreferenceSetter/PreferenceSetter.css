@@ -1,0 +1,9 @@
+.preference-setter {
+	display: flex;
+	flex-direction: column;
+}
+
+.preference-setter form {
+	height: 50px;
+	overflow: scroll;
+}

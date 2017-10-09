@@ -14,116 +14,116 @@ import * as userActions from "../../actions/user_actions";
 import Dropzone from "react-dropzone";
 import AsyncManager from "../../services/AsyncManager";
 
-import "./CreateRecipe.css";
+import "./CreateMeal.css";
 import "./InputTokenForm.css";
 
-class CreateRecipe extends Component {
+class CreateMeal extends Component {
 	state = {
 		value: 2,
-		recipeName: "",
-		recipeSteps: "",
+		mealName: "",
+		mealDescription: "",
 		isUpdatingImage: false,
-		ingredientTokens: [],
-		selectedIngredients: [],
-		ingredientsOptions: [
-			{ id: 1, name: "butter", element: <span>butter</span> },
-			{ id: 2, name: "milk", element: <span>milk</span> },
-			{ id: 3, name: "apple", element: <span>apple</span> },
-			{ id: 4, name: "chestnut", element: <span>chestnut</span> },
-			{ id: 5, name: "nutella", element: <span>nutella</span> }
+		recipeTokens: [],
+		selectedRecipes: [],
+		recipeOptions: [
+			{ id: 1, name: "Apple Pie", element: <span>Apple Pie</span> },
+			{ id: 2, name: "New York Steak", element: <span>New York Steak</span> },
+			{ id: 3, name: "Chicken Soup", element: <span>Chicken Soup</span> },
+			{ id: 4, name: "French Fries", element: <span>French Fries</span> },
+			{ id: 5, name: "Tuna Salad", element: <span>Tuna Salad</span> }
 		],
-		preferencesTokens: [],
-		selectedPreferences: [],
-		preferencesOptions: [
-			{ id: 1, name: "low carb", element: <span>low carb</span> },
-			{ id: 2, name: "gluten free", element: <span>gluten free</span> },
-			{ id: 3, name: "paleo", element: <span>paleo</span> },
-			{ id: 4, name: "carnivore", element: <span>carnivore</span> },
-			{ id: 5, name: "vegetarian", element: <span>vegetarian</span> }
+		userTokens: [],
+		selectedUsers: [],
+		userOptions: [
+			{ id: 1, name: "user 1", element: <span>user 1</span> },
+			{ id: 2, name: "user 2", element: <span>user 2</span> },
+			{ id: 3, name: "user 3", element: <span>user 3</span> },
+			{ id: 4, name: "user 4", element: <span>user 4</span> },
+			{ id: 5, name: "user 5", element: <span>user 5</span> }
 		],
 		isLoading: false
 	};
 
-	handlePreferencesKeyPress = e => {
+	handleUsersKeyPress = e => {
 		if (e.key === "Enter") {
 			e.stopPropagation();
 			e.preventDefault();
 
-			let optionsLen = this.state.preferencesOptions.length;
-			const newIngredient = {
+			let optionsLen = this.state.userOptions.length;
+			const newUser = {
 				id: ++optionsLen,
 				name: e.target.value,
 				element: <span>{e.target.value}</span>
 			};
 
-			let preferencesOptions = [
-				...this.state.preferencesOptions,
-				newIngredient
+			let userOptions = [
+				...this.state.userOptions,
+				newUser
 			];
-			let preferencesTokens = [
-				...this.state.preferencesTokens,
-				newIngredient.id
+			let userTokens = [
+				...this.state.userTokens,
+				newUser.id
 			];
 
-			this.setState({ preferencesOptions, preferencesTokens });
+			this.setState({ userOptions, userTokens });
 		}
 	};
 
-	handleIngredientKeyPress = e => {
+	handleRecipesKeyPress = e => {
 		if (e.key === "Enter") {
 			e.stopPropagation();
 			e.preventDefault();
 
-			let optionsLen = this.state.ingredientsOptions.length;
-			const newIngredient = {
+			let optionsLen = this.state.recipeOptions.length;
+			const newRecipe = {
 				id: ++optionsLen,
 				name: e.target.value,
 				element: <span>{e.target.value}</span>
 			};
 
-			let ingredientsOptions = [
-				...this.state.ingredientsOptions,
-				newIngredient
+			let recipeOptions = [
+				...this.state.recipeOptions,
+				newRecipe
 			];
-			let ingredientTokens = [...this.state.ingredientTokens, newIngredient.id];
+			let recipeTokens = [...this.state.recipeTokens, newRecipe.id];
 
-			this.setState({ ingredientsOptions, ingredientTokens });
+			this.setState({ recipeOptions, recipeTokens });
 		}
 	};
 
-	selectedPreferencesToken = e => {
+	selectedUserToken = e => {
 		let tokens = e.target.value;
-		let selectedPreferences = [];
+		let selectedUsers = [];
 		let copy = [...tokens];
 		copy.pop();
-		let result = this.state.preferencesOptions.filter(
-			x => x.id === selectedPreferences
+		let result = this.state.userOptions.filter(
+			x => x.id === selectedUsers
 		);
 		if (result.length) {
-			selectedPreferences = [...this.state.selectedPreferences, result[0].name];
+			selectedUsers = [...this.state.selectedUsers, result[0].name];
 		} else {
-			selectedPreferences.pop();
+			selectedUsers.pop();
 		}
 
-		this.setState({ preferencesTokens: tokens, selectedPreferences });
+		this.setState({ userTokens: tokens, selectedUsers });
 	};
 
-	selectIngredientToken = e => {
+	selectRecipeToken = e => {
 		let tokens = e.target.value;
-		let selectedIngredients = [];
+		let selectedRecipes = [];
 		let copy = [...tokens];
-		const ingredientIndex = copy.pop();
-		let result = this.state.ingredientsOptions.filter(
-			x => x.id === ingredientIndex
+		const recipeIndex = copy.pop();
+		let result = this.state.recipeOptions.filter(
+			x => x.id === recipeIndex
 		);
 
 		if (result.length) {
-			selectedIngredients = [...this.state.selectedIngredients, result[0].name];
+			selectedRecipes = [...this.state.selectedRecipes, result[0].name];
 		} else {
-			selectedIngredients.pop();
+			selectedRecipes.pop();
 		}
 
-		this.setState({ ingredientTokens: tokens, selectedIngredients });
+		this.setState({ recipeTokens: tokens, selectedRecipes });
 	};
 
 	renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
@@ -138,13 +138,13 @@ class CreateRecipe extends Component {
 
 	onTextInputName = e => {
 		this.setState({
-			recipeName: e.target.value
+			mealName: e.target.value
 		});
 	};
 
 	onTextFieldInput = e => {
 		this.setState({
-			recipeSteps: e.target.value
+			mealDescription: e.target.value
 		});
 	};
 
@@ -159,7 +159,7 @@ class CreateRecipe extends Component {
 
 		console.log("touched this!");
 
-		// TODO: create recipe
+		// TODO: create meals
 	};
 
 	render() {
@@ -168,7 +168,7 @@ class CreateRecipe extends Component {
 		return (
 			<div className="create-recipe">
 				<form onSubmit={this.onSubmitForm}>
-					<p className="label">Create your own recipe</p>
+					<p className="label">Plan out your meal</p>
 					{!userReducer.recipeImage ? (
 						<div
 							className="user-recipe-img-default"
@@ -193,8 +193,8 @@ class CreateRecipe extends Component {
 							>
 								<TextField
 									name="name"
-									hintText={"recipe name"}
-									floatingLabelText={"name of your recipe"}
+									hintText={"meal name"}
+									floatingLabelText={"give your meal a name"}
 									floatingLabelStyle={{ color: "white" }}
 									hintStyle={{ color: "white" }}
 									inputStyle={{ color: "white" }}
@@ -210,23 +210,24 @@ class CreateRecipe extends Component {
 							</div>
 
 							<InputToken
-								name="ingredients"
+								name="Recipes"
 								isLoading={this.state.isLoading}
-								value={this.state.ingredientTokens}
-								placeholder="pick ingredient"
-								options={this.state.ingredientsOptions}
-								onSelect={this.selectIngredientToken}
-								onKeyPress={this.handleIngredientKeyPress}
+								value={this.state.recipeTokens}
+								placeholder="pick recipes"
+								options={this.state.recipeOptions}
+								onSelect={this.selectRecipeToken}
+								onKeyPress={this.handleRecipesKeyPress}
 								color="blue"
 							/>
+
 							<InputToken
-								name="preferences"
+								name="Guests"
 								isLoading={this.state.isLoading}
-								value={this.state.preferencesTokens}
-								placeholder="pick preferences"
-								options={this.state.preferencesOptions}
-								onSelect={this.selectedPreferencesToken}
-								onKeyPress={this.handlePreferencesKeyPress}
+								value={this.state.userTokens}
+								placeholder="choose guests"
+								options={this.state.userOptions}
+								onSelect={this.selectedUserToken}
+								onKeyPress={this.handleUsersKeyPress}
 								color="orange"
 							/>
 						</div>
@@ -234,12 +235,12 @@ class CreateRecipe extends Component {
 						<div className="wrapper">
 							<div className="paper">
 								<textarea
-									placeholder="explain the steps needed to get the delicious creation :)"
+									placeholder="Write a description of your meal :)"
 									className="text"
 									name="instructions"
 									rows="4"
 									style={{
-										overflow: "scroll",
+										overflow: "hidden",
 										wordWrap: "break-word",
 										resize: "none",
 										height: "500px",
@@ -275,5 +276,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-	connect(mapStateToProps, mapDispatchToProps)(CreateRecipe)
+	connect(mapStateToProps, mapDispatchToProps)(CreateMeal)
 );

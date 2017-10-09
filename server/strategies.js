@@ -3,6 +3,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
+const faker = require("faker");
 const User = require("./models/User");
 
 const localHandler = async (req, email, password, done) => {
@@ -36,10 +37,19 @@ const googleHandler = async (req, accessToken, refreshToken, profile, done) => {
     } 
     user = await User.findOne({ googleID: profile.id });
     if (!user) {
+      const randomColor = upCaseFirst(faker.commerce.color());
+      const randomAdjOne = upCaseFirst(faker.commerce.productAdjective());
+      const randomAdjTwo = upCaseFirst(faker.hacker.adjective());
+      const randomNounOne = upCaseFirst(faker.company.catchPhraseNoun());
+      const randomNounTwo = upCaseFirst(faker.hacker.noun());
+      
+
       user = await User.create({
-          googleID: profile.id
+          googleID: profile.id,
+          username: randomColor + randomAdjOne + randomAdjTwo + randomNounOne + randomNounTwo
       });
     }
+
     req.session.user = user;
     done(null, user);
   } catch (error) {
@@ -67,12 +77,21 @@ const facebookHandler = async (
     }
     user = await User.findOne({ facebookID: profile.id });
     if (!user) {
-    user = await User.create({
-      facebookID: profile.id
-      });
-    }
-    req.session.user = user;
-    done(null, user);
+      const randomColor = upCaseFirst(faker.commerce.color());
+      const randomAdjOne = upCaseFirst(faker.commerce.productAdjective());
+      const randomAdjTwo = upCaseFirst(faker.hacker.adjective());
+      const randomNounOne = upCaseFirst(faker.company.catchPhraseNoun());
+      const randomNounTwo = upCaseFirst(faker.hacker.noun());
+      
+
+      user = await User.create({
+        facebookID: profile.id,
+        username: randomColor + randomAdjOne + randomAdjTwo + randomNounOne + randomNounTwo
+        });
+      }
+
+      req.session.user = user;
+      done(null, user);
   } catch (error) {
     console.error(error);
     done(error);
@@ -116,5 +135,12 @@ const authenticate = passport => {
     new FacebookStrategy(facebookOptions, facebookHandler)
   );
 };
+
+const upCaseFirst = str => {
+  let firstLetter = str[0].toUpperCase();
+  let restOfWord = str.slice(1);
+
+  return firstLetter + restOfWord;
+}
 
 module.exports = authenticate;

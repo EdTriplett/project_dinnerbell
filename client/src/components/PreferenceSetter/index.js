@@ -5,6 +5,7 @@ import * as userActions from "../../actions/user_actions";
 import "../Profile/Profile.css";
 import { withRouter } from "react-router-dom";
 import Checkbox from "../Checkbox";
+import './PreferenceSetter.css';
 
 const allPreferences = [
   "balanced",
@@ -55,9 +56,9 @@ class PreferenceSetter extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
+      <div className="preference-setter">
+
+
           Select your dietary requirements:
             <form onSubmit={this.handleFormSubmit}>
               {allPreferences.map(pref=>this.createCheckbox(pref))}
@@ -66,8 +67,8 @@ class PreferenceSetter extends Component {
                 Save
               </button>
             </form>
-          </div>
-        </div>
+
+
       </div>
     );
   }
