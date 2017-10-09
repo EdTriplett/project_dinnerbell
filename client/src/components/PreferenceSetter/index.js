@@ -53,23 +53,14 @@ class PreferenceSetter extends Component {
     this.setState({ ...this.state, [preference]: !this.state[preference] });
   };
 
-<<<<<<< HEAD
-  createCheckbox = label => {
-    const user = this.props.userReducer.user
-    return (
-=======
+
   buildCheckbox = label => (
->>>>>>> 7fe12603093cd35292d4b92ba92eb5a0efa2091a
     <Checkbox
       key={label}
       label={label}
       checked={this.state[label]}
       onCheck={this.onCheck(label)}
     />
-<<<<<<< HEAD
-    );
-  }
-=======
   );
 
   handleFormSubmit = e => {
@@ -84,7 +75,6 @@ class PreferenceSetter extends Component {
     }, []);
     updateUser({ ...user, dietaryRestrictions: preferences });
   };
->>>>>>> 7fe12603093cd35292d4b92ba92eb5a0efa2091a
 
   render() {
     return (
