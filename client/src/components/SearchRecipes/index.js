@@ -12,6 +12,11 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { Paper } from "material-ui";
 import { Card, CardHeader, CardTitle, CardText, CardMedia } from "material-ui";
+
+// import LoadingFork from "../CustomLoader";
+
+import LoadingFork from "./loading-fork.gif";
+import CustomLoader from "../CustomLoader";
 import CircularProgress from "material-ui/CircularProgress";
 
 import InputToken from "./InputTokenForm";
@@ -69,8 +74,8 @@ class SearchRecipes extends Component {
     // console.log("defaults: ", defaultDietaryRestrictions);
     // this.setDefaultDietaryPreferences(defaultDietaryRestrictions);
     // if (this.props.user) {
-      // TODO add intial user preferences
-      // this.setDefaultDietaryPreferences()
+    // TODO add intial user preferences
+    // this.setDefaultDietaryPreferences()
     // }
   }
 
@@ -163,11 +168,12 @@ class SearchRecipes extends Component {
     />;
 
   render() {
-
     const recipes = this.state.recipes
       ? this.state.recipes.map((recipe, index) =>
-          <Card className="recipe-card" 
-        key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}>
+          <Card
+            className="recipe-card"
+            key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
+          >
             <Link to={`/recipes/${index}`}>
               <CardMedia>
                 {recipe.image && <img src={recipe.image.url} />}
@@ -200,7 +206,7 @@ class SearchRecipes extends Component {
             </div>
             <div className="recipe-results">
               {this.props.searchReducer.isSearching
-                ? <CircularProgress />
+                ? <CustomLoader />
                 : recipes}
             </div>
           </div>
