@@ -11,8 +11,8 @@ const UserSchema = new Schema(
     username: { type: String, unique: true },
     email: { type: String, unique: true },
     profilePicture: { type: String, default: null },
-    googleID: { type: String},
-    facebookID: { type: String},
+    googleID: { type: String },
+    facebookID: { type: String },
     passwordHash: { type: String, select: false },
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
@@ -53,10 +53,11 @@ const constraints = {
 // Return a new user or an errors object if any constraints are violated
 UserSchema.statics.createLocalUser = async function(fields) {
   const results = await validate(fields, constraints);
-  if (results) {return results}
-  else { 
+  if (results) {
+    return results;
+  } else {
     let newUser = await mongoose.model("User").create(fields);
-    return await mongoose.model("User").findOne({_id: newUser._id})
+    return await mongoose.model("User").findOne({ _id: newUser._id });
   }
 };
 
@@ -64,7 +65,7 @@ UserSchema.statics.createLocalUser = async function(fields) {
 UserSchema.statics.updateUser = async function(fields, _id) {
   const results = Object.entries(fields).reduce((acc, [field, value]) => {
     if (constraints[field]) {
-      const validation = validate.single(value, constraints[field]); 
+      const validation = validate.single(value, constraints[field]);
       validation && acc.push(validation);
     }
     return acc;
@@ -91,13 +92,13 @@ const removeRatings = async function() {
 UserSchema.pre("remove", wrapper(removeRatings));
 
 // Populate ALL THE FIELDS
-// const populateAll = function(next) {
-//   this.populate("recipes meals image following ratings");
-//   next();
-// };
-// UserSchema.pre("find", populateAll);
-// UserSchema.pre("findOne", populateAll);
-// UserSchema.pre("update", populateAll);
+const populateAll = function(next) {
+  this.populate("recipes meals image following ratings");
+  next();
+};
+UserSchema.pre("find", populateAll);
+UserSchema.pre("findOne", populateAll);
+UserSchema.pre("update", populateAll);
 
 UserSchema.index({
   googleID: 1,

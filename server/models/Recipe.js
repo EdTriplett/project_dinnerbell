@@ -16,7 +16,7 @@ const wrapper = require("../util/errorWrappers").mongooseWrapper;
 const RecipeSchema = new Schema(
   {
     kind: String,
-    name: String,
+    name: { type: String, index: true },
     ingredients: [String],
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
     preferences: [String],
@@ -71,13 +71,13 @@ const removeFromOwner = async function() {
 };
 RecipeSchema.pre("remove", wrapper(removeFromOwner));
 
-// const populateAll = function(next) {
-//    this.populate("image owner ratings");
-//   next();
-// };
-// RecipeSchema.pre("find", populateAll);
-// RecipeSchema.pre("findOne", populateAll);
-// RecipeSchema.pre("update", populateAll);
+const populateAll = function(next) {
+  this.populate("image owner ratings");
+  next();
+};
+RecipeSchema.pre("find", populateAll);
+RecipeSchema.pre("findOne", populateAll);
+RecipeSchema.pre("update", populateAll);
 
 // Build wordList for Search
 RecipeSchema.pre("save", function(next) {
