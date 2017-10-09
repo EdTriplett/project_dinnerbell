@@ -12,6 +12,7 @@ import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
 import Test from "../Test";
 import CreateMeal from "../CreateMeal";
+import MealContainer from "../MealContainer/MealContainer";
 
 import "./App.css";
 
@@ -42,6 +43,8 @@ class App extends Component {
             <Route
               path="/create_meal"
               render={() => <CreateMeal {...this.props} />}
+            />
+            <Route path="/meals/:id" component={MealContainer} />
             />
             <Route
               path="/users"
