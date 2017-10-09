@@ -3,7 +3,7 @@
 const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
-const buildUsername = require('./util/buildUsername')
+const buildUsername = require("./util/buildUsername");
 const User = require("./models/User");
 
 const localHandler = async (req, email, password, done) => {
@@ -30,16 +30,18 @@ const googleHandler = async (req, accessToken, refreshToken, profile, done) => {
     if (user) {
       user = await User.findOne({
         _id: user.id
-      })
-      .update({
-        googleID: profile.id
-      }, {new:true})
-    } 
+      }).update(
+        {
+          googleID: profile.id
+        },
+        { new: true }
+      );
+    }
     user = await User.findOne({ googleID: profile.id });
     if (!user) {
       user = await User.create({
-          googleID: profile.id,
-          username: buildUsername()
+        googleID: profile.id,
+        username: buildUsername()
       });
     }
 
@@ -63,21 +65,23 @@ const facebookHandler = async (
     if (user) {
       user = await User.findOne({
         _id: user.id
-      })
-      .update({
-        facebookID: profile.id
-      }, {new:true})
+      }).update(
+        {
+          facebookID: profile.id
+        },
+        { new: true }
+      );
     }
     user = await User.findOne({ facebookID: profile.id });
     if (!user) {
       user = await User.create({
-      facebookID: profile.id,
-      username: buildUsername()
-        });
-      }
+        facebookID: profile.id,
+        username: buildUsername()
+      });
+    }
 
-      req.session.user = user;
-      done(null, user);
+    req.session.user = user;
+    done(null, user);
   } catch (error) {
     console.error(error);
     done(error);
@@ -106,7 +110,6 @@ const facebookOptions = {
 
 const authenticate = passport => {
   passport.serializeUser((user, done) => {
-    console.log(user, "serializeUser");
     done(null, user._id);
   });
   passport.deserializeUser((userid, done) => {
@@ -121,7 +124,5 @@ const authenticate = passport => {
     new FacebookStrategy(facebookOptions, facebookHandler)
   );
 };
-
-
 
 module.exports = authenticate;

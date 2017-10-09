@@ -6,7 +6,7 @@ const wrapper = require("../util/errorWrappers").mongooseWrapper;
 const MealSchema = new Schema(
   {
     kind: String,
-    name: String,
+    name: { type: String, index: true },
     date: Number,
     owner: { type: Schema.Types.ObjectId, ref: "User" },
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
