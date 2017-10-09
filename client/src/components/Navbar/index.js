@@ -95,8 +95,7 @@ class Navbar extends Component {
             key="profile"
           >
             profile
-          </Link>
-        );
+          </Link>;
         navItems.push(
           showProfile,
           <a
