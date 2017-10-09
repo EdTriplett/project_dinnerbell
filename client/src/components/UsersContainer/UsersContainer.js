@@ -4,7 +4,7 @@ import { getUsers } from "../../actions/user_actions";
 import Avatar from "material-ui/Avatar";
 import { List, ListItem } from "material-ui/List";
 import Paper from "material-ui/Paper";
-import Subheader from "material-ui/Subheader";
+import { Link } from "react-router-dom";
 
 const listStyles = {
   width: "300px",
@@ -12,17 +12,29 @@ const listStyles = {
   position: "relative"
 };
 
-const UserList = ({ users }) =>
-  <Paper style={listStyles} zDepth={4}>
-    <List>
-      {users.map(user =>
-        <ListItem
-          primaryText={user.username}
-          leftAvatar={<Avatar src={user.image} />}
-        />
-      )}
-    </List>
-  </Paper>;
+const UserList = ({ users }) => {
+  users = users.sort((a, b) => {
+    return new Date(a.createdAt) - new Date(b.createdAt);
+  });
+  return (
+    <Paper style={listStyles} zDepth={4}>
+      <List>
+        {users.map(user =>
+          <Link
+            to={`profile/${user.username}`}
+            key={user._id}
+            style={{ textDecoration: "none" }}
+          >
+            <ListItem
+              primaryText={user.username}
+              leftAvatar={<Avatar src={user.profilePicture} />}
+            />
+          </Link>
+        )}
+      </List>
+    </Paper>
+  );
+};
 
 class UsersContainer extends Component {
   componentDidMount() {
@@ -30,7 +42,6 @@ class UsersContainer extends Component {
   }
 
   render() {
-    console.log(this.props.users);
     return (
       <div>
         {this.props.users
