@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   profileImage: null,
   recipeImage: null,
+  users: null,
   userLoading: false,
   userError: null
 };
@@ -29,11 +30,15 @@ export default (state = initialState, action = {}) => {
 
       return updated;
 
+
     case userConstants.SET_USER_IMAGE:
       updated.profileImage = action.payload;
 
     case userConstants.SET_USER_RECIPE_IMAGE:
       updated.recipeImage = action.payload;
+
+    case userConstants.SET_ALL_USERS:
+      updated.users = action.payload;
 
     default:
       return updated;

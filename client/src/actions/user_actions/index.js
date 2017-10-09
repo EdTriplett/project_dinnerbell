@@ -45,6 +45,11 @@ export const setUserRecipeImage = img => {
   return {
     type: userConstants.SET_USER_RECIPE_IMAGE,
     payload: img
+
+export const setAllUsers = users => {
+  return {
+    type: userConstants.SET_ALL_USERS,
+    payload: users
   };
 };
 
@@ -111,5 +116,12 @@ export const setUserProfileImage = file => async dispatch => {
     dispatch(setUserImage(response.url));
   } catch (e) {
     dispatch(setUserError(e.message));
+
+export const getUsers = () => async dispatch => {
+  try {
+    let users = await AsyncManager.getRequest("/api/users");
+    dispatch(setAllUsers(users));
+  } catch (err) {
+    console.log(err);
   }
 };
