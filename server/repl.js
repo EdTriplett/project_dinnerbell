@@ -1,7 +1,9 @@
 let repl = require("repl").start({});
 const mongoose = require("mongoose");
+
 const models = {
   User: require("./models/User"),
+  Rating: require("./models/Rating"),
   Recipe: require("./models/Recipe")
 };
 

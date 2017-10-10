@@ -55,18 +55,34 @@ class Recipes extends Component {
     let { q, preferences } = await this.parseSearchParams(
       this.props.location.search
     );
-    this.setDietaryPreferences(preferences);
+    await this.setDietaryPreferences(preferences);
     if (q !== this.state.q) {
       this.setState({ q }, this.searchRecipes);
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
+    console.log("made it to recieved props");
+    console.log("made it to this");
     let { q, preferences } = this.parseSearchParams(nextProps.location.search);
-    this.setDietaryPreferences(preferences);
-    if (q !== this.state.q) {
+    console.log("made it to this");
+    console.log("preferences: ", preferences.sort());
+    console.log(
+      "state.preferences: ",
+      [...this.state.healthFilters, ...this.state.dietFilters].sort()
+    );
+    if (
+      q !== this.state.q ||
+      !_.isEqual(
+        preferences.sort(),
+        [...this.state.healthFilters, ...this.state.dietFilters].sort()
+      )
+    ) {
+      console.log("made it to the this thing");
+      await this.setDietaryPreferences(preferences);
       this.setState({ q }, this.searchRecipes);
     } else if (!this.state.recipes.length) {
+      await this.setDietaryPreferences(preferences);
       this.setState({ q }, this.searchRecipes);
     }
   }
@@ -84,9 +100,12 @@ class Recipes extends Component {
   searchRecipes = async () => {
     try {
       await this.setState({ loading: true });
-      const recipes = await AsyncManager.getRequest(
-        `/api/recipes?q=${this.state.q}}`
-      );
+      const url = `/api/recipes?q=${this.state.q}&preferences=${[
+        ...this.state.healthFilters,
+        ...this.state.dietFilters
+      ].join(",")}`;
+      console.log("url: ", url);
+      const recipes = await AsyncManager.getRequest(url);
       await this.setState({ recipes, loading: false });
     } catch (error) {
       console.log(error);
@@ -107,14 +126,15 @@ class Recipes extends Component {
     this.props.history.push(
       `/recipes?q=${this.state.q}&preferences=${statePrefs.join(",")}`
     );
+    this.searchRecipes();
   };
 
-  setDietaryPreferences = preferences => {
+  setDietaryPreferences = async preferences => {
     const dietTokens = [];
     const dietFilters = [];
     const healthTokens = [];
     const healthFilters = [];
-    ["diet", "health"].forEach(filterType => {
+    await ["diet", "health"].forEach(async filterType => {
       preferences.forEach(userPreference => {
         const foundPreference = this.state[`${filterType}Options`].find(
           preference =>
@@ -136,7 +156,7 @@ class Recipes extends Component {
           }
         }
       });
-      this.setState({
+      await this.setState({
         dietTokens,
         dietFilters,
         healthTokens,
@@ -145,11 +165,11 @@ class Recipes extends Component {
     });
   };
 
-  filterRecipes = recipes => {
-    return recipes.filter(recipe => {
-      return this.isValidRecipe(recipe);
-    });
-  };
+  // filterRecipes = recipes => {
+  //   return recipes.filter(recipe => {
+  //     return this.isValidRecipe(recipe);
+  //   });
+  // };
 
   filterRecipesLength = filteredRecipes => {
     return filteredRecipes.length <= 9
@@ -157,42 +177,40 @@ class Recipes extends Component {
       : new Array(9).fill(0).map((_, index) => filteredRecipes[index]);
   };
 
-  findOrCreateRecipe = recipe => async () => {
-    // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
-  };
+  // findOrCreateRecipe = recipe => async () => {
+  //   // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
+  // };
 
-  isValidRecipe = recipe => {
-    const filters = [...this.state.dietFilters, ...this.state.healthFilters];
-    return filters.reduce(
-      (isValid, filter) =>
-        recipe.preferences &&
-        !!recipe.preferences.find(
-          preference => preference.toLowerCase() === filter.toLowerCase()
-        ) &&
-        isValid,
-      true
-    );
-  };
+  // isValidRecipe = recipe => {
+  //   const filters = [...this.state.dietFilters, ...this.state.healthFilters];
+  //   return filters.reduce(
+  //     (isValid, filter) =>
+  //       recipe.preferences &&
+  //       !!recipe.preferences.find(
+  //         preference => preference.toLowerCase() === filter.toLowerCase()
+  //       ) &&
+  //       isValid,
+  //     true
+  //   );
+  // };
 
-  renderHealthInputToken = () => (
+  renderHealthInputToken = () =>
     <InputToken
       name="health"
       value={this.state.healthTokens}
       placeholder="pick health option"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
-  renderDietInputToken = () => (
+  renderDietInputToken = () =>
     <InputToken
       name="diet"
       value={this.state.dietTokens}
       placeholder="pick diet option"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
   getRandomIndex = () => {
     let random = Math.floor(Math.random() * 4) + 1;
@@ -206,14 +224,13 @@ class Recipes extends Component {
   };
 
   render() {
+    console.log("recipes: ", this.state.recipes);
     const recipeArray = Array.isArray(this.state.recipes)
       ? this.state.recipes
       : [];
-    const filteredRecipes = this.filterRecipesLength(
-      this.filterRecipes(recipeArray)
-    );
+    const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
-      ? filteredRecipes.map((recipe, index) => (
+      ? filteredRecipes.map((recipe, index) =>
           <Card
             className={`recipe-card delay-${this.getRandomIndex()}`}
             key={`${recipe.name}${recipe.edamamId
@@ -224,7 +241,9 @@ class Recipes extends Component {
               <CardMedia>
                 {recipe.image && <img src={recipe.image} alt="" />}
               </CardMedia>
-              <CardTitle className="card-title">{recipe.name}</CardTitle>
+              <CardTitle className="card-title">
+                {recipe.name}
+              </CardTitle>
               <StarRatingComponent
                 className="star-rating"
                 name="rating"
@@ -233,7 +252,7 @@ class Recipes extends Component {
               />
             </Link>
           </Card>
-        ))
+        )
       : null;
     return (
       <div className="background">

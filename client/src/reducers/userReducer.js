@@ -4,6 +4,9 @@ const initialState = {
   user: null,
   profileImage: null,
   recipeImage: null,
+
+  // recipes are ids of recipes in local database
+  recipes: [],
   users: null,
   userLoading: false,
   userError: null
@@ -40,6 +43,11 @@ export default (state = initialState, action = {}) => {
 
     case userConstants.SET_ALL_USERS:
       updated.users = action.payload;
+      return updated;
+
+    case userConstants.ADD_RECIPE:
+      updated.recipes.push(action.payload);
+
       return updated;
 
     default:

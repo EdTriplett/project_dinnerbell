@@ -61,8 +61,8 @@ class Profile extends Component {
         )}
         {/*<ProfileUpdater 
             updateUser={this.props.userActions.updateUser}
-            user={this.props.user} */}
-          /> 
+            user={this.props.user}/>  */}
+          
 
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
