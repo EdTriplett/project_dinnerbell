@@ -45,7 +45,11 @@ RecipeSchema.statics.sparseUpdate = async function(id, newProps) {
 
 RecipeSchema.statics.sparseCreate = async function(newProps) {
   const props = sanitizer(newProps);
-  return await this.create(props);
+  const exists = await this.findOne({ edamamId: props.edamamId });
+  // console.log("props.name: ", props.name, "exists.name: ", exists.name);
+  if (!exists) {
+    return await this.create(props);
+  }
 };
 
 // Propagation Hooks

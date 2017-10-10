@@ -102,7 +102,6 @@ class Navbar extends Component {
   };
 
   render() {
-    console.log("this.props: ", this.props);
     let navItems = [];
 
     switch (this.props.location.pathname) {

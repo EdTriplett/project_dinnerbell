@@ -63,11 +63,27 @@ class Recipes extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
+    console.log("made it to recieved props");
+    console.log("made it to this");
     let { q, preferences } = this.parseSearchParams(nextProps.location.search);
-    await this.setDietaryPreferences(preferences);
-    if (q !== this.state.q) {
+    console.log("made it to this");
+    console.log("preferences: ", preferences.sort());
+    console.log(
+      "state.preferences: ",
+      [...this.state.healthFilters, ...this.state.dietFilters].sort()
+    );
+    if (
+      q !== this.state.q ||
+      !_.isEqual(
+        preferences.sort(),
+        [...this.state.healthFilters, ...this.state.dietFilters].sort()
+      )
+    ) {
+      console.log("made it to the this thing");
+      await this.setDietaryPreferences(preferences);
       this.setState({ q }, this.searchRecipes);
     } else if (!this.state.recipes.length) {
+      await this.setDietaryPreferences(preferences);
       this.setState({ q }, this.searchRecipes);
     }
   }
@@ -85,12 +101,12 @@ class Recipes extends Component {
   searchRecipes = async () => {
     try {
       await this.setState({ loading: true });
-      const recipes = await AsyncManager.getRequest(
-        `/api/recipes?q=${this.state.q}&preferences=${[
-          ...this.state.healthFilters,
-          ...this.state.dietFilters
-        ].join(",")}`
-      );
+      const url = `/api/recipes?q=${this.state.q}&preferences=${[
+        ...this.state.healthFilters,
+        ...this.state.dietFilters
+      ].join(",")}`;
+      console.log("url: ", url);
+      const recipes = await AsyncManager.getRequest(url);
       await this.setState({ recipes, loading: false });
     } catch (error) {
       console.log(error);
@@ -111,6 +127,7 @@ class Recipes extends Component {
     this.props.history.push(
       `/recipes?q=${this.state.q}&preferences=${statePrefs.join(",")}`
     );
+    this.searchRecipes();
   };
 
   setDietaryPreferences = async preferences => {
@@ -178,25 +195,23 @@ class Recipes extends Component {
   //   );
   // };
 
-  renderHealthInputToken = () => (
+  renderHealthInputToken = () =>
     <InputToken
       name="health"
       value={this.state.healthTokens}
       placeholder="pick health option"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
-  renderDietInputToken = () => (
+  renderDietInputToken = () =>
     <InputToken
       name="diet"
       value={this.state.dietTokens}
       placeholder="pick diet option"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
   getRandomIndex = () => {
     let random = Math.floor(Math.random() * 4) + 1;
@@ -210,12 +225,13 @@ class Recipes extends Component {
   };
 
   render() {
+    console.log("recipes: ", this.state.recipes);
     const recipeArray = Array.isArray(this.state.recipes)
       ? this.state.recipes
       : [];
     const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
-      ? filteredRecipes.map((recipe, index) => (
+      ? filteredRecipes.map((recipe, index) =>
           <Card
             className={`recipe-card delay-${this.getRandomIndex()}`}
             key={`${recipe.name}${recipe.edamamId
@@ -226,7 +242,9 @@ class Recipes extends Component {
               <CardMedia>
                 {recipe.image && <img src={recipe.image} alt="" />}
               </CardMedia>
-              <CardTitle className="card-title">{recipe.name}</CardTitle>
+              <CardTitle className="card-title">
+                {recipe.name}
+              </CardTitle>
               <StarRatingComponent
                 className="star-rating"
                 name="rating"
@@ -235,7 +253,7 @@ class Recipes extends Component {
               />
             </Link>
           </Card>
-        ))
+        )
       : null;
     return (
       <div className="background">

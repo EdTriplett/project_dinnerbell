@@ -23,8 +23,7 @@ const buildRecipePrefs = preferences => {
       if (DIET.has(current)) prefs.diet.push(current);
       if (HEALTH.has(current)) prefs.health.push(current);
       return prefs;
-    },
-    {
+    }, {
       health: [],
       diet: []
     });
@@ -37,7 +36,6 @@ const buildRecipePrefs = preferences => {
 };
 
 const sanitizeRecipe = recipe => {
-  console.log(recipe);
   let {
     uri,
     label,
@@ -52,8 +50,10 @@ const sanitizeRecipe = recipe => {
   } = recipe.recipe;
 
   dietLabels = dietLabels ? dietLabels : [];
-
   healthLabels = healthLabels ? healthLabels : [];
+  const preferences = [...dietLabels, ...healthLabels].map(label =>
+    label.toLowerCase()
+  );
 
   ingredientLines = ingredientLines.filter(word => {
     return word !== "undefined";
@@ -68,7 +68,7 @@ const sanitizeRecipe = recipe => {
     digest,
     calories,
     serves: recipe.recipe.yield,
-    preferences: dietLabels.concat(healthLabels),
+    preferences,
     image
   };
 };
