@@ -63,10 +63,6 @@ class SearchRecipes extends Component {
   }
 
   componentWillMount() {
-<<<<<<< HEAD
-    console.log("WillMount this.props = ", this.props);
-=======
->>>>>>> be85e3e40d536388db99b148b095e255983f2ae1
     if (this.props.userReducer.user) {
       const defaultPrefs = this.props.userReducer.user.dietaryRestrictions;
       this.setDefaultDietaryPreferences(defaultPrefs);
@@ -185,12 +181,13 @@ class SearchRecipes extends Component {
     }
 
     return this.getRandomIndex(random);
-  }
+  };
 
   render() {
     const recipes = this.state.recipes
       ? this.state.recipes.map((recipe, index) => (
           <Card
+            className={`recipe-card delay-${this.getRandomIndex()}`}
             className="recipe-card"
             key={`${recipe.name}${recipe.edamamId
               ? recipe.edamamId

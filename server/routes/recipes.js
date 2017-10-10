@@ -47,8 +47,10 @@ const getRecipe = async (req, res) => {
     const base = `http://www.edamam.com/ontologies/edamam.owl%23recipe_`;
     const response = await fetch(buildRecipeURL([`r=${base + edamamId}`]));
     const json = await response.json();
-    recipe = sanitizeRecipe({ recipe: json[0] });
-    await Recipe.sparseCreate(recipe);
+    if (json) {
+      recipe = sanitizeRecipe({ recipe: json[0] });
+      await Recipe.sparseCreate(recipe);
+    }
   }
   res.json(recipe);
 };

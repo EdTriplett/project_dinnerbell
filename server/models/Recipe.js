@@ -45,7 +45,6 @@ RecipeSchema.statics.sparseUpdate = async function(id, newProps) {
 
 RecipeSchema.statics.sparseCreate = async function(newProps) {
   const props = sanitizer(newProps);
-  console.log("new recipe: ", props);
   return await this.create(props);
 };
 
