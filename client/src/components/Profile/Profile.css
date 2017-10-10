@@ -133,8 +133,9 @@
 .logs-search-btn {
   background: black;
   color: white;
+  position: relative;
   font-family: "Open Sans", sans-serif;
-  padding: 5px 10px;
+  padding: 15px 15px;
   border-radius: 0 10px 10px 0;
   -moz-border-radius: 0 10px 10px 0;
   -webkit-border-radius: 0 10px 10px 0;
@@ -146,12 +147,42 @@
 .logs-search-box {
   outline: none;
   background: #eee;
-  padding: 5px;
+  padding: 15px;
   border-radius: 10px 0 0 10px;
   -moz-border-radius: 10px 0 0 10px;
   -webkit-border-radius: 10px 0 0 10px;
   -o-border-radius: 10px 0 0 10px;
   border: 0 none;
   width: 160px;
+}
+
+.search-form {
+  display: flex;
+  height: auto;
   margin-top: 20px;
+}
+
+.search-form-icon {
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+}
+
+/* Portrait iPhone 6 */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .profile-name {
+      font-size: 1em;
+    }
+
+    .search-form input {
+      width: 68px;
+    }
+
+    .user-logs {
+      width: 105px;
+    }
 }

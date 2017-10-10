@@ -50,6 +50,7 @@ class App extends Component {
                 </UsersContainer>}
             />
             <Route path="/recipes/:id" component={RecipeContainer} />
+            <footer style={{ backgroundColor: '#408c45'}}></footer>
           </div>
         </Router>
       </MuiThemeProvider>
