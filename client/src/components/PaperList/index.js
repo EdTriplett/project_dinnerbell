@@ -2,19 +2,27 @@ import React from "react";
 import Paper from "material-ui/Paper";
 
 const style = {
-  height: 400,
-  width: 400,
+  height: "auto",
+  minWidth: "400px",
   margin: 20,
   zDepth: 4,
-  textAlign: "center",
-  display: "inline-block"
+  textAlign: "left",
+  display: "inline-block",
+  borderRadius: "25px"
 };
 
-const PaperList = ({ title, data }) => (
+const PaperList = ({ title, data }) =>
   <Paper style={style} zDepth={1}>
-    <h4>{title}</h4>
-    <ul>{data.map(item => <li key={item}>{item}</li>)}</ul>
-  </Paper>
-);
+    <h4 style={{ textAlign: "center" }}>
+      {title}
+    </h4>
+    <ul style={{ listStyle: "none" }}>
+      {data.map(item =>
+        <li key={item}>
+          {item}
+        </li>
+      )}
+    </ul>
+  </Paper>;
 
 export default PaperList;
