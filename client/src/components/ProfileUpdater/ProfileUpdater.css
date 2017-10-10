@@ -1,0 +1,9 @@
+.profile-updater {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-updater form {
+  height: 50px;
+  overflow: scroll;
+}
