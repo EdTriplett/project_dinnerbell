@@ -59,11 +59,11 @@ class Profile extends Component {
         {this.state.isUpdatingImage && (
           <a style={{ color: "white", marginTop: "10px" }}>save</a>
         )}
-        <ProfileUpdater 
+        {/*<ProfileUpdater 
             updateUser={this.props.userActions.updateUser}
             user={this.props.user}
-          />
-          
+          /> */}
+
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
           user={this.props.user}
