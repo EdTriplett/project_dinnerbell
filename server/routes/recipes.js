@@ -14,15 +14,23 @@ const wrapper = require("../util/errorWrappers").expressWrapper;
 const getRecipes = async (req, res) => {
   let { q, preferences } = req.query;
   preferences = preferences ? preferences : "";
-  const queryPrefs = buildRecipePrefs(preferences);
+  q = q ? q.toLowerCase() : "";
 
-  let apiResponse = await fetch(buildRecipeURL([`q=${q}`, ...queryPrefs]));
-  apiResponse = sanitizeRecipes(await apiResponse.json());
+  const queryOpts = buildDbQuery(q, preferences);
+  let recipes = await Recipe.find(queryOpts);
 
-  q = q ? q : "";
-  const queryOpts = buildDbQuery(q.toLowerCase(), preferences);
-  const dbResponse = await Recipe.find(queryOpts);
-  res.json(dbResponse.concat(apiResponse));
+  if (recipes.length < 30) {
+    const queryPrefs = buildRecipePrefs(preferences);
+    const apiResponse = await fetch(buildRecipeURL([`q=${q}`, ...queryPrefs]));
+    const apiRecipes = sanitizeRecipes(await apiResponse.json());
+
+    const dbIdSet = recipes.reduce((acc, r) => acc.add(r.edamamId), new Set());
+    const newRecipes = apiRecipes.filter(r => !dbIdSet.has(r.edamamId));
+    await Promise.all(newRecipes.map(r => Recipe.sparseCreate(r)));
+    recipes = await Recipe.find(queryOpts);
+  }
+
+  res.json(recipes);
   // res.json(dbResponse);
 };
 

@@ -28,7 +28,6 @@ import StarRatingComponent from "react-star-rating-component";
 let previous_rand = 1;
 
 class Recipes extends Component {
-
   state = {
     q: "",
     loading: false,
@@ -176,23 +175,25 @@ class Recipes extends Component {
     );
   };
 
-  renderHealthInputToken = () =>
+  renderHealthInputToken = () => (
     <InputToken
       name="health"
       value={this.state.healthTokens}
       placeholder="pick health option"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />;
+    />
+  );
 
-  renderDietInputToken = () =>
+  renderDietInputToken = () => (
     <InputToken
       name="diet"
       value={this.state.dietTokens}
       placeholder="pick diet option"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />;
+    />
+  );
 
   getRandomIndex = () => {
     let random = Math.floor(Math.random() * 4) + 1;
@@ -213,7 +214,7 @@ class Recipes extends Component {
       this.filterRecipes(recipeArray)
     );
     const recipes = filteredRecipes
-      ? filteredRecipes.map((recipe, index) =>
+      ? filteredRecipes.map((recipe, index) => (
           <Card
             className={`recipe-card delay-${this.getRandomIndex()}`}
             key={`${recipe.name}${recipe.edamamId
@@ -224,9 +225,7 @@ class Recipes extends Component {
               <CardMedia>
                 {recipe.image && <img src={recipe.image} alt="" />}
               </CardMedia>
-              <CardTitle className="card-title">
-                {recipe.name}
-              </CardTitle>
+              <CardTitle className="card-title">{recipe.name}</CardTitle>
               <StarRatingComponent
                 className="star-rating"
                 name="rating"
@@ -235,7 +234,7 @@ class Recipes extends Component {
               />
             </Link>
           </Card>
-        )
+        ))
       : null;
     return (
       <div className="background">
