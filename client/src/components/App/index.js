@@ -8,7 +8,7 @@ import Navbar from "../Navbar";
 import Authentication from "../Authentication";
 import Recipes from "../Recipes";
 import Profile from "../Profile";
-import RecipeContainer from "../RecipeContainer";
+// import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
 import Test from "../Test";
 import CreateMeal from "../CreateMeal";
@@ -50,7 +50,7 @@ class App extends Component {
                   <Test />
                 </UsersContainer>}
             />
-            <Route path="/recipes/:id" component={RecipeContainer} />
+            {/*<Route path="/recipes/:id" component={RecipeContainer} /> */}
           </div>
         </Router>
       </MuiThemeProvider>

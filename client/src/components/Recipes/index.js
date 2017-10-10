@@ -29,7 +29,6 @@ import StarRatingComponent from "react-star-rating-component";
 class Recipes extends Component {
   state = {
     q: "",
-    preferences: [],
     loading: false,
     recipes: [],
     healthTokens: [],
@@ -56,48 +55,29 @@ class Recipes extends Component {
     let { q, preferences } = await this.parseSearchParams(
       this.props.location.search
     );
-    if (
-      q !== this.state.q ||
-      _.isEqual(preferences.sort(), this.state.preferences.sort())
-    ) {
-      this.setState({ q, preferences }, this.searchRecipes);
+    this.setDietaryPreferences(preferences)
+    if (q !== this.state.q) {
+      this.setState({ q}, this.searchRecipes);
     }
-    // this.props.recipesActions.requestRecipes(
-    //   this.props.recipesReducer.query,
-    //   this.props.recipesReducer.preferences
-    // );
-    // if (this.props.userReducer.user) {
-    //   const defaultPrefs = this.props.userReducer.user.dietaryRestrictions;
-    //   this.setDefaultDietaryPreferences(defaultPrefs);
-    //   this.props.recipesActions.requestRecipes(
-    //     this.props.recipesReducer.query,
-    //     defaultPrefs
-    //   );
-    // } else {
-    //   this.props.recipesActions.requestRecipes(this.props.recipesReducer.query);
-    // }
-    // this.props.userActions.checkCurrentUser();
   }
 
-  async componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     let { q, preferences } = this.parseSearchParams(
       nextProps.location.search.slice(1)
     );
-
-    if (!_.isEqual(preferences.sort(), this.state.preferences.sort())) {
-      await this.setState({ preferences });
-    }
-
+    this.setDietaryPreferences(preferences)
     if (q !== this.state.q) {
-      this.setState({ q, preferences }, this.searchRecipes);
+      this.setState({ q }, this.searchRecipes);
     }
-    // if (nextProps.recipesReducer.query !== this.props.recipesReducer.query) {
-    //   this.props.recipesActions.requestRecipes(
-    //     nextProps.recipesReducer.query,
-    //     nextProps.recipesReducer.preferences
-    //   );
-    // }
   }
+
+  shouldComponentUpdate(nextProps) {
+    let { q, preferences } = this.parseSearchParams(
+      nextProps.location.search.slice(1)
+    );
+    let statePrefs = this.state.healthFilters.concat(this.state.dietFilters)
+    return (q !== this.state.q || _.isEqual(statePrefs.sort(), preferences.sort()))
+  } 
 
   parseSearchParams = url => {
     let { q, preferences } = queryString.parse(url);
@@ -122,18 +102,20 @@ class Recipes extends Component {
     }
   };
 
-  selectToken = e => {
+  selectToken = async e => {
     const filterType = e.target.name;
     const filterTokenArray = e.target.value;
-    this.setState({
+    await this.setState({
       [`${filterType}Tokens`]: filterTokenArray,
       [`${filterType}Filters`]: filterTokenArray.map(
         token => this.state[`${filterType}Options`][token - 1].name
       )
     });
+    let statePrefs = this.state.healthFilters.concat(this.state.dietFilters)
+    this.props.history.push(`/recipes?q=${this.state.q}&preferences=${statePrefs.join(',')}`)
   };
 
-  setDefaultDietaryPreferences = preferences => {
+  setDietaryPreferences = preferences => {
     const dietTokens = [];
     const dietFilters = [];
     const healthTokens = [];
@@ -166,6 +148,7 @@ class Recipes extends Component {
         healthTokens,
         healthFilters
       });
+
     });
   };
 
@@ -217,8 +200,9 @@ class Recipes extends Component {
     />;
 
   render() {
-    const recipes = this.state.recipes
-      ? this.state.recipes.map((recipe, index) =>
+    const filteredRecipes = this.filterRecipesLength(this.filterRecipes(this.state.recipes))
+    const recipes = filteredRecipes
+      ? filteredRecipes.map((recipe, index) =>
           <Card
             className="recipe-card"
             key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
