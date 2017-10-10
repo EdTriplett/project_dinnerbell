@@ -1,5 +1,6 @@
 import React from "react";
-import { PaperList } from "../UsersContainer/PaperList";
+import { UsersList } from "../UsersContainer/UsersList";
+import PaperList from "../PaperList";
 
 const styles = {
   background: "#3c8d41",
@@ -17,34 +18,19 @@ const Guests = ({ unregGuests, regGuests }) =>
     {regGuests
       ? <div>
           <p>Attending</p>
-          <PaperList users={regGuests} />{" "}
+          <UsersList users={regGuests} />{" "}
         </div>
       : null}
     {unregGuests
       ? <div>
-          <p>Also attending</p>
-          <ul>
-            {unregGuests.map(guest =>
-              <li key={guest}>
-                {guest}
-              </li>
-            )}
-          </ul>
+          <PaperList title="others attending" data={unregGuests} />
         </div>
       : null}
   </div>;
 
-const Tasks = ({ tasks }) =>
+const RecipesList = ({ recipes }) =>
   <div>
-    {tasks
-      ? <ul>
-          {tasks.map((task, index) =>
-            <li key={index}>
-              {task}
-            </li>
-          )}
-        </ul>
-      : null}
+    {recipes[0].name}
   </div>;
 
 const Meal = ({ meal }) => {
@@ -66,8 +52,9 @@ const Meal = ({ meal }) => {
       </h3>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <Guests regGuests={regGuests} unregGuests={unregGuests} />
-        <Tasks tasks={meal.tasks} />
+        <PaperList title="" data={meal.tasks} />
       </div>
+      <RecipesList recipes={meal.recipes} />
     </div>
   );
 };
