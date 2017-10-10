@@ -80,8 +80,8 @@ class ProfileUpdater extends Component {
     ) ; 
 
     return (
-      <div>
-        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+      <div className='profile-updater'>
+        <form className='profile-updater form'onSubmit={handleSubmit(this.handleFormSubmit)}>
           <h3 className="label">Update your Profile</h3>
           <div>
             <Field
@@ -126,7 +126,7 @@ class ProfileUpdater extends Component {
             </button>
           </div>
         </form>
-        {authOptions}
+        {/*{authOptions} */}
       </div>
     );
   }

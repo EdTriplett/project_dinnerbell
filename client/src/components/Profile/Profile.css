@@ -5,6 +5,7 @@
   align-items: center;
   height: 100vh;
   background-color: #3c8d41;
+  position: relative;
 }
 
 .profile-name {
