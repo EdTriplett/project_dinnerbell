@@ -1,4 +1,4 @@
-import searchConstants from "../constants/search_constants";
+import recipesConstants from "../constants/recipes_constants";
 
 const initialState = {
   isSearching: false,
@@ -11,22 +11,22 @@ export default (state = initialState, action = {}) => {
   let updated = Object.assign({}, state);
 
   switch (action.type) {
-    case searchConstants.SET_SEARCH_QUERY:
+    case recipesConstants.SET_RECIPES_QUERY:
       updated.query = action.payload;
 
       return updated;
 
-    case searchConstants.SET_SEARCH_PREFERENCES:
+    case recipesConstants.SET_RECIPES_PREFERENCES:
       updated.preferences = action.payload;
 
       return updated;
 
-    case searchConstants.SUCCESS_SEARCH_REQUEST:
+    case recipesConstants.SUCCESS_RECIPES_REQUEST:
       updated.results = action.payload;
 
       return updated;
 
-    case searchConstants.SET_SEARCH_LOADING:
+    case recipesConstants.SET_RECIPES_LOADING:
       updated.isSearching = action.payload;
 
       return updated;

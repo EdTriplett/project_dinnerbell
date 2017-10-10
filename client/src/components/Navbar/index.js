@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import * as userActions from "../../actions/user_actions";
-import * as searchActions from "../../actions/search_actions";
+import * as recipesActions from "../../actions/recipes_actions";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -71,8 +71,8 @@ class Navbar extends Component {
 
   onSearchInputSubmit = e => {
     e.preventDefault();
-    this.props.searchActions.setSearchQuery(this.state.query);
-    this.props.history.push("/search");
+    this.props.recipesActions.setRecipesQuery(this.state.query);
+    this.props.history.push(`/recipes?q=${this.state.query}`);
   };
 
   render() {
@@ -88,15 +88,15 @@ class Navbar extends Component {
         break;
 
       case "/create_meal":
-        const showProfile = this.props.userReducer.user && (
+        const showProfile =
+          this.props.userReducer.user &&
           <Link
             to={`/profile/${this.props.userReducer.user.username}`}
             className="non-logo-item"
             key="profile"
           >
             profile
-          </Link>
-          );
+          </Link>;
         navItems.push(
           showProfile,
           <a
@@ -156,7 +156,7 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
-  searchActions: bindActionCreators(searchActions, dispatch)
+  recipesActions: bindActionCreators(recipesActions, dispatch)
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

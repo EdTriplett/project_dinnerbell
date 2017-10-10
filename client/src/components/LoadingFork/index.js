@@ -1,8 +1,7 @@
 import React from "react";
-import ForkImage from "./fork.png";
-import "./CustomLoader.css";
+import "./LoadingFork.css";
 
-const CustomLoader = () =>
+const LoadingFork = () =>
   <svg
     className="loading-fork"
     version="1.0"
@@ -29,4 +28,4 @@ const CustomLoader = () =>
     </g>
   </svg>;
 
-export default CustomLoader;
+export default LoadingFork;

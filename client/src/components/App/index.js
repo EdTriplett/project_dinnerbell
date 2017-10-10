@@ -6,7 +6,7 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Landing from "../Landing";
 import Navbar from "../Navbar";
 import Authentication from "../Authentication";
-import SearchRecipes from "../SearchRecipes";
+import Recipes from "../Recipes";
 import Profile from "../Profile";
 import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
@@ -32,10 +32,7 @@ class App extends Component {
               path="/login"
               render={() => <Authentication {...this.props} showLogin={true} />}
             />
-            <Route
-              path="/search"
-              render={() => <SearchRecipes {...this.props} />}
-            />
+            <Route path="/recipes" render={() => <Recipes {...this.props} />} />
             <Route
               path="/profile/:name"
               render={() => <Profile {...this.props} />}

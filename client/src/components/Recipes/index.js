@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 
+// import parseUrl from "parse-url";
+import queryString from "query-string";
+
 import * as userActions from "../../actions/user_actions";
-import * as searchActions from "../../actions/search_actions";
 import * as recipeActions from "../../actions/recipe_actions";
+import * as recipesActions from "../../actions/recipes_actions";
+
+import AsyncManager from "../../services/AsyncManager";
+import _ from "lodash";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -12,19 +18,19 @@ import { withRouter } from "react-router-dom";
 import { Paper } from "material-ui";
 import { Card, CardTitle, CardMedia } from "material-ui";
 
-import CustomLoader from "../CustomLoader";
-import CircularProgress from "material-ui/CircularProgress";
+import LoadingFork from "../LoadingFork";
 
 import InputToken from "./InputTokenForm";
 import "./InputTokenForm.css";
 
-import "./SearchRecipes.css";
+import "./Recipes.css";
 import StarRatingComponent from "react-star-rating-component";
 
-import { parseRecipe } from "../../services/RecipeParser";
-
-class SearchRecipes extends Component {
+class Recipes extends Component {
   state = {
+    q: "",
+    preferences: [],
+    loading: false,
     recipes: [],
     healthTokens: [],
     healthOptions: [
@@ -46,31 +52,75 @@ class SearchRecipes extends Component {
     dietFilters: []
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      recipes: !Array.isArray(nextProps.searchReducer.results)
-        ? []
-        : nextProps.searchReducer.results
-    });
-    if (nextProps.searchReducer.query !== this.props.searchReducer.query || nextProps.searchReducer.preferences !== this.props.searchReducer.preferences) {
-      this.props.searchActions.requestSearch(
-        nextProps.searchReducer.query,
-        nextProps.searchReducer.preferences
-      );
+  async componentWillMount() {
+    let { q, preferences } = await this.parseSearchParams(
+      this.props.location.search
+    );
+    if (
+      q !== this.state.q ||
+      _.isEqual(preferences.sort(), this.state.preferences.sort())
+    ) {
+      this.setState({ q, preferences }, this.searchRecipes);
     }
+    // this.props.recipesActions.requestRecipes(
+    //   this.props.recipesReducer.query,
+    //   this.props.recipesReducer.preferences
+    // );
+    // if (this.props.userReducer.user) {
+    //   const defaultPrefs = this.props.userReducer.user.dietaryRestrictions;
+    //   this.setDefaultDietaryPreferences(defaultPrefs);
+    //   this.props.recipesActions.requestRecipes(
+    //     this.props.recipesReducer.query,
+    //     defaultPrefs
+    //   );
+    // } else {
+    //   this.props.recipesActions.requestRecipes(this.props.recipesReducer.query);
+    // }
+    // this.props.userActions.checkCurrentUser();
   }
 
-  componentWillMount() {
-    console.log("WillMount this.props = ", this.props)
-    if (this.props.userReducer.user) {
-      const defaultPrefs = this.props.userReducer.user.dietaryRestrictions
-      this.setDefaultDietaryPreferences(defaultPrefs)
-      this.props.searchActions.requestSearch(this.props.searchReducer.query, defaultPrefs);
-    } else {
-    this.props.searchActions.requestSearch(this.props.searchReducer.query);
+  async componentWillReceiveProps(nextProps) {
+    let { q, preferences } = this.parseSearchParams(
+      nextProps.location.search.slice(1)
+    );
+
+    if (!_.isEqual(preferences.sort(), this.state.preferences.sort())) {
+      await this.setState({ preferences });
     }
-    this.props.userActions.checkCurrentUser();
+
+    if (q !== this.state.q) {
+      this.setState({ q, preferences }, this.searchRecipes);
+    }
+    // if (nextProps.recipesReducer.query !== this.props.recipesReducer.query) {
+    //   this.props.recipesActions.requestRecipes(
+    //     nextProps.recipesReducer.query,
+    //     nextProps.recipesReducer.preferences
+    //   );
+    // }
   }
+
+  parseSearchParams = url => {
+    let { q, preferences } = queryString.parse(url);
+    q = q ? q : "";
+    preferences = preferences ? preferences : [];
+    if (!Array.isArray(preferences)) {
+      preferences = preferences.split(",");
+    }
+    return { q, preferences };
+  };
+
+  searchRecipes = async () => {
+    try {
+      await this.setState({ loading: true });
+      const recipes = await AsyncManager.getRequest(
+        `/api/recipes?q=${this.state.q}}`
+      );
+      await this.setState({ recipes, loading: false });
+    } catch (error) {
+      console.log(error);
+      await this.setState({ loading: false });
+    }
+  };
 
   selectToken = e => {
     const filterType = e.target.name;
@@ -81,7 +131,7 @@ class SearchRecipes extends Component {
         token => this.state[`${filterType}Options`][token - 1].name
       )
     });
-  }; 
+  };
 
   setDefaultDietaryPreferences = preferences => {
     const dietTokens = [];
@@ -132,9 +182,6 @@ class SearchRecipes extends Component {
   };
 
   findOrCreateRecipe = recipe => async () => {
-    console.log("originalRecipe: ", recipe);
-    const parsedRecipe = parseRecipe(recipe);
-    console.log("parsedRecipe: ", parsedRecipe);
     // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
   };
 
@@ -151,29 +198,27 @@ class SearchRecipes extends Component {
     );
   };
 
-  renderHealthInputToken = () => (
+  renderHealthInputToken = () =>
     <InputToken
       name="health"
       value={this.state.healthTokens}
       placeholder="pick health option"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
-  renderDietInputToken = () => (
+  renderDietInputToken = () =>
     <InputToken
       name="diet"
       value={this.state.dietTokens}
       placeholder="pick diet option"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
   render() {
     const recipes = this.state.recipes
-      ? this.state.recipes.map((recipe, index) => (
+      ? this.state.recipes.map((recipe, index) =>
           <Card
             className="recipe-card"
             key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
@@ -182,7 +227,9 @@ class SearchRecipes extends Component {
               <CardMedia>
                 {recipe.image && <img src={recipe.image.url} alt="" />}
               </CardMedia>
-              <CardTitle className="card-title">{recipe.name}</CardTitle>
+              <CardTitle className="card-title">
+                {recipe.name}
+              </CardTitle>
               <StarRatingComponent
                 className="star-rating"
                 name="rating"
@@ -191,7 +238,7 @@ class SearchRecipes extends Component {
               />
             </Link>
           </Card>
-        ))
+        )
       : null;
     return (
       <div className="background">
@@ -207,9 +254,7 @@ class SearchRecipes extends Component {
               </div>
             </div>
             <div className="recipe-results">
-              {this.props.searchReducer.isSearching
-                ? <CustomLoader />
-                : recipes}
+              {this.state.loading ? <LoadingFork /> : recipes}
             </div>
           </div>
           <Paper className="newsfeed">placeholder</Paper>
@@ -223,10 +268,10 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
-  searchActions: bindActionCreators(searchActions, dispatch),
-  recipeActions: bindActionCreators(recipeActions, dispatch)
+  recipeActions: bindActionCreators(recipeActions, dispatch),
+  recipesActions: bindActionCreators(recipesActions, dispatch)
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SearchRecipes)
+  connect(mapStateToProps, mapDispatchToProps)(Recipes)
 );
