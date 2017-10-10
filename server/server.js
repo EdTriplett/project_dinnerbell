@@ -2,6 +2,10 @@
 const express = require("express");
 const app = express();
 
+// Compress ALL THE THINGS
+const compression = require("compression");
+app.use(compression());
+
 // Config
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
@@ -54,13 +58,18 @@ const sessionOpts = {
 };
 app.use(session(sessionOpts));
 
-// Routes
+// Back-end Routes
 app.use("/auth", require("./routes/auth")(passport));
 app.use("/api/recipes", require("./routes/recipes"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/ratings", require("./routes/ratings"));
 app.use("/api/meals", require("./routes/meals"));
 
+// Front-end Server
+const path = require("path");
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+// 404 Handler
 app.all("/*", (req, res, next) => {
   let err = new Error("404: resource not found");
   err.stack = `404: invalid resource requested: ${req.path}`;
