@@ -5,6 +5,7 @@ const {
   buildRecipePrefs,
   buildRecipeURL,
   sanitizeRecipes,
+  sanitizeRecipe,
   buildDbQuery
 } = require("../util/recipes");
 const wrapper = require("../util/errorWrappers").expressWrapper;
@@ -18,12 +19,11 @@ const getRecipes = async (req, res) => {
   let apiResponse = await fetch(buildRecipeURL([`q=${q}`, ...queryPrefs]));
   apiResponse = sanitizeRecipes(await apiResponse.json());
 
-  // q = q ? q : "";
-  // const queryOpts = buildDbQuery(q.toLowerCase(), preferences);
-  // const dbResponse = await Recipe.find(queryOpts);
-  // res.json(dbResponse.concat(apiResponse));
-  res.json(apiResponse);
-
+  q = q ? q : "";
+  const queryOpts = buildDbQuery(q.toLowerCase(), preferences);
+  const dbResponse = await Recipe.find(queryOpts);
+  res.json(dbResponse.concat(apiResponse));
+  // res.json(dbResponse);
 };
 
 const newRecipe = async (req, res) => {
@@ -41,7 +41,17 @@ const findOrCreateRecipe = async (req, res) => {
 };
 
 const getRecipe = async (req, res) => {
-  const recipe = await Recipe.find({ _id: req.params.id });
+  const edamamId = req.params.id;
+  let recipe = await Recipe.findOne({ edamamId });
+  if (!recipe) {
+    const base = `http://www.edamam.com/ontologies/edamam.owl%23recipe_`;
+    const response = await fetch(buildRecipeURL([`r=${base + edamamId}`]));
+    const json = await response.json();
+    if (json) {
+      recipe = sanitizeRecipe({ recipe: json[0] });
+      await Recipe.sparseCreate(recipe);
+    }
+  }
   res.json(recipe);
 };
 

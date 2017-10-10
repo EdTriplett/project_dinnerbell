@@ -5,7 +5,7 @@ const Meal = ({ meal }) =>
     <h1>
       {meal.name}
     </h1>
-    <img src={meal.image} />
+    <img src={meal.image} alt="meal-img" />
     <h3>
       This delicious meal hosted by {meal.owner.username}
     </h3>

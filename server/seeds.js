@@ -3,6 +3,7 @@ const Recipe = require("./models/Recipe");
 const mongooseeder = require("mongooseeder");
 const faker = require("faker");
 const mongoose = require("mongoose");
+const uuid = require("uuid/v1");
 mongoose.Promise = require("bluebird");
 
 const seeds = async () => {
@@ -21,7 +22,8 @@ const seeds = async () => {
     let recipe = new Recipe({
       name: faker.random.words(2),
       ingredients: [...Array(3)].map(() => faker.random.words(5)),
-      owner: users[Math.floor(i % 10)]
+      owner: users[Math.floor(i % 10)],
+      edamamId: uuid()
     });
     recipes.push(recipe);
   }

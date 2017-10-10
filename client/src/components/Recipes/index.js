@@ -15,7 +15,6 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 
 import { withRouter } from "react-router-dom";
-import { Paper } from "material-ui";
 import { Card, CardTitle, CardMedia } from "material-ui";
 
 import LoadingFork from "../LoadingFork";
@@ -26,7 +25,10 @@ import "./InputTokenForm.css";
 import "./Recipes.css";
 import StarRatingComponent from "react-star-rating-component";
 
+let previous_rand = 1;
+
 class Recipes extends Component {
+
   state = {
     q: "",
     loading: false,
@@ -192,6 +194,17 @@ class Recipes extends Component {
       onSelect={this.selectToken}
     />;
 
+  getRandomIndex = () => {
+    let random = Math.floor(Math.random() * 4) + 1;
+
+    if (previous_rand !== random) {
+      previous_rand = random;
+      return random;
+    }
+
+    return this.getRandomIndex(random);
+  };
+
   render() {
     const recipeArray = Array.isArray(this.state.recipes)
       ? this.state.recipes
@@ -202,12 +215,15 @@ class Recipes extends Component {
     const recipes = filteredRecipes
       ? filteredRecipes.map((recipe, index) =>
           <Card
+            className={`recipe-card delay-${this.getRandomIndex()}`}
             className="recipe-card"
-            key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
+            key={`${recipe.name}${recipe.edamamId
+              ? recipe.edamamId
+              : "bad recipe"}`}
           >
-            <Link to={`/recipes/${index}`}>
+            <Link to={`/recipes/${recipe.edamamId}`}>
               <CardMedia>
-                {recipe.image && <img src={recipe.image.url} alt="" />}
+                {recipe.image && <img src={recipe.image} alt="" />}
               </CardMedia>
               <CardTitle className="card-title">
                 {recipe.name}
@@ -239,7 +255,6 @@ class Recipes extends Component {
               {this.state.loading ? <LoadingFork /> : recipes}
             </div>
           </div>
-          <Paper className="newsfeed">placeholder</Paper>
         </div>
       </div>
     );

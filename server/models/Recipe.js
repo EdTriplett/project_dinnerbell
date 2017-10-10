@@ -5,9 +5,10 @@ const sanitizer = require("../util/sparseSanitize")([
   "name",
   "ingredients",
   "preferences",
-  "uri",
   "url",
   "source",
+  "digest",
+  "calories",
   "serves",
   "image"
 ]);
@@ -21,14 +22,12 @@ const RecipeSchema = new Schema(
     name: { type: String, index: true },
     ingredients: [String],
     preferences: [String],
-    uri: String,
     url: String,
     source: String,
-    digest: [Object],
+    digest: Array,
     calories: Number,
     serves: Number,
     image: { type: String, default: null },
-    recipePicture: { type: String, default: null },
     wordList: String,
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }]
   },
@@ -46,7 +45,6 @@ RecipeSchema.statics.sparseUpdate = async function(id, newProps) {
 
 RecipeSchema.statics.sparseCreate = async function(newProps) {
   const props = sanitizer(newProps);
-  console.log("new recipe: ", props);
   return await this.create(props);
 };
 
@@ -74,7 +72,7 @@ const removeFromOwner = async function() {
 RecipeSchema.pre("remove", wrapper(removeFromOwner));
 
 const populateAll = function(next) {
-  this.populate("image owner ratings");
+  this.populate("owner ratings");
   next();
 };
 RecipeSchema.pre("find", populateAll);

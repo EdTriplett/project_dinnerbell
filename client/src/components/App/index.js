@@ -30,19 +30,18 @@ class App extends Component {
             />
             <Route
               path="/login"
-              render={() => <Authentication {...this.props} showLogin={true} />}
+              render={() => <Authentication showLogin={true} />}
             />
             <Route path="/recipes" render={() => <Recipes {...this.props} />} />
             <Route
               path="/profile/:name"
-              render={() => <Profile {...this.props} />}
+              render={() => <Profile />}
             />
             <Route
               path="/create_meal"
-              render={() => <CreateMeal {...this.props} />}
+              render={() => <CreateMeal />}
             />
             <Route path="/meals/:id" component={MealContainer} />
-            />
             <Route
               path="/users"
               render={() =>

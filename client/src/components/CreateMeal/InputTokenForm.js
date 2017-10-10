@@ -109,7 +109,8 @@ class TokenInput extends Component {
       name,
       placeholder,
       value,
-      onKeyPress
+      onKeyPress,
+      errorType
     } = this.props;
     const isMaxLengthReached =
       maxLength !== 0 && value.length !== 0 && maxLength === value.length;
@@ -151,8 +152,10 @@ class TokenInput extends Component {
               {this.options.length ? (
                 this.options.map(this.renderOption)
               ) : (
-                <div className="text-muted p-1">
-                  Press enter to add custom input
+                errorType === 'recipe' ? <div className="text-muted p-1">
+                  No recipes left! Add recipes via the search page :)
+                </div> : <div className="text-muted p-1">
+                  No guests found. Invite more people to use the app!
                 </div>
               )}
             </div>
@@ -196,3 +199,51 @@ class TokenInput extends Component {
 }
 
 export default TokenInput;
+
+/**
+ * To handle creating a new item if none are found
+ * Do not delete code below please
+ */
+
+// const handleUsersKeyPress = e => {
+//   if (e.key === "Enter") {
+//     e.stopPropagation();
+//     e.preventDefault();
+
+//     let optionsLen = this.state.userOptions.length;
+//     const newUser = {
+//      id: ++optionsLen,
+//      name: e.target.value,
+//      element: <span>{e.target.value}</span>
+//     };
+
+//     let userOptions = [
+//       ...this.state.userOptions
+//       // newUser
+//     ];
+//     let userTokens = [
+//       ...this.state.userTokens
+//       // newUser.id
+//     ];
+
+//     this.setState({ userOptions, userTokens });
+//   }
+// };
+
+// const selectRecipeToken = e => {
+//   let tokens = e.target.value;
+//   let selectedRecipes = [];
+//   let copy = [...tokens];
+//   const recipeIndex = copy.pop();
+//   let result = this.state.recipeOptions.filter(
+//     x => x.id === recipeIndex
+//   );
+
+//   if (result.length) {
+//     selectedRecipes = [...this.state.selectedRecipes, result[0].name];
+//   } else {
+//     selectedRecipes.pop();
+//   }
+
+//   this.setState({ recipeTokens: tokens, selectedRecipes });
+// };
