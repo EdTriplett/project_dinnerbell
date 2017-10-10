@@ -2,8 +2,6 @@
 
 .background {
   background-color: #3c8d41;
-  /*height: auto;*/
-  /*min-height: 100%;*/
   min-height: 100vh !important;
   height: auto !important;
   display: inline-block;
@@ -28,23 +26,13 @@
   display: flex;
   margin-top: 60px;
   height: auto;
-  width: 80%;
   flex-direction: column;
 }
 
 .search-container {
   display: flex;
   flex-direction: row;
-}
-
-.newsfeed {
-  width: 20%;
-  background-color: #3c8d41 !important;
-  /*background-color: white;*/
-  /*border: 1px solid black !important;*/
-  /*border-radius: 10px !important;*/
-  margin-right: 10px !important;
-  visibility: hidden;
+  justify-content: center;
 }
 
 .recipe-results {
@@ -55,13 +43,27 @@
   justify-content: space-around;
   flex-wrap: wrap;
   flex-flow: row wrap;
+  margin-top: 50px;
+}
+
+.recipe-card a {
+  color: black;
+}
+
+.recipe-card {
+  border-radius: 20px !important;
+  padding: 10px;
+  box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+  transform: translatey(0px);
+  animation: float var(--animation-time) ease-in-out infinite;
+}
+
+.recipe-card img {
+  border-radius: 20px;
 }
 
 .recipe-results .recipe-card {
   background-color: white;
-  height: auto;
-  width: 30%;
-  border-radius: 5px;
   padding: 8px;
   margin: 1%;
 }
@@ -143,4 +145,44 @@
 
 .link-container {
   text-decoration: none !important;
+}
+
+/* animating the floating cards */
+
+@keyframes float {
+  0% {
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
+  50% {
+    box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
+    transform: translatey(2px);
+  }
+  100% {
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
+    transform: translatey(0px);
+  }
+}
+
+/* animation delays */
+
+.delay-1 {
+  animation-delay: -1s;
+}
+
+.delay-2 {
+  animation-delay: -2s;
+}
+
+.delay-3 {
+  animation-delay: -3s;
+}
+
+.delay-4 {
+  animation-delay: -4s;
+}
+
+/* set the default transition time */
+:root {
+  --animation-time: 4s; 
 }

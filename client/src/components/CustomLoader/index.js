@@ -1,5 +1,4 @@
 import React from "react";
-import ForkImage from "./fork.png";
 import "./CustomLoader.css";
 
 const CustomLoader = () =>

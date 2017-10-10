@@ -9,17 +9,17 @@ import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 
 import { withRouter } from "react-router-dom";
-import { Paper } from "material-ui";
 import { Card, CardTitle, CardMedia } from "material-ui";
 
 import CustomLoader from "../CustomLoader";
-import CircularProgress from "material-ui/CircularProgress";
 
 import InputToken from "./InputTokenForm";
 import "./InputTokenForm.css";
 
 import "./SearchRecipes.css";
 import StarRatingComponent from "react-star-rating-component";
+
+let previous_rand = 1;
 
 class SearchRecipes extends Component {
   state = {
@@ -63,7 +63,10 @@ class SearchRecipes extends Component {
   }
 
   componentWillMount() {
+<<<<<<< HEAD
     console.log("WillMount this.props = ", this.props);
+=======
+>>>>>>> be85e3e40d536388db99b148b095e255983f2ae1
     if (this.props.userReducer.user) {
       const defaultPrefs = this.props.userReducer.user.dietaryRestrictions;
       this.setDefaultDietaryPreferences(defaultPrefs);
@@ -173,6 +176,17 @@ class SearchRecipes extends Component {
     />
   );
 
+  getRandomIndex = () => {
+    let random = Math.floor(Math.random() * 4) + 1;
+
+    if (previous_rand !== random) {
+      previous_rand = random;
+      return random;
+    }
+
+    return this.getRandomIndex(random);
+  }
+
   render() {
     const recipes = this.state.recipes
       ? this.state.recipes.map((recipe, index) => (
@@ -218,7 +232,6 @@ class SearchRecipes extends Component {
               )}
             </div>
           </div>
-          <Paper className="newsfeed">placeholder</Paper>
         </div>
       </div>
     );
