@@ -9,6 +9,8 @@ import { bindActionCreators } from "redux";
 import { withRouter, Link } from "react-router-dom";
 import "./Navbar.css";
 
+import queryString from "query-string";
+
 const ROUTE_MAP = {
   login: (
     <Link to="/login" className="non-logo-item" key="login">
@@ -71,11 +73,36 @@ class Navbar extends Component {
 
   onSearchInputSubmit = e => {
     e.preventDefault();
-    this.props.recipesActions.setRecipesQuery(this.state.query);
-    this.props.history.push(`/recipes?q=${this.state.query}`);
+    let preferencesString = "";
+    if (this.props.location.pathname === "/recipes") {
+      let { q, preferences } = this.parseSearchParams(
+        this.props.location.search
+      );
+      preferencesString = preferences.join(",");
+    } else {
+      preferencesString =
+        this.props.userReducer.user &&
+        this.props.userReducer.user.dietaryRestrictions
+          ? this.props.userReducer.user.dietaryRestrictions.join(",")
+          : "";
+    }
+    this.props.history.push(
+      `/recipes?q=${this.state.query}&preferences=${preferencesString}`
+    );
+  };
+
+  parseSearchParams = url => {
+    let { q, preferences } = queryString.parse(url);
+    q = q ? q : "";
+    preferences = preferences ? preferences : [];
+    if (!Array.isArray(preferences)) {
+      preferences = preferences.split(",");
+    }
+    return { q, preferences };
   };
 
   render() {
+    console.log("this.props: ", this.props);
     let navItems = [];
 
     switch (this.props.location.pathname) {

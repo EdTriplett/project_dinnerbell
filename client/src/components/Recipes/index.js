@@ -55,29 +55,21 @@ class Recipes extends Component {
     let { q, preferences } = await this.parseSearchParams(
       this.props.location.search
     );
-    this.setDietaryPreferences(preferences)
-    if (q !== this.state.q) {
-      this.setState({ q}, this.searchRecipes);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    let { q, preferences } = this.parseSearchParams(
-      nextProps.location.search.slice(1)
-    );
-    this.setDietaryPreferences(preferences)
+    this.setDietaryPreferences(preferences);
     if (q !== this.state.q) {
       this.setState({ q }, this.searchRecipes);
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    let { q, preferences } = this.parseSearchParams(
-      nextProps.location.search.slice(1)
-    );
-    let statePrefs = this.state.healthFilters.concat(this.state.dietFilters)
-    return (q !== this.state.q || _.isEqual(statePrefs.sort(), preferences.sort()))
-  } 
+  componentWillReceiveProps(nextProps) {
+    let { q, preferences } = this.parseSearchParams(nextProps.location.search);
+    this.setDietaryPreferences(preferences);
+    if (q !== this.state.q) {
+      this.setState({ q }, this.searchRecipes);
+    } else if (!this.state.recipes.length) {
+      this.setState({ q }, this.searchRecipes);
+    }
+  }
 
   parseSearchParams = url => {
     let { q, preferences } = queryString.parse(url);
@@ -111,8 +103,10 @@ class Recipes extends Component {
         token => this.state[`${filterType}Options`][token - 1].name
       )
     });
-    let statePrefs = this.state.healthFilters.concat(this.state.dietFilters)
-    this.props.history.push(`/recipes?q=${this.state.q}&preferences=${statePrefs.join(',')}`)
+    let statePrefs = this.state.healthFilters.concat(this.state.dietFilters);
+    this.props.history.push(
+      `/recipes?q=${this.state.q}&preferences=${statePrefs.join(",")}`
+    );
   };
 
   setDietaryPreferences = preferences => {
@@ -148,12 +142,11 @@ class Recipes extends Component {
         healthTokens,
         healthFilters
       });
-
     });
   };
 
-  filterRecipes = () => {
-    return this.state.recipes.filter(recipe => {
+  filterRecipes = recipes => {
+    return recipes.filter(recipe => {
       return this.isValidRecipe(recipe);
     });
   };
@@ -200,7 +193,12 @@ class Recipes extends Component {
     />;
 
   render() {
-    const filteredRecipes = this.filterRecipesLength(this.filterRecipes(this.state.recipes))
+    const recipeArray = Array.isArray(this.state.recipes)
+      ? this.state.recipes
+      : [];
+    const filteredRecipes = this.filterRecipesLength(
+      this.filterRecipes(recipeArray)
+    );
     const recipes = filteredRecipes
       ? filteredRecipes.map((recipe, index) =>
           <Card
