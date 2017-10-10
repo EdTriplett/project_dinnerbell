@@ -4,6 +4,14 @@ import { connect } from "react-redux";
 import { getMeal } from "../../actions/meal_actions";
 import Meal from "./Meal";
 
+const styles = {
+  display: "flex",
+  backgroundColor: "#3c8d41",
+  height: "100vh",
+  position: "relative",
+  justifyContent: "center"
+};
+
 class MealContainer extends Component {
   componentDidMount() {
     this.props.meal
@@ -12,8 +20,11 @@ class MealContainer extends Component {
   }
 
   render() {
-    console.log(this.props.meal);
-    return <Meal meal={this.props.meal} />;
+    return (
+      <div style={styles}>
+        {this.props.meal ? <Meal meal={this.props.meal.meal[0]} /> : null}
+      </div>
+    );
   }
 }
 
