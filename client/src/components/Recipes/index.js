@@ -56,15 +56,15 @@ class Recipes extends Component {
     let { q, preferences } = await this.parseSearchParams(
       this.props.location.search
     );
-    this.setDietaryPreferences(preferences);
+    await this.setDietaryPreferences(preferences);
     if (q !== this.state.q) {
       this.setState({ q }, this.searchRecipes);
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     let { q, preferences } = this.parseSearchParams(nextProps.location.search);
-    this.setDietaryPreferences(preferences);
+    await this.setDietaryPreferences(preferences);
     if (q !== this.state.q) {
       this.setState({ q }, this.searchRecipes);
     } else if (!this.state.recipes.length) {
@@ -86,7 +86,10 @@ class Recipes extends Component {
     try {
       await this.setState({ loading: true });
       const recipes = await AsyncManager.getRequest(
-        `/api/recipes?q=${this.state.q}}`
+        `/api/recipes?q=${this.state.q}&preferences=${[
+          ...this.state.healthFilters,
+          ...this.state.dietFilters
+        ].join(",")}`
       );
       await this.setState({ recipes, loading: false });
     } catch (error) {
@@ -110,12 +113,12 @@ class Recipes extends Component {
     );
   };
 
-  setDietaryPreferences = preferences => {
+  setDietaryPreferences = async preferences => {
     const dietTokens = [];
     const dietFilters = [];
     const healthTokens = [];
     const healthFilters = [];
-    ["diet", "health"].forEach(filterType => {
+    await ["diet", "health"].forEach(async filterType => {
       preferences.forEach(userPreference => {
         const foundPreference = this.state[`${filterType}Options`].find(
           preference =>
@@ -137,7 +140,7 @@ class Recipes extends Component {
           }
         }
       });
-      this.setState({
+      await this.setState({
         dietTokens,
         dietFilters,
         healthTokens,
@@ -146,11 +149,11 @@ class Recipes extends Component {
     });
   };
 
-  filterRecipes = recipes => {
-    return recipes.filter(recipe => {
-      return this.isValidRecipe(recipe);
-    });
-  };
+  // filterRecipes = recipes => {
+  //   return recipes.filter(recipe => {
+  //     return this.isValidRecipe(recipe);
+  //   });
+  // };
 
   filterRecipesLength = filteredRecipes => {
     return filteredRecipes.length <= 9
@@ -158,22 +161,22 @@ class Recipes extends Component {
       : new Array(9).fill(0).map((_, index) => filteredRecipes[index]);
   };
 
-  findOrCreateRecipe = recipe => async () => {
-    // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
-  };
+  // findOrCreateRecipe = recipe => async () => {
+  //   // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
+  // };
 
-  isValidRecipe = recipe => {
-    const filters = [...this.state.dietFilters, ...this.state.healthFilters];
-    return filters.reduce(
-      (isValid, filter) =>
-        recipe.preferences &&
-        !!recipe.preferences.find(
-          preference => preference.toLowerCase() === filter.toLowerCase()
-        ) &&
-        isValid,
-      true
-    );
-  };
+  // isValidRecipe = recipe => {
+  //   const filters = [...this.state.dietFilters, ...this.state.healthFilters];
+  //   return filters.reduce(
+  //     (isValid, filter) =>
+  //       recipe.preferences &&
+  //       !!recipe.preferences.find(
+  //         preference => preference.toLowerCase() === filter.toLowerCase()
+  //       ) &&
+  //       isValid,
+  //     true
+  //   );
+  // };
 
   renderHealthInputToken = () =>
     <InputToken
@@ -208,9 +211,7 @@ class Recipes extends Component {
     const recipeArray = Array.isArray(this.state.recipes)
       ? this.state.recipes
       : [];
-    const filteredRecipes = this.filterRecipesLength(
-      this.filterRecipes(recipeArray)
-    );
+    const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
       ? filteredRecipes.map((recipe, index) =>
           <Card
