@@ -24,7 +24,15 @@ const MealSchema = new Schema(
 
 // Auto-Population
 const populateAll = function(next) {
-  this.populate("recipes owner ratings registeredGuests");
+  this.populate("recipes ratings");
+  this.populate({
+    path: "owner",
+    select: "username email profilePicture _id"
+  });
+  this.populate({
+    path: "registeredGuests",
+    select: "username email profilePicture _id"
+  });
   next();
 };
 MealSchema.pre("find", populateAll);

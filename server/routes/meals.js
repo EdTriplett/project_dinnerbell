@@ -14,11 +14,12 @@ const allowed = (req, res, next) => {
 
 // Route Handlers
 const getMeals = async (req, res) => {
-  res.json(await Meal.find());
+  const meals = await Meal.find();
+  res.json({ meals });
 };
 
 const getMeal = async (req, res) => {
-  const meal = await Meal.find({ id: req.params.id });
+  const meal = await Meal.find({ _id: req.params.id });
   res.json({ meal });
 };
 
