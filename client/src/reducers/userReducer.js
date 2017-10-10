@@ -40,6 +40,7 @@ export default (state = initialState, action = {}) => {
 
     case userConstants.SET_ALL_USERS:
       updated.users = action.payload;
+      return updated;
 
     default:
       return updated;

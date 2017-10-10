@@ -7,7 +7,7 @@ const MealSchema = new Schema(
   {
     kind: String,
     name: { type: String, index: true },
-    date: Number,
+    date: Date,
     owner: { type: Schema.Types.ObjectId, ref: "User" },
     recipes: [{ type: Schema.Types.ObjectId, ref: "Recipe" }],
     unregisteredGuests: [String],

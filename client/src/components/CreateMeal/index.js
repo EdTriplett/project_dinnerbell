@@ -6,8 +6,6 @@ import { withRouter } from "react-router-dom";
 import TextField from "material-ui/TextField";
 import InputToken from "./InputTokenForm";
 
-import serialize from "form-serialize";
-
 import * as userActions from "../../actions/user_actions";
 import * as mealActions from "../../actions/meal_actions";
 
@@ -20,19 +18,21 @@ class CreateMeal extends Component {
 	state = {
 		value: 2,
 		mealName: "",
-		mealDescription: "",
+		mealTasks: "",
 		isUpdatingImage: false,
+		isLoadingUsers: false,
 		recipeTokens: [],
 		selectedRecipes: [],
 		recipeOptions: [
-			{ id: 1, name: "Apple Pie", element: <span>Apple Pie</span> },
-			{ id: 2, name: "New York Steak", element: <span>New York Steak</span> },
-			{ id: 3, name: "Chicken Soup", element: <span>Chicken Soup</span> },
-			{ id: 4, name: "French Fries", element: <span>French Fries</span> },
-			{ id: 5, name: "Tuna Salad", element: <span>Tuna Salad</span> }
+			{ id: 1, name: "Apple Pie", _id: '59dcdd2b018b8b6279a4bb65', element: <span>Apple Pie</span> },
+			{ id: 2, name: "New York Steak", _id: '59dcdc2b018b8b6279a4bb65', element: <span>New York Steak</span> },
+			{ id: 3, name: "Chicken Soup", _id: '29dcdc2b018b8b6279a4bb65', element: <span>Chicken Soup</span> },
+			{ id: 4, name: "French Fries", _id: '19dcdc2b018b8b6279a4bb65', element: <span>French Fries</span> },
+			{ id: 5, name: "Tuna Salad", _id: '52dcdc2b018b8b6279a4bb65', element: <span>Tuna Salad</span> }
 		],
 		userTokens: [],
 		selectedUsers: [],
+		selectedUserIds: [],
 		userOptions: [
 			
 		],
@@ -40,12 +40,16 @@ class CreateMeal extends Component {
 	};
 
 	componentDidMount() {
-		this.props.userActions.getUsers()
+		this.setState({
+			isLoadingUsers: true
+		})
+
+		this.props.userActions.getUsers();	
 	}
 
 	componentDidUpdate() {
 		const { userReducer } = this.props;
-		if (this.props.userReducer.users && !this.state.userOptions.length) {
+		if (this.props.userReducer.users && this.state.isLoadingUsers) {
 			let filtered = userReducer.users.filter(user => user.username !== userReducer.user.username);
 
 			filtered.forEach((item, index) => {
@@ -55,7 +59,8 @@ class CreateMeal extends Component {
 			})
 
 			this.setState({
-				userOptions: filtered
+				userOptions: filtered,
+				isLoadingUsers: false
 			})
 		}
 	}
@@ -65,21 +70,11 @@ class CreateMeal extends Component {
 		if (e.key === "Enter") {
 			e.stopPropagation();
 			e.preventDefault();
-
-			let optionsLen = this.state.userOptions.length;
-			const newUser = {
-				id: ++optionsLen,
-				name: e.target.value,
-				element: <span>{e.target.value}</span>
-			};
-
 			let userOptions = [
-				...this.state.userOptions,
-				newUser
+				...this.state.userOptions
 			];
 			let userTokens = [
-				...this.state.userTokens,
-				newUser.id
+				...this.state.userTokens
 			];
 
 			this.setState({ userOptions, userTokens });
@@ -91,18 +86,11 @@ class CreateMeal extends Component {
 			e.stopPropagation();
 			e.preventDefault();
 
-			let optionsLen = this.state.recipeOptions.length;
-			const newRecipe = {
-				id: ++optionsLen,
-				name: e.target.value,
-				element: <span>{e.target.value}</span>
-			};
-
 			let recipeOptions = [
-				...this.state.recipeOptions,
-				newRecipe
+				...this.state.recipeOptions
 			];
-			let recipeTokens = [...this.state.recipeTokens, newRecipe.id];
+
+			let recipeTokens = [...this.state.recipeTokens];
 
 			this.setState({ recipeOptions, recipeTokens });
 		}
@@ -112,12 +100,12 @@ class CreateMeal extends Component {
 		let tokens = e.target.value;
 		let selectedUsers = [];
 		let copy = [...tokens];
-		copy.pop();
+		const userIndex = copy.pop();
 		let result = this.state.userOptions.filter(
-			x => x.id === selectedUsers
+			x => x.id === userIndex
 		);
 		if (result.length) {
-			selectedUsers = [...this.state.selectedUsers, result[0].name];
+			selectedUsers = [...this.state.selectedUsers, result[0]._id];
 		} else {
 			selectedUsers.pop();
 		}
@@ -135,7 +123,7 @@ class CreateMeal extends Component {
 		);
 
 		if (result.length) {
-			selectedRecipes = [...this.state.selectedRecipes, result[0].name];
+			selectedRecipes = [...this.state.selectedRecipes, result[0]._id]; 
 		} else {
 			selectedRecipes.pop();
 		}
@@ -161,26 +149,36 @@ class CreateMeal extends Component {
 
 	onTextFieldInput = e => {
 		this.setState({
-			mealDescription: e.target.value
+			mealTasks: e.target.value
 		});
 	};
 
 	onSubmitForm = e => {
-		e.preventDefault();
-		let form = serialize(e.target, { hash: true });
+		const { userReducer } = this.props;
+ 		e.preventDefault();
+ 		
+		const data = {
+			name: this.state.mealName,
+			date: new Date(Date.now()),
+			owner: userReducer.user && userReducer.user._id,
+			recipes: this.state.selectedRecipes,
+			registeredGuests: this.state.selectedUsers,
+			tasks: this.state.mealTasks,
+			image: this.props.mealReducer.mealPicture
+		}
+
+		console.log(data, 'what is the data??')
 	};
 
 	imageSelected = files => {
 		const image = files[0];
 
-		console.log("touched this!");
 		this.props.mealActions.setMealProfileImage(image);
-
-		// TODO: create meals
 	};
 
 	render() {
-		const { userReducer, mealReducer } = this.props;
+		const { mealReducer } = this.props;
+		console.log(this.state, 'wat')
 		return (
 			<div className="create-recipe">
 				<form onSubmit={this.onSubmitForm}>
@@ -195,7 +193,7 @@ class CreateMeal extends Component {
 							className="user-recipe-img-custom"
 							style={{ margin: "0 auto" }}
 						>
-							<img src={mealReducer.mealPicture} />
+							<img src={mealReducer.mealPicture} alt="meal-img" />
 						</div>
 					)}
 					<div className="recipe-form-body">
@@ -233,6 +231,7 @@ class CreateMeal extends Component {
 								options={this.state.recipeOptions}
 								onSelect={this.selectRecipeToken}
 								onKeyPress={this.handleRecipesKeyPress}
+								errorType="recipe"
 								color="blue"
 							/>
 
@@ -244,6 +243,7 @@ class CreateMeal extends Component {
 								options={this.state.userOptions}
 								onSelect={this.selectedUserToken}
 								onKeyPress={this.handleUsersKeyPress}
+								errorType="guests"
 								color="orange"
 							/>
 						</div>
@@ -251,7 +251,7 @@ class CreateMeal extends Component {
 						<div className="wrapper">
 							<div className="paper">
 								<textarea
-									placeholder="Write a description of your meal :)"
+									placeholder="List out the preparation tasks for this meal :)"
 									className="text"
 									name="instructions"
 									rows="4"
@@ -272,10 +272,7 @@ class CreateMeal extends Component {
 					<div className="recipe-login-buttons">
 						<button type="submit">submit</button>
 						<button
-							onClick={() => {
-								this.props.history.goBack;
-							}}
-						>
+							onClick={this.props.history.goBack}>
 							cancel
 						</button>
 					</div>

@@ -82,12 +82,14 @@
   border-radius: 5px;
   padding: 5px;
   padding-left: 18px;
+  padding-right: 18px;
 }
 .ReactTokenInput--open .ReactTokenInput__options-list {
   display: block;
 }
 
 .ReactTokenInput__option {
+  text-align: center;
   display: block;
   padding: 0.6em;
   border-bottom: 1px solid #ccc;
