@@ -24,8 +24,7 @@ const seeds = async () => {
       name: faker.random.words(2),
       edamamId: uuid4(),
       ingredients: [...Array(3)].map(() => faker.random.words(5)),
-      owner: users[Math.floor(i % 10)],
-      edamamId: uuid()
+      owner: users[Math.floor(i % 10)]
     });
     recipes.push(recipe);
   }
@@ -36,7 +35,8 @@ const seeds = async () => {
     unregisteredGuests: "Leo",
     registeredGuests: users[1],
     image:
-      "https://www.snapfinger.com/api/content/managedimage/Zaxbys/18383/zaxbys-chickenfingerplate-OH.png?maxWidth=385&maxHeight=385"
+      "https://www.snapfinger.com/api/content/managedimage/Zaxbys/18383/zaxbys-chickenfingerplate-OH.png?maxWidth=385&maxHeight=385",
+    tasks: ["prepare food", "eat food"]
   });
   const promises = [...users, ...recipes, meal].map(resource =>
     resource.save()

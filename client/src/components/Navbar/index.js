@@ -29,26 +29,26 @@ const ROUTE_MAP = {
   )
 };
 
-const Searchbar = ({onSearchInputSubmit, onSearchInputChange}) => {
-    return (
-      <form action="" method="get" onSubmit={onSearchInputSubmit}>
-        <input
-          className="namanyay-search-box"
-          name="q"
-          size="40"
-          type="text"
-          placeholder="Search for recipes"
-          onChange={onSearchInputChange}
-        />
-        <button
-          className="namanyay-search-btn"
-          type="submit"
-          onClick={onSearchInputSubmit}
-        >
-          <i className="fa fa-search" aria-hidden="true" />
-        </button>
-      </form>
-    );
+const Searchbar = ({ onSearchInputSubmit, onSearchInputChange }) => {
+  return (
+    <form action="" method="get" onSubmit={onSearchInputSubmit}>
+      <input
+        className="namanyay-search-box"
+        name="q"
+        size="40"
+        type="text"
+        placeholder="Search for recipes"
+        onChange={onSearchInputChange}
+      />
+      <button
+        className="namanyay-search-btn"
+        type="submit"
+        onClick={onSearchInputSubmit}
+      >
+        <i className="fa fa-search" aria-hidden="true" />
+      </button>
+    </form>
+  );
 };
 
 class Navbar extends Component {
@@ -75,7 +75,7 @@ class Navbar extends Component {
     e.preventDefault();
     let preferencesString = "";
     if (this.props.location.pathname === "/recipes") {
-      let { q, preferences } = this.parseSearchParams(
+      let { preferences } = this.parseSearchParams(
         this.props.location.search
       );
       preferencesString = preferences.join(",");
@@ -102,7 +102,6 @@ class Navbar extends Component {
   };
 
   render() {
-    console.log("this.props: ", this.props);
     let navItems = [];
 
     switch (this.props.location.pathname) {
@@ -172,7 +171,6 @@ class Navbar extends Component {
           <Searchbar
             onSearchInputChange={this.onSearchInputChange}
             onSearchInputSubmit={this.onSearchInputSubmit}
-            
           />
         </div>
       </div>

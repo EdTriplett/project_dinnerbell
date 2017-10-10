@@ -1,12 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { PaperList } from "../UsersContainer/PaperList";
-import Dialog from "material-ui/Dialog";
-import Recipe from "../Recipe";
 
 const styles = {
   background: "#3c8d41",
-  top: "75px",
-  position: "relative",
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -16,71 +12,64 @@ const styles = {
   width: "100%"
 };
 
-class Meal extends Component {
-  state = {
-    open: false
-  };
+const Guests = ({ unregGuests, regGuests }) =>
+  <div>
+    {regGuests
+      ? <div>
+          <p>Attending</p>
+          <PaperList users={regGuests} />{" "}
+        </div>
+      : null}
+    {unregGuests
+      ? <div>
+          <p>Also attending</p>
+          <ul>
+            {unregGuests.map(guest =>
+              <li key={guest}>
+                {guest}
+              </li>
+            )}
+          </ul>
+        </div>
+      : null}
+  </div>;
 
-  handleOpen = () => {
-    this.setState({ open: true });
-  };
+const Tasks = ({ tasks }) =>
+  <div>
+    {tasks
+      ? <ul>
+          {tasks.map((task, index) =>
+            <li key={index}>
+              {task}
+            </li>
+          )}
+        </ul>
+      : null}
+  </div>;
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+const Meal = ({ meal }) => {
+  let regGuests = [];
+  let unregGuests = [];
+  if (meal.registeredGuests.length)
+    regGuests = regGuests.concat(meal.registeredGuests);
+  if (meal.unregisteredGuests.length)
+    unregGuests = unregGuests.concat(meal.unregisteredGuests);
 
-  render() {
-    const { meal } = this.props;
-
-    // ({ meal }) => {
-    let registeredGuests = [];
-    let unregisteredGuests = [];
-    if (meal.registeredGuests.length)
-      registeredGuests = registeredGuests.concat(meal.registeredGuests);
-    if (meal.unregisteredGuests.length)
-      unregisteredGuests = unregisteredGuests.concat(meal.unregisteredGuests);
-
-    return (
-      <div style={styles}>
-        {console.log(meal)}
-        <h1 style={{ fontSize: "3em" }}>
-          {meal.name}
-        </h1>
-        <img src={meal.image} />
-        <h3>
-          This delicious meal hosted by {meal.owner.username}
-        </h3>
-        {registeredGuests
-          ? <div>
-              <p>Attending</p>
-              <PaperList users={registeredGuests} />{" "}
-            </div>
-          : null}
-        {unregisteredGuests
-          ? <div>
-              <p>Also attending</p>
-              <ul>
-                {unregisteredGuests.map(guest =>
-                  <li key={guest}>
-                    {guest}
-                  </li>
-                )}
-              </ul>
-            </div>
-          : null}
-        {meal.recipes.map(recipe =>
-          <div key={recipe._id}>
-            <h3 onClick={this.handleOpen}>
-              {recipe.name}test
-            </h3>
-            <Dialog title={recipe.name} modal={true} open={this.state.open}>
-              <Recipe recipe={recipe} />
-            </Dialog>
-          </div>
-        )}
+  return (
+    <div style={styles}>
+      <h1 style={{ fontSize: "3em" }}>
+        {meal.name}
+      </h1>
+      <img src={meal.image} alt='meal image'/>
+      <h3>
+        This delicious meal hosted by {meal.owner.username}
+      </h3>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <Guests regGuests={regGuests} unregGuests={unregGuests} />
+        <Tasks tasks={meal.tasks} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Meal;

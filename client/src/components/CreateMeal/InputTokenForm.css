@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   align-items: center;
   position: relative;
-  justify-content: flex-start;
+  justify-content: center;
   max-width: 700px;
   margin: 0 0 1rem;
   border-bottom: none;
