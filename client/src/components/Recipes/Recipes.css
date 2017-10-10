@@ -192,3 +192,22 @@
 :root {
   --animation-time: 4s; 
 }
+
+/* Portrait iPhone 6 */
+@media only screen 
+  and (min-device-width: 375px) 
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .recipe-card img {
+      width: 100px !important;
+    }
+
+    .ReactTokenInput__input {
+      width: 90%;
+    }
+
+    .search-recipes {
+      padding-bottom: 50px;
+    }
+}

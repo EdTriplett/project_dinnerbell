@@ -2,10 +2,9 @@
 
 .landing {
   display: flex;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
   background-color: #3c8d41;
   position: relative;
 }
@@ -157,8 +156,9 @@
 }
 
 .oauth-landing {
+  justify-content: space-between;
   display: flex;
-  justify-content: space-around;
+  height: 100px;
   width: 330px;
 }
 
@@ -167,4 +167,229 @@
   margin-top: 15px;
   border: 1px solid white;
   border-radius: 5px;
+}
+
+/* Portrait iPhone 5 */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 4em;
+    }
+
+    .landing-description {
+      top: 12%;
+    }
+
+    .landing-auth-container {
+      display: none;
+    }
+}
+
+/* Portrait iPhone 5 */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 4em;
+    }
+
+    .landing-description {
+      top: 14%;
+    }
+
+    .landing-auth-container {
+      display: none;
+    }
+
+    .landing-img-cube {
+      margin-top: 81px;
+    }
+}
+
+/* Portrait Nexus 6P */
+@media only screen 
+  and (min-device-width: 412px) 
+  and (max-device-width: 732px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 3em;
+    }
+
+    .landing-description {
+      top: 12%;
+    }
+
+    .landing-auth-container {
+      display: flex;
+      top: 24%;
+    }
+
+    .landing-img-cube {
+      margin-top: 176px;
+    }
+}
+
+/* Portrait Nexus 6P */
+@media only screen 
+  and (min-device-width: 412px) 
+  and (max-device-width: 732px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 3em;
+    }
+
+    .landing-auth-container {
+      display: none;
+    }
+
+    .landing-description {
+      top: 14%;
+    }
+
+}
+
+/* Portrait iPad */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 6em;
+    }
+
+    .landing-auth-container {
+      top: 21%;
+      display: flex;
+    }
+
+    .landing-description {
+      top: 15%;
+    }
+
+    .landing-img-cube {
+      margin-top: 170px;
+    }
+
+}
+
+/* Landscape iPad */
+@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 3em;
+    }
+
+    .landing-auth-container {
+      top: 21%;
+      display: flex;
+    }
+
+    .landing-description {
+      top: 15%;
+    }
+
+    .landing-img-cube {
+      margin-top: 170px;
+    }
+}
+
+/* Portrait iPad Pro */
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 6em;
+    }
+
+    .landing-auth-container {
+      top: 21%;
+      display: flex;
+    }
+
+    .landing-description {
+      top: 15%;
+    }
+
+    .landing-img-cube {
+      margin-top: 200px;
+    }
+
+}
+
+/* Landscape iPad Pro */
+@media only screen 
+  and (min-device-width: 1024px) 
+  and (max-device-width: 1366px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+    .landing {
+      padding-bottom: 15px;
+    }
+
+    .landing-title {
+      margin: 1px;
+      font-size: 6em;
+    }
+
+    .landing-auth-container {
+      top: 22%;
+      display: flex;
+    }
+
+    .landing-description {
+      top: 15%;
+    }
+
+    .landing-img-cube {
+      margin-top: 180px;
+    }
+
 }

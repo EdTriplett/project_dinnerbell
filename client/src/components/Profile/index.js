@@ -9,7 +9,7 @@ import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 import { withRouter } from "react-router-dom";
 
 const Searchbar = () => (
-  <form className="searchthis" method="get">
+  <form className="search-form" method="get">
     <input
       className="logs-search-box"
       name="q"
@@ -18,7 +18,7 @@ const Searchbar = () => (
       placeholder="Search through your logs"
     />
     <button className="logs-search-btn" type="submit">
-      <i className="fa fa-search" aria-hidden="true" />
+      <i className="fa fa-search search-form-icon" aria-hidden="true" />
     </button>
   </form>
 );

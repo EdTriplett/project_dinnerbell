@@ -55,3 +55,21 @@
   height: 40px;
   background-image: url('https://i.imgur.com/5TYZkyJ.png');
 }
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+
+    .namanyay-search-box {
+      margin-top: 10px;
+      width: 70px;
+      padding: 5px;
+    }
+
+    .namanyay-search-btn {
+      padding: 4px 6px;
+    }
+
+}

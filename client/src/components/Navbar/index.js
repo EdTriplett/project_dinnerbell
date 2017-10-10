@@ -170,8 +170,6 @@ class Navbar extends Component {
         <div className="nav-searchbar">
           <Searchbar
             onSearchInputChange={this.onSearchInputChange}
-            onSearchInputSubmit={this.onSearchInputSubmit}
-            
           />
         </div>
       </div>
