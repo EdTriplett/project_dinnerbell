@@ -172,7 +172,6 @@ class Navbar extends Component {
           <Searchbar
             onSearchInputChange={this.onSearchInputChange}
             onSearchInputSubmit={this.onSearchInputSubmit}
-            searchTerm={this.props.searchReducer.query}
           />
         </div>
       </div>

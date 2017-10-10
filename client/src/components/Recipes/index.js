@@ -216,7 +216,6 @@ class Recipes extends Component {
       ? filteredRecipes.map((recipe, index) =>
           <Card
             className={`recipe-card delay-${this.getRandomIndex()}`}
-            className="recipe-card"
             key={`${recipe.name}${recipe.edamamId
               ? recipe.edamamId
               : "bad recipe"}`}
