@@ -28,7 +28,6 @@ import StarRatingComponent from "react-star-rating-component";
 let previous_rand = 1;
 
 class Recipes extends Component {
-
   state = {
     q: "",
     loading: false,
@@ -216,7 +215,6 @@ class Recipes extends Component {
       ? filteredRecipes.map((recipe, index) =>
           <Card
             className={`recipe-card delay-${this.getRandomIndex()}`}
-            className="recipe-card"
             key={`${recipe.name}${recipe.edamamId
               ? recipe.edamamId
               : "bad recipe"}`}
