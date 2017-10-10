@@ -1,24 +1,49 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import Recipe from "../Recipe";
+import AsyncManager from "../../services/AsyncManager";
 
 class RecipeContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  fetchRecipe = async id => {
+    try {
+      const url = `http://localhost:3000/api/recipes/${id}`;
+      const recipe = await AsyncManager.getRequest(url);
+      if (recipe && !(recipe.error || recipe.errors)) {
+        this.setState(recipe);
+      } else {
+        console.error(recipe);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  componentDidMount() {
+    this.fetchRecipe(this.props.match.params.id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const currentId = this.props.match.params.id;
+    const nextId = nextProps.match.params.id;
+    const storedId = this.state.edamamId;
+    if (nextId && nextId !== currentId && nextId !== storedId) {
+      this.fetchRecipe(nextId);
+    }
+  }
+
   render() {
-    const id = this.props.match.params.id;
-    return <Recipe recipe={this.props.recipes[id]} />;
+    return this.state.edamamId ? (
+      <Recipe recipe={this.state} />
+    ) : (
+      <h1>
+        <br />No. Recipe. Yo.
+      </h1>
+    );
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    recipes: state.searchReducer.results
-  };
-};
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     forkRecipe: recipe => dispatch(forkRecipe(recipe))
-//   };
-// };
-
-export default connect(mapStateToProps, null)(RecipeContainer);
+export default RecipeContainer;

@@ -21,8 +21,6 @@ import "./InputTokenForm.css";
 import "./SearchRecipes.css";
 import StarRatingComponent from "react-star-rating-component";
 
-import { parseRecipe } from "../../services/RecipeParser";
-
 class SearchRecipes extends Component {
   state = {
     recipes: [],
@@ -52,7 +50,11 @@ class SearchRecipes extends Component {
         ? []
         : nextProps.searchReducer.results
     });
-    if (nextProps.searchReducer.query !== this.props.searchReducer.query || nextProps.searchReducer.preferences !== this.props.searchReducer.preferences) {
+    if (
+      nextProps.searchReducer.query !== this.props.searchReducer.query ||
+      nextProps.searchReducer.preferences !==
+        this.props.searchReducer.preferences
+    ) {
       this.props.searchActions.requestSearch(
         nextProps.searchReducer.query,
         nextProps.searchReducer.preferences
@@ -61,13 +63,16 @@ class SearchRecipes extends Component {
   }
 
   componentWillMount() {
-    console.log("WillMount this.props = ", this.props)
+    console.log("WillMount this.props = ", this.props);
     if (this.props.userReducer.user) {
-      const defaultPrefs = this.props.userReducer.user.dietaryRestrictions
-      this.setDefaultDietaryPreferences(defaultPrefs)
-      this.props.searchActions.requestSearch(this.props.searchReducer.query, defaultPrefs);
+      const defaultPrefs = this.props.userReducer.user.dietaryRestrictions;
+      this.setDefaultDietaryPreferences(defaultPrefs);
+      this.props.searchActions.requestSearch(
+        this.props.searchReducer.query,
+        defaultPrefs
+      );
     } else {
-    this.props.searchActions.requestSearch(this.props.searchReducer.query);
+      this.props.searchActions.requestSearch(this.props.searchReducer.query);
     }
     this.props.userActions.checkCurrentUser();
   }
@@ -81,7 +86,7 @@ class SearchRecipes extends Component {
         token => this.state[`${filterType}Options`][token - 1].name
       )
     });
-  }; 
+  };
 
   setDefaultDietaryPreferences = preferences => {
     const dietTokens = [];
@@ -132,10 +137,7 @@ class SearchRecipes extends Component {
   };
 
   findOrCreateRecipe = recipe => async () => {
-    console.log("originalRecipe: ", recipe);
-    const parsedRecipe = parseRecipe(recipe);
-    console.log("parsedRecipe: ", parsedRecipe);
-    // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
+    this.props.recipeActions.findOrCreateRecipe(recipe);
   };
 
   isValidRecipe = recipe => {
@@ -176,11 +178,13 @@ class SearchRecipes extends Component {
       ? this.state.recipes.map((recipe, index) => (
           <Card
             className="recipe-card"
-            key={`${recipe.name}${recipe.uri ? recipe.uri : "bad recipe"}`}
+            key={`${recipe.name}${recipe.edamamId
+              ? recipe.edamamId
+              : "bad recipe"}`}
           >
-            <Link to={`/recipes/${index}`}>
+            <Link to={`/recipes/${recipe.edamamId}`}>
               <CardMedia>
-                {recipe.image && <img src={recipe.image.url} alt="" />}
+                {recipe.image && <img src={recipe.image} alt="" />}
               </CardMedia>
               <CardTitle className="card-title">{recipe.name}</CardTitle>
               <StarRatingComponent
@@ -207,9 +211,11 @@ class SearchRecipes extends Component {
               </div>
             </div>
             <div className="recipe-results">
-              {this.props.searchReducer.isSearching
-                ? <CustomLoader />
-                : recipes}
+              {this.props.searchReducer.isSearching ? (
+                <CustomLoader />
+              ) : (
+                recipes
+              )}
             </div>
           </div>
           <Paper className="newsfeed">placeholder</Paper>
