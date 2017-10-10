@@ -1,5 +1,6 @@
-import searchReducer from "./searchReducer";
 import userReducer from "./userReducer";
 import recipeReducer from "./recipeReducer";
+import recipesReducer from "./recipesReducer";
+import mealReducer from "./mealReducer";
 
-export { searchReducer, userReducer, recipeReducer };
+export { userReducer, recipeReducer, recipesReducer, mealReducer };

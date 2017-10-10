@@ -126,8 +126,13 @@ export const getUsers = () => async dispatch => {
     console.log(err);
   }
 };
-// export const addRecipe = recipe => async dispatch => {
-//   try {
-//
-//   }
-// }
+export const addRecipe = (userId, recipeId) => async dispatch => {
+  const userId = this.props.userReducer.user.id;
+  console.log("userId: ", userId);
+
+  const recipeId = this.props.recipeReducer.recipe.id;
+  console.log("recipeId: ", recipeId);
+  // try {
+  //   const payload = await AsyncManager(patchRequest(`/api/users/${userId}/recipes/${recipeId}`))
+  // }
+};

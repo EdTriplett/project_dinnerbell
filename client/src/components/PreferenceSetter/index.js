@@ -7,6 +7,8 @@ import { withRouter } from "react-router-dom";
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
 
+import './PreferenceSetter.css';
+
 const allPreferences = [
   "balanced",
   "high-protein",

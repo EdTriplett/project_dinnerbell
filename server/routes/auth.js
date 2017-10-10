@@ -4,7 +4,7 @@ const wrapper = require("../util/errorWrappers").expressWrapper;
 const buildUsername = require('../util/buildUsername')
 
 const REDIRECTS = {
-  successRedirect: "http://localhost:3000/search",
+  successRedirect: "http://localhost:3000/recipes",
   failureRedirect: "http://localhost:3000/login"
 };
 

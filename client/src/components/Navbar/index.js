@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 
 import * as userActions from "../../actions/user_actions";
-import * as searchActions from "../../actions/search_actions";
+import * as recipesActions from "../../actions/recipes_actions";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import { withRouter, Link } from "react-router-dom";
 import "./Navbar.css";
+
+import queryString from "query-string";
 
 const ROUTE_MAP = {
   login: (
@@ -27,26 +29,26 @@ const ROUTE_MAP = {
   )
 };
 
-const Searchbar = ({ onSearchInputChange, onSearchInputSubmit }) => {
-  return (
-    <form action="" method="get" onSubmit={onSearchInputSubmit}>
-      <input
-        className="namanyay-search-box"
-        name="q"
-        size="40"
-        type="text"
-        placeholder="Search for recipes"
-        onChange={onSearchInputChange}
-      />
-      <button
-        className="namanyay-search-btn"
-        type="submit"
-        onClick={onSearchInputSubmit}
-      >
-        <i className="fa fa-search" aria-hidden="true" />
-      </button>
-    </form>
-  );
+const Searchbar = ({onSearchInputSubmit, onSearchInputChange}) => {
+    return (
+      <form action="" method="get" onSubmit={onSearchInputSubmit}>
+        <input
+          className="namanyay-search-box"
+          name="q"
+          size="40"
+          type="text"
+          placeholder="Search for recipes"
+          onChange={onSearchInputChange}
+        />
+        <button
+          className="namanyay-search-btn"
+          type="submit"
+          onClick={onSearchInputSubmit}
+        >
+          <i className="fa fa-search" aria-hidden="true" />
+        </button>
+      </form>
+    );
 };
 
 class Navbar extends Component {
@@ -70,14 +72,37 @@ class Navbar extends Component {
   };
 
   onSearchInputSubmit = e => {
-    console.log("successfully submitted");
     e.preventDefault();
-    console.log("query: ", this.state.query);
-    this.props.searchActions.setSearchQuery(this.state.query);
-    this.props.history.push("/search");
+    let preferencesString = "";
+    if (this.props.location.pathname === "/recipes") {
+      let { q, preferences } = this.parseSearchParams(
+        this.props.location.search
+      );
+      preferencesString = preferences.join(",");
+    } else {
+      preferencesString =
+        this.props.userReducer.user &&
+        this.props.userReducer.user.dietaryRestrictions
+          ? this.props.userReducer.user.dietaryRestrictions.join(",")
+          : "";
+    }
+    this.props.history.push(
+      `/recipes?q=${this.state.query}&preferences=${preferencesString}`
+    );
+  };
+
+  parseSearchParams = url => {
+    let { q, preferences } = queryString.parse(url);
+    q = q ? q : "";
+    preferences = preferences ? preferences : [];
+    if (!Array.isArray(preferences)) {
+      preferences = preferences.split(",");
+    }
+    return { q, preferences };
   };
 
   render() {
+    console.log("this.props: ", this.props);
     let navItems = [];
 
     switch (this.props.location.pathname) {
@@ -90,15 +115,15 @@ class Navbar extends Component {
         break;
 
       case "/create_meal":
-        const showProfile = this.props.userReducer.user && (
+        const showProfile =
+          this.props.userReducer.user &&
           <Link
             to={`/profile/${this.props.userReducer.user.username}`}
             className="non-logo-item"
             key="profile"
           >
             profile
-          </Link>
-        );
+          </Link>;
         navItems.push(
           showProfile,
           <a
@@ -147,6 +172,7 @@ class Navbar extends Component {
           <Searchbar
             onSearchInputChange={this.onSearchInputChange}
             onSearchInputSubmit={this.onSearchInputSubmit}
+            
           />
         </div>
       </div>
@@ -158,7 +184,7 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
-  searchActions: bindActionCreators(searchActions, dispatch)
+  recipesActions: bindActionCreators(recipesActions, dispatch)
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

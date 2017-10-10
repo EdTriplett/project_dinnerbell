@@ -18,9 +18,6 @@ class TokenInput extends Component {
 
   get selected() {
     const { options, value } = this.props;
-
-    console.log(options, "???");
-
     return options.filter(option => value.indexOf(option.id) > -1);
   }
 

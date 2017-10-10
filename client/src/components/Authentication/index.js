@@ -16,30 +16,28 @@ class Authentication extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!_.isEqual(nextProps.userReducer.user, this.props.userReducer.user)) {
-      this.props.history.push("/search");
+      this.props.history.push("/recipes");
     }
   }
 
   render() {
     return (
       <div className="authentication">
-        {!this.props.showLogin ? (
-          <SignupForm
-            registerUser={this.props.userActions.registerUser}
-            setUserError={this.props.userActions.setUserError}
-            userLoading={this.props.userReducer.userLoading}
-            formData={this.props.form}
-            userReducer={this.props.userReducer}
-          />
-        ) : (
-          <LoginForm
-            loginUser={this.props.userActions.loginUser}
-            setUserError={this.props.userActions.setUserError}
-            userLoading={this.props.userReducer.userLoading}
-            formData={this.props.form}
-            userReducer={this.props.userReducer}
-          />
-        )}
+        {!this.props.showLogin
+          ? <SignupForm
+              registerUser={this.props.userActions.registerUser}
+              setUserError={this.props.userActions.setUserError}
+              userLoading={this.props.userReducer.userLoading}
+              formData={this.props.form}
+              userReducer={this.props.userReducer}
+            />
+          : <LoginForm
+              loginUser={this.props.userActions.loginUser}
+              setUserError={this.props.userActions.setUserError}
+              userLoading={this.props.userReducer.userLoading}
+              formData={this.props.form}
+              userReducer={this.props.userReducer}
+            />}
       </div>
     );
   }

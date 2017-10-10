@@ -1,28 +1,36 @@
 import React, { Component } from "react";
 
+// import parseUrl from "parse-url";
+import queryString from "query-string";
+
 import * as userActions from "../../actions/user_actions";
-import * as searchActions from "../../actions/search_actions";
 import * as recipeActions from "../../actions/recipe_actions";
+import * as recipesActions from "../../actions/recipes_actions";
+
+import AsyncManager from "../../services/AsyncManager";
+import _ from "lodash";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 
 import { withRouter } from "react-router-dom";
-import { Paper } from "material-ui";
-import { Card, CardHeader, CardTitle, CardText, CardMedia } from "material-ui";
+import { Card, CardTitle, CardMedia } from "material-ui";
 
-import CustomLoader from "../CustomLoader";
-import CircularProgress from "material-ui/CircularProgress";
+import LoadingFork from "../LoadingFork";
 
 import InputToken from "./InputTokenForm";
 import "./InputTokenForm.css";
 
-import "./SearchRecipes.css";
+import "./Recipes.css";
 import StarRatingComponent from "react-star-rating-component";
 
-class SearchRecipes extends Component {
+let previous_rand = 1;
+
+class Recipes extends Component {
   state = {
+    q: "",
+    loading: false,
     recipes: [],
     healthTokens: [],
     healthOptions: [
@@ -44,47 +52,65 @@ class SearchRecipes extends Component {
     dietFilters: []
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      recipes: !Array.isArray(nextProps.searchReducer.results)
-        ? []
-        : nextProps.searchReducer.results
-    });
-    if (nextProps.searchReducer.query !== this.props.searchReducer.query) {
-      this.props.searchActions.requestSearch(
-        nextProps.searchReducer.query,
-        nextProps.searchReducer.preferences
-      );
+  async componentWillMount() {
+    let { q, preferences } = await this.parseSearchParams(
+      this.props.location.search
+    );
+    this.setDietaryPreferences(preferences);
+    if (q !== this.state.q) {
+      this.setState({ q }, this.searchRecipes);
     }
   }
 
-  componentWillMount() {
-    this.props.searchActions.requestSearch(this.props.searchReducer.query);
-    // const defaultDietaryRestrictions = [
-    //   "vegetarian",
-    //   "peanut-free",
-    //   "balanced"
-    // ];
-    // console.log("defaults: ", defaultDietaryRestrictions);
-    // this.setDefaultDietaryPreferences(defaultDietaryRestrictions);
-    // if (this.props.user) {
-    // TODO add intial user preferences
-    // this.setDefaultDietaryPreferences()
-    // }
+  componentWillReceiveProps(nextProps) {
+    let { q, preferences } = this.parseSearchParams(nextProps.location.search);
+    this.setDietaryPreferences(preferences);
+    if (q !== this.state.q) {
+      this.setState({ q }, this.searchRecipes);
+    } else if (!this.state.recipes.length) {
+      this.setState({ q }, this.searchRecipes);
+    }
   }
 
-  selectToken = e => {
+  parseSearchParams = url => {
+    let { q, preferences } = queryString.parse(url);
+    q = q ? q : "";
+    preferences = preferences ? preferences : [];
+    if (!Array.isArray(preferences)) {
+      preferences = preferences.split(",");
+    }
+    return { q, preferences };
+  };
+
+  searchRecipes = async () => {
+    try {
+      await this.setState({ loading: true });
+      const recipes = await AsyncManager.getRequest(
+        `/api/recipes?q=${this.state.q}}`
+      );
+      await this.setState({ recipes, loading: false });
+    } catch (error) {
+      console.log(error);
+      await this.setState({ loading: false });
+    }
+  };
+
+  selectToken = async e => {
     const filterType = e.target.name;
     const filterTokenArray = e.target.value;
-    this.setState({
+    await this.setState({
       [`${filterType}Tokens`]: filterTokenArray,
       [`${filterType}Filters`]: filterTokenArray.map(
         token => this.state[`${filterType}Options`][token - 1].name
       )
     });
+    let statePrefs = this.state.healthFilters.concat(this.state.dietFilters);
+    this.props.history.push(
+      `/recipes?q=${this.state.q}&preferences=${statePrefs.join(",")}`
+    );
   };
 
-  setDefaultDietaryPreferences = preferences => {
+  setDietaryPreferences = preferences => {
     const dietTokens = [];
     const dietFilters = [];
     const healthTokens = [];
@@ -120,8 +146,8 @@ class SearchRecipes extends Component {
     });
   };
 
-  filterRecipes = () => {
-    return this.state.recipes.filter(recipe => {
+  filterRecipes = recipes => {
+    return recipes.filter(recipe => {
       return this.isValidRecipe(recipe);
     });
   };
@@ -133,7 +159,7 @@ class SearchRecipes extends Component {
   };
 
   findOrCreateRecipe = recipe => async () => {
-    this.props.recipeActions.findOrCreateRecipe(recipe);
+    // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
   };
 
   isValidRecipe = recipe => {
@@ -169,60 +195,44 @@ class SearchRecipes extends Component {
     />
   );
 
-  renderRecipeRating = recipe => {
-    return recipe.length > 0 ? (
-      <div className="rating-container">
-        <StarRatingComponent
-          className="star-rating"
-          name="rating"
-          value={3}
-          editing={false}
-        />
-        <p className="rating-users">({recipe.length} user ratings)</p>
-        <button onClick={this.findOrCreateRecipe(recipe)}>Recipe</button>
-      </div>
-    ) : (
-      <div className="rating-container">
-        <StarRatingComponent
-          className="star-rating"
-          name="rating"
-          value={0}
-          editing={false}
-        />
-        <p className="rating-users">(0 user ratings)</p>
-        {recipe._id ? (
-          <button onClick={this.findOrCreateRecipe(recipe)}>
-            Add (database)
-          </button>
-        ) : (
-          <button onClick={this.findOrCreateRecipe(recipe)}>
-            Add (!database)
-          </button>
-        )}
-      </div>
-    );
+  getRandomIndex = () => {
+    let random = Math.floor(Math.random() * 4) + 1;
+
+    if (previous_rand !== random) {
+      previous_rand = random;
+      return random;
+    }
+
+    return this.getRandomIndex(random);
   };
 
   render() {
-    console.log("this.props: ", this.props);
-    const recipes = Array.isArray(this.state.recipes)
-      ? this.filterRecipesLength(
-          this.filterRecipes(this.state.recipes)
-        ).map((recipe, index) => (
+    const recipeArray = Array.isArray(this.state.recipes)
+      ? this.state.recipes
+      : [];
+    const filteredRecipes = this.filterRecipesLength(
+      this.filterRecipes(recipeArray)
+    );
+    const recipes = filteredRecipes
+      ? filteredRecipes.map((recipe, index) => (
           <Card
+            className={`recipe-card delay-${this.getRandomIndex()}`}
             className="recipe-card"
-            key={
-              recipe._id
-                ? recipe._id
-                : recipe.edamamId ? recipe.edamamId : "bad recipe"
-            }
+            key={`${recipe.name}${recipe.edamamId
+              ? recipe.edamamId
+              : "bad recipe"}`}
           >
-            <Link to={`/recipes/${index}`} className="link-container">
+            <Link to={`/recipes/${recipe.edamamId}`}>
               <CardMedia>
-                <img src={recipe.image ? recipe.image : ""} />
+                {recipe.image && <img src={recipe.image} alt="" />}
               </CardMedia>
               <CardTitle className="card-title">{recipe.name}</CardTitle>
-              {this.renderRecipeRating(recipe)}
+              <StarRatingComponent
+                className="star-rating"
+                name="rating"
+                value={Math.floor(Math.random() * 5)}
+                editing={false}
+              />
             </Link>
           </Card>
         ))
@@ -241,14 +251,9 @@ class SearchRecipes extends Component {
               </div>
             </div>
             <div className="recipe-results">
-              {this.props.searchReducer.isSearching ? (
-                <CustomLoader />
-              ) : (
-                recipes
-              )}
+              {this.state.loading ? <LoadingFork /> : recipes}
             </div>
           </div>
-          <Paper className="newsfeed">placeholder</Paper>
         </div>
       </div>
     );
@@ -259,10 +264,10 @@ const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
-  searchActions: bindActionCreators(searchActions, dispatch),
-  recipeActions: bindActionCreators(recipeActions, dispatch)
+  recipeActions: bindActionCreators(recipeActions, dispatch),
+  recipesActions: bindActionCreators(recipesActions, dispatch)
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SearchRecipes)
+  connect(mapStateToProps, mapDispatchToProps)(Recipes)
 );

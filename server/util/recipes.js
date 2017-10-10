@@ -36,9 +36,10 @@ const buildRecipePrefs = preferences => {
   return queries;
 };
 
-const _sanitizeRecipe = recipe => {
+const sanitizeRecipe = recipe => {
+  console.log(recipe);
   let {
-    edamamId,
+    uri,
     label,
     image,
     url,
@@ -61,7 +62,7 @@ const _sanitizeRecipe = recipe => {
   return {
     name: label,
     ingredients: ingredientLines,
-    edamamId,
+    edamamId: uri.split("recipe_")[1],
     url,
     source,
     digest,
@@ -73,7 +74,7 @@ const _sanitizeRecipe = recipe => {
 };
 
 const sanitizeRecipes = apiResponse => {
-  return apiResponse.hits.map(_sanitizeRecipe);
+  return apiResponse.hits.map(sanitizeRecipe);
 };
 
 const buildDbQuery = (q, preferences) => {
@@ -90,6 +91,7 @@ const buildDbQuery = (q, preferences) => {
 module.exports = {
   buildRecipePrefs,
   buildRecipeURL,
+  sanitizeRecipe,
   sanitizeRecipes,
   buildDbQuery
 };

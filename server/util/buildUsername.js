@@ -14,8 +14,7 @@ module.exports = () => {
   const randomNounOne = upCaseFirst(faker.hacker.noun());
   const randomNounTwo = upCaseFirst(faker.hacker.noun());
   
-
-  return randomColor + randomAdjOne + randomAdjTwo + randomNounOne + randomNounTwo
+  return (randomColor + randomAdjOne + randomAdjTwo + randomNounOne + randomNounTwo).replace(/[^0-9a-z]/gi, '');
 }
       
         

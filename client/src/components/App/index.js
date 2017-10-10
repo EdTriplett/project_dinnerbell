@@ -6,12 +6,13 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import Landing from "../Landing";
 import Navbar from "../Navbar";
 import Authentication from "../Authentication";
-import SearchRecipes from "../SearchRecipes";
+import Recipes from "../Recipes";
 import Profile from "../Profile";
 import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
 import Test from "../Test";
 import CreateMeal from "../CreateMeal";
+import MealContainer from "../MealContainer/MealContainer";
 
 import "./App.css";
 
@@ -29,20 +30,18 @@ class App extends Component {
             />
             <Route
               path="/login"
-              render={() => <Authentication {...this.props} showLogin={true} />}
+              render={() => <Authentication showLogin={true} />}
             />
-            <Route
-              path="/search"
-              render={() => <SearchRecipes {...this.props} />}
-            />
+            <Route exact path="/recipes" render={() => <Recipes {...this.props} />} />
             <Route
               path="/profile/:name"
-              render={() => <Profile {...this.props} />}
+              render={() => <Profile />}
             />
             <Route
               path="/create_meal"
-              render={() => <CreateMeal {...this.props} />}
+              render={() => <CreateMeal />}
             />
+            <Route path="/meals/:id" component={MealContainer} />
             <Route
               path="/users"
               render={() =>
