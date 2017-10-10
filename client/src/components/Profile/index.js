@@ -5,6 +5,7 @@ import * as userActions from "../../actions/user_actions";
 import Dropzone from "react-dropzone";
 import "./Profile.css";
 import PreferenceSetter from "../PreferenceSetter";
+import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 import { withRouter } from "react-router-dom";
 
 const Searchbar = () => (
@@ -58,10 +59,16 @@ class Profile extends Component {
         {this.state.isUpdatingImage && (
           <a style={{ color: "white", marginTop: "10px" }}>save</a>
         )}
+        <ProfileUpdater 
+            updateUser={this.props.userActions.updateUser}
+            user={this.props.user}
+          />
+          
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
           user={this.props.user}
         />
+
 
         <div className="user-logs-container">
           <div className="user-logs-col">
@@ -103,7 +110,9 @@ class Profile extends Component {
               <p>Activities (Sprint 2)</p>
             </div>
           </div>
+          
         </div>
+
       </div>
     );
   }

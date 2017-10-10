@@ -8,7 +8,6 @@ import * as recipeActions from "../../actions/recipe_actions";
 import * as recipesActions from "../../actions/recipes_actions";
 
 import AsyncManager from "../../services/AsyncManager";
-import _ from "lodash";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";

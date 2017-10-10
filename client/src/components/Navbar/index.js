@@ -75,7 +75,7 @@ class Navbar extends Component {
     e.preventDefault();
     let preferencesString = "";
     if (this.props.location.pathname === "/recipes") {
-      let { q, preferences } = this.parseSearchParams(
+      let { preferences } = this.parseSearchParams(
         this.props.location.search
       );
       preferencesString = preferences.join(",");
@@ -102,7 +102,6 @@ class Navbar extends Component {
   };
 
   render() {
-    console.log("this.props: ", this.props);
     let navItems = [];
 
     switch (this.props.location.pathname) {

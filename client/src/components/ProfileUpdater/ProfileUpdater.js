@@ -4,9 +4,9 @@ import TextField from "material-ui/TextField";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
-import "../Profile/Profile.css";
+import asyncValidate from "../../services/AsyncValidate";
 import { withRouter } from "react-router-dom";
-import FlatButton from "material-ui/FlatButton";
+// import FlatButton from "material-ui/FlatButton";
 import './ProfileUpdater.css';
 
 const validate = values => {
@@ -24,35 +24,28 @@ const validate = values => {
   return errors;
 };
 
-const allDetails = ['Username', 'Email', 'Password']
+// const allDetails = ['Username', 'Email', 'Password']
 
 class ProfileUpdater extends Component {
   constructor(props) {
     super(props);
-    this.state = {});
+    this.state = {};
   }
 
   handleFormSubmit = e => {
     e.preventDefault();
     const user = this.props.userReducer.user;
-    const { updateUser } = this.props;
+    const { updateUser, formData } = this.props;
+    const {email, password, username} = formData.ProfileUpdater.values;
     let newDetails = {};
-    // todo
-    updateUser({ ...user, newDetails});
-  };
-
-  onSubmit = () => {
-    const { registerUser, formData, setUserError } = this.props;
-    const {  email, password } = formData.SignupForm.values;
-    console.log();
-
-    registerUser({
-      email,
-      password
-    }).then(() => {
+    if (email) {newDetails.email = email}
+    if (password) {newDetails.password = password}
+    if (username) {newDetails.username = username}
+    updateUser({ ...user, newDetails})
+    .then(() => {
       if (this.props.userReducer.userError) {
         alert(this.props.userReducer.userError);
-        setUserError(null);
+        this.props.userActions.setUserError(null);
       }
     });
   };
@@ -73,29 +66,32 @@ class ProfileUpdater extends Component {
       pristine,
       reset,
       submitting,
-      userLoading,
-      userReducer
     } = this.props;
 
-    const authOptions = !userReducer.user ? (
+    const authOptions = (
       <div className="oauth">
-        <a href="/auth/facebook">
-          <img src="https://imgur.com/Hw9YUrJ.png" alt="" />
+        <a href="/auth/facebook">Add your info from 
+          <img src="https://imgur.com/Hw9YUrJ.png" alt="facebook logo" />
         </a>
-        <a href="/auth/google">
-          <img src="https://i.imgur.com/ETp8DOT.png" alt="" />
+        <a href="/auth/google"> Add your info from 
+          <img src="https://i.imgur.com/ETp8DOT.png" alt='google logo'/>
         </a>
       </div>
-    ) : null;
-
-    if (userLoading && !this.props.userReducer.userError) {
-      return <CircularProgress size={80} thickness={3} color="#fc5830" />;
-    }
+    ) ; 
 
     return (
       <div>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <h3 className="label">register</h3>
+        <form onSubmit={handleSubmit(this.handleFormSubmit)}>
+          <h3 className="label">Update your Profile</h3>
+          <div>
+            <Field
+              autoComplete="off"
+              className="material-field"
+              name="username"
+              component={this.renderTextField}
+              label="username"
+            />
+          </div>
           <div>
             <Field
               autoComplete="off"
@@ -103,7 +99,6 @@ class ProfileUpdater extends Component {
               name="email"
               component={this.renderTextField}
               label="email"
-              required="required"
             />
           </div>
           <div>
@@ -114,21 +109,14 @@ class ProfileUpdater extends Component {
               type="password"
               component={this.renderTextField}
               label="password"
-              required="required"
             />
           </div>
 
           <div className="signup-buttons">
             <button type="submit" disabled={pristine || submitting}>
-              signup
+              update
             </button>
-            <button
-              onClick={() => {
-                this.props.history.push("/");
-              }}
-            >
-              back
-            </button>
+            
             <button
               type="button"
               disabled={pristine || submitting}
@@ -144,8 +132,14 @@ class ProfileUpdater extends Component {
   }
 }
 
+const mapStateToProps = state => state;
+
+const mapDispatchToProps = dispatch => ({
+  userActions: bindActionCreators(userActions, dispatch)
+});
+
 export default reduxForm({
   form: "ProfileUpdater",
   validate,
   asyncValidate
-})(withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileUpdater));
+})(withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileUpdater)));

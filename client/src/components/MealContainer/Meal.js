@@ -60,7 +60,7 @@ const Meal = ({ meal }) => {
       <h1 style={{ fontSize: "3em" }}>
         {meal.name}
       </h1>
-      <img src={meal.image} />
+      <img src={meal.image} alt='meal image'/>
       <h3>
         This delicious meal hosted by {meal.owner.username}
       </h3>
