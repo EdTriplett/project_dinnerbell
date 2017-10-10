@@ -36,11 +36,12 @@ const buildRecipePrefs = preferences => {
   return queries;
 };
 
-const _sanitizeRecipe = recipe => {
+const sanitizeRecipe = recipe => {
+  console.log(recipe);
   let {
+    uri,
     label,
     image,
-    uri,
     url,
     source,
     digest,
@@ -61,19 +62,19 @@ const _sanitizeRecipe = recipe => {
   return {
     name: label,
     ingredients: ingredientLines,
-    uri,
+    edamamId: uri.split("recipe_")[1],
     url,
     source,
     digest,
     calories,
     serves: recipe.recipe.yield,
     preferences: dietLabels.concat(healthLabels),
-    image: { url: image }
+    image
   };
 };
 
 const sanitizeRecipes = apiResponse => {
-  return apiResponse.hits.map(_sanitizeRecipe);
+  return apiResponse.hits.map(sanitizeRecipe);
 };
 
 const buildDbQuery = (q, preferences) => {
@@ -90,6 +91,7 @@ const buildDbQuery = (q, preferences) => {
 module.exports = {
   buildRecipePrefs,
   buildRecipeURL,
+  sanitizeRecipe,
   sanitizeRecipes,
   buildDbQuery
 };

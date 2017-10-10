@@ -10,18 +10,11 @@ const style = {
   display: "inline-block"
 };
 
-const PaperList = ({ title, data }) =>
+const PaperList = ({ title, data }) => (
   <Paper style={style} zDepth={1}>
-    <h4>
-      {title}
-    </h4>
-    <ul>
-      {data.map(item =>
-        <li>
-          {item}
-        </li>
-      )}
-    </ul>
-  </Paper>;
+    <h4>{title}</h4>
+    <ul>{data.map(item => <li key={item}>{item}</li>)}</ul>
+  </Paper>
+);
 
 export default PaperList;
