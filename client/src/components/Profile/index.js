@@ -6,8 +6,9 @@ import Dropzone from "react-dropzone";
 import "./Profile.css";
 import PreferenceSetter from "../PreferenceSetter";
 import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import AsyncManager from '../../services/AsyncManager.js'
+
 
 const Searchbar = () => (
   <form className="search-form" method="get">
@@ -40,6 +41,7 @@ class Profile extends Component {
   async componentDidMount() {
     let displayedUser = await AsyncManager.getRequest(`/api/users/${this.props.match.params._id}`)
     this.setState({
+      ...this.state,
       displayedUser
     })
   }
@@ -105,8 +107,11 @@ class Profile extends Component {
 
             <div className="user-logs">
               {userReducer.user ? (
-                userReducer.user.recipes
-              ) : (
+                userReducer.user.recipes.map(recipe=><p key={recipe._id}>
+                  <Link to={`/recipes/${recipe.edamamId}`}> 
+                  {recipe.name}</Link></p>
+               ))
+               : (
                 <p>No saved recipes</p>
               )}
             </div>
@@ -177,8 +182,10 @@ class Profile extends Component {
 
             <div className="user-logs">
               {this.state.displayedUser ? (
-               this.state.displayedUser.recipes
-              ) : (
+               this.state.displayedUser.recipes.map(recipe=>
+                <p key={recipe._id}>{recipe.name}</p>
+               ))
+               : (
                 <p>No saved recipes</p>
               )}
             </div>

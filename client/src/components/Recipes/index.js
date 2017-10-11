@@ -147,9 +147,9 @@ class Recipes extends Component {
   };
 
   filterRecipesLength = filteredRecipes => {
-    return filteredRecipes.length <= 1
+    return filteredRecipes.length <= 10
       ? filteredRecipes
-      : new Array(1).fill(0).map((_, index) => filteredRecipes[index]);
+      : new Array(10).fill(0).map((_, index) => filteredRecipes[index]);
   };
 
   addRecipeToUser = async (user, recipe) => {
