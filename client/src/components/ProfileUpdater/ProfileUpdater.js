@@ -23,7 +23,7 @@ class ProfileUpdater extends Component {
       }
     };
   }
-
+// FuchsiaPracticalMobileTransmitterSensor
   validate = async newDetails => {
     const errors = {};
     await userActions.getUsers();
