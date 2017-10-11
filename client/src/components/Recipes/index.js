@@ -161,10 +161,12 @@ class Recipes extends Component {
     return user.recipes.some(r => r._id === recipe._id);
   };
 
-  // deleteRecipeToUser = userId => async recipeId => {
-  //   await AsyncManager.patchRequest(`/api/users${userId}/recipes/recipeId`);
-  //   await this.props.userActions.checkCurentUser();
-  // };
+  removeRecipeToUser = async (user, recipe) => {
+    await AsyncManager.deleteRequest(
+      `/api/users/${user._id}/recipes/${recipe._id}`
+    );
+    await this.props.userActions.checkCurrentUser();
+  };
 
   renderHealthInputToken = () =>
     <InputToken
@@ -206,6 +208,7 @@ class Recipes extends Component {
             recipe={recipe}
             user={this.props.userReducer.user}
             addRecipeToUser={this.addRecipeToUser}
+            removeRecipeToUser={this.removeRecipeToUser}
             recipeBelongsToUser={this.recipeBelongsToUser}
             index={Math.floor(Math.random() * 4)}
           />

@@ -85,12 +85,29 @@ const addRecipe = async (req, res) => {
   res.json(user);
 };
 
+const deleteRecipe = async (req, res) => {
+  let user = await User.findById(req.params.userId);
+  const recipe = await Recipe.findById(req.params.recipeId);
+  const hasRecipe =
+    user &&
+    user.recipes.some(r => {
+      return r.id === recipe.id;
+    });
+  if (user && recipe && hasRecipe) {
+    const recipes = user.recipes.filter(r => r.id !== recipe.id);
+    user.recipes = recipes;
+    user = await user.save();
+  }
+  res.json(user);
+};
+
 // Register Route Handlers
 router.get("/", wrapper(getUsers));
 router.get("/:id", wrapper(getUser));
 router.patch("/:id", allowed, wrapper(updateUser));
 router.patch("/:userId/recipes/:recipeId", allowed, wrapper(addRecipe));
 router.delete("/:id", allowed, wrapper(removeUser));
+router.delete("/:userId/recipes/:recipeId", allowed, wrapper(deleteRecipe));
 router.post("/picture", allowed, uploadMw, wrapper(addPicture));
 router.delete("/picture", allowed, wrapper(removePicture));
 
