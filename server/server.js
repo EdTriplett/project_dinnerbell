@@ -67,7 +67,7 @@ app.use("/api/meals", require("./routes/meals"));
 
 // Front-end Server
 const path = require("path");
-app.use(express.static(path.join(__dirname, "../client/build")));
+app.use(express.static(path.join(__dirname, "./build")));
 
 // 404 Handler
 app.all("/*", (req, res, next) => {
