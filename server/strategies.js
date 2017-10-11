@@ -94,19 +94,26 @@ const localOptions = {
   passReqToCallback: true
 };
 
-const googleOptions = {
+let googleOptions = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "http://localhost:3001/auth/google/callback",
   passReqToCallback: true
 };
 
-const facebookOptions = {
+let facebookOptions = {
   clientID: process.env.FACEBOOK_CLIENT_ID,
   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
   callbackURL: "http://localhost:3001/auth/facebook/callback",
   passReqToCallback: true
 };
+
+if (process.env.NODE_ENV === "production") {
+  googleOptions.callbackURL =
+    "https://dinnerbell.herokuapp.com/auth/google/callback";
+  facebookOptions.callbackURL =
+    "https://dinnerbell.herokuapp.com/auth/facebook/callback";
+}
 
 const authenticate = passport => {
   passport.serializeUser((user, done) => {
