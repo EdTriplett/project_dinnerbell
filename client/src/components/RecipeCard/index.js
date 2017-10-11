@@ -5,12 +5,14 @@ import StarRatingComponent from "react-star-rating-component";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
 
-const RecipeCard = ({ recipe, index }) =>
-  <Card
-    className={`recipe-card delay-${index}`}
-    key={recipe.edamamId}
-    showExpandableButton={true}
-  >
+const RecipeCard = ({
+  recipe,
+  user,
+  addRecipeToUser,
+  recipeBelongsToUser,
+  index
+}) =>
+  <Card className={`recipe-card delay-${index}`} key={recipe.edamamId}>
     <Link to={`/recipes/${recipe.edamamId}`}>
       <CardMedia>
         <img src={recipe.image} alt="" />
@@ -25,9 +27,11 @@ const RecipeCard = ({ recipe, index }) =>
         editing={false}
       />
     </Link>
-    <FloatingActionButton mini={true}>
-      <ContentAdd />
-    </FloatingActionButton>
+    {user && user._id && !recipeBelongsToUser(user, recipe)
+      ? <FloatingActionButton onClick={() => addRecipeToUser(user, recipe)}>
+          <ContentAdd />
+        </FloatingActionButton>
+      : null}
   </Card>;
 
 export default RecipeCard;

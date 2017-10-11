@@ -51,6 +51,8 @@ class Recipes extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
+    console.log("I recieved props");
+    console.log("nextProps: ", nextProps);
     let { q, preferences } = this.parseSearchParams(nextProps.location.search);
     if (
       q !== this.state.q ||
@@ -145,14 +147,26 @@ class Recipes extends Component {
   };
 
   filterRecipesLength = filteredRecipes => {
-    return filteredRecipes.length <= 9
+    return filteredRecipes.length <= 1
       ? filteredRecipes
-      : new Array(9).fill(0).map((_, index) => filteredRecipes[index]);
+      : new Array(1).fill(0).map((_, index) => filteredRecipes[index]);
   };
 
-  // addRecipeToUser = () => {
-  //   AsyncManager.patchRequest(this.props.userReducer.user.id)
-  // }
+  addRecipeToUser = async (user, recipe) => {
+    await AsyncManager.patchRequest(
+      `/api/users/${user._id}/recipes/${recipe._id}`
+    );
+    await this.props.userActions.checkCurrentUser();
+  };
+
+  recipeBelongsToUser = (user, recipe) => {
+    return user.recipes.some(r => r._id === recipe._id);
+  };
+
+  // deleteRecipeToUser = userId => async recipeId => {
+  //   await AsyncManager.patchRequest(`/api/users${userId}/recipes/recipeId`);
+  //   await this.props.userActions.checkCurentUser();
+  // };
 
   renderHealthInputToken = () =>
     <InputToken
@@ -184,36 +198,19 @@ class Recipes extends Component {
   // };
 
   render() {
-    console.log("recipes: ", this.state.recipes);
     const recipeArray = Array.isArray(this.state.recipes)
       ? this.state.recipes
       : [];
     const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
-      ? filteredRecipes.map(
-          (recipe, index) =>
-            <RecipeCard recipe={recipe} index={Math.floor(Math.random() * 4)} />
-          // <Card
-          //   className={`recipe-card delay-${Math.floor(Math.random() * 4)}`}
-          //   key={`${recipe.name}${recipe.edamamId
-          //     ? recipe.edamamId
-          //     : "bad recipe"}`}
-          // >
-          //   <Link to={`/recipes/${recipe.edamamId}`}>
-          //     <CardMedia>
-          //       {recipe.image && <img src={recipe.image} alt="" />}
-          //     </CardMedia>
-          //     <CardTitle className="card-title">
-          //       {recipe.name}
-          //     </CardTitle>
-          //     <StarRatingComponent
-          //       className="star-rating"
-          //       name="rating"
-          //       value={Math.floor(Math.random() * 5)}
-          //       editing={false}
-          //     />
-          //   </Link>
-          // </Card>
+      ? filteredRecipes.map((recipe, index) =>
+          <RecipeCard
+            recipe={recipe}
+            user={this.props.userReducer.user}
+            addRecipeToUser={this.addRecipeToUser}
+            recipeBelongsToUser={this.recipeBelongsToUser}
+            index={Math.floor(Math.random() * 4)}
+          />
         )
       : null;
     return (

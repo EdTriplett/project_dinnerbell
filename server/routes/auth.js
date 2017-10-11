@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const wrapper = require("../util/errorWrappers").expressWrapper;
-const buildUsername = require('../util/buildUsername')
+const buildUsername = require("../util/buildUsername");
 
 const REDIRECTS = {
   successRedirect: "http://localhost:3000/recipes",
@@ -30,12 +30,17 @@ const auth = passport => {
     res.redirect(REDIRECTS.failureRedirect);
   });
 
-  router.get("/current-user", (req, res) => {
-    res.json(req.session.user);
-    if (req.session.user && req.session.user.error) {
+  const getCurrentUser = async (req, res) => {
+    let user = req.session.user;
+    if (user && user.error) {
       req.session.user = null;
+    } else if (user) {
+      req.session.user = await User.findOne({ _id: user._id });
     }
-  });
+    res.json(req.session.user);
+  };
+
+  router.get("/current-user", wrapper(getCurrentUser));
 
   router.post("/login", passport.authenticate("local"), (req, res) => {
     res.json(req.session.user);
@@ -43,7 +48,7 @@ const auth = passport => {
 
   const register = async (req, res) => {
     const { password, email } = req.body;
-    const username = buildUsername()
+    const username = buildUsername();
     const user = await User.createLocalUser({ email, password, username });
     if (!user.errors) {
       req.session.user = user;
