@@ -1,7 +1,6 @@
 .profile {
   display: flex;
   height: 100%;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
   background-color: #3c8d41;
@@ -48,9 +47,10 @@
 }
 
 .user-logs-container {
+  font-family: "Open Sans", sans-serif;
   display: flex;
   justify-content: space-around;
-  height: 350px;
+  /* height: 350px; */
   width: 90%;
   margin-top: 20px;
 }
@@ -104,7 +104,6 @@
 }
 
 .user-logs-activities p {
-  font-family: "Open Sans", sans-serif;
   color: white;
   font-size: 0.9em;
   position: absolute;
@@ -171,166 +170,146 @@
 }
 
 /* Portrait iPhone 6 */
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 667px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .profile-name {
-      font-size: 1em;
-    }
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .profile-name {
+    font-size: 1em;
+  }
 
-    .search-form input {
-      width: 68px;
-    }
+  .search-form input {
+    width: 68px;
+  }
 
-    .user-logs {
-      width: 105px;
-    }
+  .user-logs {
+    width: 105px;
+  }
 }
 
 /* Portrait Galaxy S5 */
-@media only screen 
-  and (min-device-width: 360px) 
-  and (max-device-width: 640px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .profile-name {
-      font-size: 1em;
-    }
+@media only screen and (min-device-width: 360px) and (max-device-width: 640px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .profile-name {
+    font-size: 1em;
+  }
 
-    .search-form input {
-      width: 68px;
-    }
+  .search-form input {
+    width: 68px;
+  }
 
-    .user-logs {
-      width: 105px;
-    }
+  .user-logs {
+    width: 105px;
+  }
 }
 
 /* Portrait iPhone 5 */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .profile-name {
-      font-size: 1em;
-    }
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .profile-name {
+    font-size: 1em;
+  }
 
-    .search-form input {
-      width: 60px;
-    }
+  .search-form input {
+    width: 60px;
+  }
 
-    .user-logs {
-      width: 90px;
-    }
-
+  .user-logs {
+    width: 90px;
+  }
 }
 
 /* Portrait Custom 655 */
-@media only screen 
-  and (max-width: 655px)  {
-    .profile-name {
-      font-size: 1.5em;
-    }
+@media only screen and (max-width: 655px) {
+  .profile-name {
+    font-size: 1.5em;
+  }
 
-    .search-form input {
-      width: 140px;
-    }
+  .search-form input {
+    width: 140px;
+  }
 
-    .user-logs {
-      width: 140px;
-    }
+  .user-logs {
+    width: 140px;
+  }
 
-    .namanyay-search-box {
-      margin-top: 10px;
-      width: 120px;
-      padding: 7px;
-    }
+  .namanyay-search-box {
+    margin-top: 10px;
+    width: 120px;
+    padding: 7px;
+  }
 
-    .namanyay-search-btn {
-      padding: 6px 8px;
-    }
-
+  .namanyay-search-btn {
+    padding: 6px 8px;
+  }
 }
 
 /* Portrait Custom 586 */
-@media only screen 
-  and (max-width: 586px)  {
-    .profile-name {
-      font-size: 1.5em;
-    }
+@media only screen and (max-width: 586px) {
+  .profile-name {
+    font-size: 1.5em;
+  }
 
-    .search-form input {
-      width: 100px;
-    }
+  .search-form input {
+    width: 100px;
+  }
 
-    .user-logs {
-      width: 130px;
-    }
+  .user-logs {
+    width: 130px;
+  }
 
-    .namanyay-search-box {
-      margin-top: 10px;
-      width: 120px;
-      padding: 7px;
-    }
+  .namanyay-search-box {
+    margin-top: 10px;
+    width: 120px;
+    padding: 7px;
+  }
 
-    .namanyay-search-btn {
-      padding: 6px 8px;
-    }
-
+  .namanyay-search-btn {
+    padding: 6px 8px;
+  }
 }
 
 /* Portrait Custom 520 */
-@media only screen 
-  and (max-width: 520px)  {
-    .profile-name {
-      font-size: 1em;
-    }
+@media only screen and (max-width: 520px) {
+  .profile-name {
+    font-size: 1em;
+  }
 
-    .search-form input {
-      width: 70px;
-    }
+  .search-form input {
+    width: 70px;
+  }
 
-    .user-logs {
-      width: 120px;
-    }
+  .user-logs {
+    width: 120px;
+  }
 
-    .namanyay-search-box {
-      margin-top: 10px;
-      width: 120px;
-      padding: 7px;
-    }
+  .namanyay-search-box {
+    margin-top: 10px;
+    width: 120px;
+    padding: 7px;
+  }
 
-    .namanyay-search-btn {
-      padding: 6px 8px;
-    }
-
+  .namanyay-search-btn {
+    padding: 6px 8px;
+  }
 }
 
 /* Portrait Custom 420 */
-@media only screen 
-  and (max-width: 420px)  {
-    .profile-name {
-      font-size: 1em;
-    }
+@media only screen and (max-width: 420px) {
+  .profile-name {
+    font-size: 1em;
+  }
 
-    .search-form input {
-      width: 70px;
-    }
+  .search-form input {
+    width: 70px;
+  }
 
-    .user-logs {
-      width: 100px;
-    }
+  .user-logs {
+    width: 100px;
+  }
 
-    .namanyay-search-box {
-      margin-top: 10px;
-      width: 50px;
-      padding: 5px;
-    }
+  .namanyay-search-box {
+    margin-top: 10px;
+    width: 50px;
+    padding: 5px;
+  }
 
-    .namanyay-search-btn {
-      padding: 4px 6px;
-    }
+  .namanyay-search-btn {
+    padding: 4px 6px;
+  }
 }
