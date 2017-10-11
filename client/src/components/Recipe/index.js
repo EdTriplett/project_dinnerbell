@@ -17,7 +17,7 @@ const Recipe = ({ recipe }) => (
         <PaperList title={"Ingredients"} data={recipe.ingredients} />
         <PaperList title={"Health Stuff"} data={recipe.preferences} />
       </div>
-      <div className="wrapper">
+      <div className="table-wrapper">
         <div className="table">
           <div className="row header">
             <div className="cell">Tag</div>

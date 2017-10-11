@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans:400,700');
+@import url("https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans:400,700");
 
 .background {
   background-color: #3c8d41;
@@ -51,14 +51,14 @@
 }
 
 .recipe-card {
-  width: 300px;
+  width: 250px;
   height: 360px;
-  overflow: auto;
+  overflow: hidden;
   border-radius: 20px !important;
   padding: 10px;
-  box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
   transform: translatey(0px);
-  animation: float var(--animation-time) ease-in-out infinite;
+  box-shadow: 15px 25px 15px 0px rgba(0, 0, 0, 0.2) !important;
+  /*  animation: float var(--animation-time) ease-in-out infinite;*/
 }
 
 .recipe-card img {
@@ -66,6 +66,7 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+  position: relative;
 }
 
 .recipe-results .recipe-card {
@@ -75,7 +76,7 @@
 }
 
 .recipe p {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 1em;
 }
 
@@ -88,16 +89,16 @@
 }
 
 .card-title {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   margin: 0px !important;
-  font-size: calc(0.3em + 1vw) !important;
+  font-size: calc(0.75em + 0.4vw) !important;
   line-height: calc(1.1em + 0.5vw) !important;
 }
 
 .card-text {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   margin: 0px !important;
@@ -107,7 +108,7 @@
 }
 
 .search-recipes-title {
-  font-family: 'Indie Flower', cursive;
+  font-family: "Indie Flower", cursive;
   color: white;
   width: 100%;
   text-align: center;
@@ -157,20 +158,20 @@
 
 /* animating the floating cards */
 
-@keyframes float {
+/*@keyframes float {
   0% {
     box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
     transform: translatey(0px);
   }
   50% {
     box-shadow: 0 25px 15px 0px rgba(0, 0, 0, 0.2);
-    transform: translatey(2px);
+    transform: translatey(-2px);
   }
   100% {
     box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.6);
     transform: translatey(0px);
   }
-}
+}*/
 
 /* animation delays */
 
@@ -196,47 +197,37 @@
 }
 
 /* Portrait iPhone 6 */
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 667px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .recipe-card {
-      width: 150px;
-      height: 200px;
-    }
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .recipe-card {
+    width: 150px;
+    height: 200px;
+  }
 
-    .ReactTokenInput__input {
-      width: 90%;
-    }
+  .ReactTokenInput__input {
+    width: 90%;
+  }
 
-    .search-recipes {
-      padding-bottom: 50px;
-    }
+  .search-recipes {
+    padding-bottom: 50px;
+  }
 }
 
 /* Portrait iPhone 5 */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .non-logo-item {
-      margin-left: 10px;
-    }
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .non-logo-item {
+    margin-left: 10px;
+  }
 
-    .recipe-card {
-      width: 140px;
-      height: 190px;
-    }
+  .recipe-card {
+    width: 140px;
+    height: 190px;
+  }
 
-    .ReactTokenInput__input {
-      width: 88px;
-    }
+  .ReactTokenInput__input {
+    width: 88px;
+  }
 
-    .search-recipes {
-      padding-bottom: 50px;
-    }
+  .search-recipes {
+    padding-bottom: 50px;
+  }
 }
-
-

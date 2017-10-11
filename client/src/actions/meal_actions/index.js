@@ -11,8 +11,8 @@ export const setMeal = meal => {
 export const createMealRequest = meal => {
   return {
     type: mealConstants.CREATE_MEAL_REQUEST
-  }
-}
+  };
+};
 
 export const setMealImage = img => {
   return {
@@ -42,7 +42,7 @@ export const getMeal = id => async dispatch => {
 export const createMeal = meal => async dispatch => {
   try {
     dispatch(createMealRequest(true));
-    const response = await AsyncManager.postRequest(`/api/meals`);
+    const response = await AsyncManager.postRequest(`/api/meals`, meal);
 
     if (response.body.error || response.body.errors) {
       let errorMsg = response.body.error || response.body.errors;
@@ -53,14 +53,4 @@ export const createMeal = meal => async dispatch => {
   } catch (err) {
     console.log(err);
   }
-}
-
-
-
-
-
-
-
-
-
-
+};

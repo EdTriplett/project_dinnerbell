@@ -10,6 +10,7 @@ import * as userActions from "../../actions/user_actions";
 import * as mealActions from "../../actions/meal_actions";
 
 import Dropzone from "react-dropzone";
+import ReactTooltip from "react-tooltip";
 
 import "./CreateMeal.css";
 import "./InputTokenForm.css";
@@ -185,6 +186,7 @@ class CreateMeal extends Component {
 		console.log(this.state, 'state')
 		return (
 			<div className="create-recipe">
+				<ReactTooltip place="top" type="dark" effect="float" className="recipe-btn-tooltip" />
 				<form onSubmit={this.onSubmitForm}>
 					<p className="label">Plan out your meal</p>
 					{!mealReducer.mealPicture ? (
@@ -223,7 +225,7 @@ class CreateMeal extends Component {
 									onDrop={this.imageSelected}
 									style={{ border: "none" }}
 								>
-									<i className="fa fa-camera" aria-hidden="true" />
+									<i className="fa fa-camera" aria-hidden="true" data-tip="Add a picture to represent your meal!" />
 								</Dropzone>
 							</div>
 
