@@ -94,12 +94,12 @@ export const logoutUser = data => async dispatch => {
   }
 };
 
-export const updateUser = dataObj => async dispatch => {
+export const updateUser = userObj => async dispatch => {
   try {
     dispatch(setUserLoading(true));
     const payload = await AsyncManager.patchRequest(
-      `/api/users/${dataObj._id}`,
-      dataObj
+      `/api/users/${userObj._id}`,
+      userObj
     );
     if (payload && payload.errors) throw new Error(payload.errors[0]);
     if (payload && payload.error) throw new Error(payload.error);

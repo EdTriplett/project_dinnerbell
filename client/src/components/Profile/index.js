@@ -8,7 +8,7 @@ import PreferenceSetter from "../PreferenceSetter";
 import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 import { withRouter, Link } from "react-router-dom";
 import AsyncManager from '../../services/AsyncManager.js'
-
+import FlatButton from "material-ui/FlatButton"
 
 const Searchbar = () => (
   <form className="search-form" method="get">
@@ -34,7 +34,6 @@ class Profile extends Component {
 
   imageSelected = files => {
     const image = files[0];
-
     this.props.userActions.setUserProfileImage(image);
   };
 
@@ -56,15 +55,28 @@ class Profile extends Component {
     }
   }
 
+  deleteRecipe = recipe => async ()=> {
+      const recipes = this.props.userReducer.user.recipes.filter(entry=> entry._id !== recipe._id )
+      await userActions.updateUser({
+        ...this.props.userReducer.user,
+        recipes
+      })
+    }
 
+  buildRecipeListItem(recipe) {
+    return 
+      (<div>
+        <p key={recipe._id}>
+          <Link to={`/recipes/${recipe.edamamId}`}> 
+          {recipe.name}</Link>
+          <FlatButton label='remove'  primary={true} onClick={this.deleteRecipe(recipe)}/>
+    
+        </p>
+      </div>)
+  }
 
   render() {
     const {userReducer} = this.props;
-    // const loadUsername =
-    //  this.state.displayedUser
-    //     ?this.state.displayedUser.username
-    //     : userReducer.user ? userReducer.user.username: null;
-
          
     return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id ===userReducer.user._id ?
     (
@@ -107,9 +119,7 @@ class Profile extends Component {
 
             <div className="user-logs">
               {userReducer.user ? (
-                userReducer.user.recipes.map(recipe=><p key={recipe._id}>
-                  <Link to={`/recipes/${recipe.edamamId}`}> 
-                  {recipe.name}</Link></p>
+                userReducer.user.recipes.map(recipe=>{this.buildRecipeListItem(recipe)}
                ))
                : (
                 <p>No saved recipes</p>
@@ -148,7 +158,6 @@ class Profile extends Component {
     : (
       <div className="profile">
         <p className="profile-name">{this.state.displayedUser.username}</p>
-        <Dropzone onDrop={null} style={{ border: "none" }}>
           {!this.state.displayedUser.profilePicture ? (
             <div className="profile-pic-default" />
           ) : (
@@ -159,7 +168,6 @@ class Profile extends Component {
               />
             </div>
           )}
-        </Dropzone>
         {this.state.isUpdatingImage && (
           <a style={{ color: "white", marginTop: "10px" }}>save</a>
         )}
