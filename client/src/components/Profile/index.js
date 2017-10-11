@@ -8,6 +8,7 @@ import PreferenceSetter from "../PreferenceSetter";
 import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 import { withRouter, Link } from "react-router-dom";
 import AsyncManager from '../../services/AsyncManager.js'
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 
 
 const Searchbar = () => (
@@ -25,10 +26,32 @@ const Searchbar = () => (
   </form>
 );
 
+const SortableItem = SortableElement((props) => 
+  <div>
+    <p key={props.recipe._id}>{props.recipe.name}</p>
+  </div>
+);
+
+const SortableList = SortableContainer((props) => {
+      return (
+        <div>
+          {props.items.map((recipe, index) => {
+                 return <SortableItem 
+                          key={`item-${index}`} 
+                          index={index}  
+                          {...props} 
+                          recipe={recipe} />
+                })}      
+            
+        </div> 
+      );     
+});
+
 class Profile extends Component {
   state = {
     isUpdatingImage: false,
-    displayedUser: this.props.userReducer.user
+    displayedUser: this.props.userReducer.user,
+    recipes: []
 
   };
 
@@ -42,7 +65,8 @@ class Profile extends Component {
     let displayedUser = await AsyncManager.getRequest(`/api/users/${this.props.match.params._id}`)
     this.setState({
       ...this.state,
-      displayedUser
+      displayedUser,
+      recipes: displayedUser.recipes
     })
   }
 
@@ -56,17 +80,23 @@ class Profile extends Component {
     }
   }
 
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState({
+      recipes: arrayMove(this.state.recipes, oldIndex, newIndex),
+    });
+  };
+
 
 
   render() {
     const {userReducer} = this.props;
-    // const loadUsername =
-    //  this.state.displayedUser
-    //     ?this.state.displayedUser.username
-    //     : userReducer.user ? userReducer.user.username: null;
 
-         
-    return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id ===userReducer.user._id ?
+    const renderLists = <SortableList 
+                          items={this.state.recipes} 
+                          onSortEnd={this.onSortEnd} 
+                          />
+
+    return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id === userReducer.user._id ?
     (
       <div className="profile">
         <p className="profile-name">{userReducer.user ? userReducer.user.username : null}</p>
@@ -106,14 +136,8 @@ class Profile extends Component {
             <Searchbar />
 
             <div className="user-logs">
-              {userReducer.user ? (
-                userReducer.user.recipes.map(recipe=><p key={recipe._id}>
-                  <Link to={`/recipes/${recipe.edamamId}`}> 
-                  {recipe.name}</Link></p>
-               ))
-               : (
-                <p>No saved recipes</p>
-              )}
+              {userReducer.user ? (renderLists)
+               : ( <p>No saved recipes</p> )}
             </div>
           </div>
 

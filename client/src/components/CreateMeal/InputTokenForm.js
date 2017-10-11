@@ -153,9 +153,9 @@ class TokenInput extends Component {
                 this.options.map(this.renderOption)
               ) : (
                 errorType === 'recipe' ? <div className="text-muted p-1">
-                  No recipes left! Add recipes via the search page :)
+                  No recipes found! Add recipes via the search page :)
                 </div> : <div className="text-muted p-1">
-                  No guests found. Invite more people to use the app!
+                  No guests found! Invite more people to use the app!
                 </div>
               )}
             </div>
