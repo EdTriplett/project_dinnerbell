@@ -71,9 +71,7 @@ app.use(express.static(path.join(__dirname, "./build")));
 
 // 404 Handler
 app.all("/*", (req, res, next) => {
-  let err = new Error("404: resource not found");
-  err.stack = `404: invalid resource requested: ${req.path}`;
-  next(err);
+  res.sendFile(path.join(__dirname, "/build/index.html"));
 });
 
 // Error Handler
