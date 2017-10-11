@@ -10,7 +10,6 @@ import Recipes from "../Recipes";
 import Profile from "../Profile";
 import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
-import Test from "../Test";
 import CreateMeal from "../CreateMeal";
 import MealContainer from "../MealContainer/MealContainer";
 

@@ -3,9 +3,7 @@ import queryString from "query-string";
 import _ from "lodash";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link, withRouter } from "react-router-dom";
-import { Card, CardTitle, CardMedia } from "material-ui";
-import StarRatingComponent from "react-star-rating-component";
+import { withRouter } from "react-router-dom";
 
 import * as userActions from "../../actions/user_actions";
 import AsyncManager from "../../services/AsyncManager";

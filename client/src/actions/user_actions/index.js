@@ -128,7 +128,7 @@ export const getUsers = () => async dispatch => {
 };
 export const addRecipe = (userId, recipeId) => async dispatch => {
   try {
-    const payload = await AsyncManager.patchRequest(
+    await AsyncManager.patchRequest(
       `/api/users/${userId}/recipes/${recipeId}`
     );
   } catch (err) {
