@@ -12,17 +12,19 @@ const style = {
 };
 
 const PaperList = ({ title, data }) =>
-  <Paper style={style} zDepth={1}>
-    <h4 style={{ textAlign: "center" }}>
-      {title}
-    </h4>
-    <ul style={{ listStyle: "none" }}>
-      {data.map(item =>
-        <li key={item}>
-          {item}
-        </li>
-      )}
-    </ul>
-  </Paper>;
+  <div>
+    <Paper style={style} zDepth={4}>
+      <h3 style={{ textAlign: "center", margin: 0, paddingTop: "10px" }}>
+        {title}
+      </h3>
+      <ul style={{ listStyle: "none" }}>
+        {data.map(item =>
+          <li key={item}>
+            {item}
+          </li>
+        )}
+      </ul>
+    </Paper>
+  </div>;
 
 export default PaperList;

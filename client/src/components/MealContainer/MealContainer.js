@@ -7,8 +7,8 @@ import Meal from "./Meal";
 const styles = {
   display: "flex",
   backgroundColor: "#3c8d41",
-  position: "relative",
-  justifyContent: "center"
+  justifyContent: "center",
+  height: "100%"
 };
 
 class MealContainer extends Component {

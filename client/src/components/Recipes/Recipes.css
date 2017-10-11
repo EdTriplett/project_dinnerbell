@@ -66,6 +66,7 @@
   height: 100%;
   width: 100%;
   object-fit: cover;
+  position: relative;
 }
 
 .recipe-results .recipe-card {

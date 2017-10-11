@@ -49,8 +49,6 @@ class Recipes extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    console.log("I recieved props");
-    console.log("nextProps: ", nextProps);
     let { q, preferences } = this.parseSearchParams(nextProps.location.search);
     if (
       q !== this.state.q ||
@@ -168,23 +166,25 @@ class Recipes extends Component {
     await this.props.userActions.checkCurrentUser();
   };
 
-  renderHealthInputToken = () =>
+  renderHealthInputToken = () => (
     <InputToken
       name="health"
       value={this.state.healthTokens}
       placeholder="pick health option"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />;
+    />
+  );
 
-  renderDietInputToken = () =>
+  renderDietInputToken = () => (
     <InputToken
       name="diet"
       value={this.state.dietTokens}
       placeholder="pick diet option"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />;
+    />
+  );
 
   // getRandomIndex = () => {
   //   let random = Math.floor(Math.random() * 4) + 1;
@@ -203,7 +203,7 @@ class Recipes extends Component {
       : [];
     const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
-      ? filteredRecipes.map((recipe, index) =>
+      ? filteredRecipes.map((recipe, index) => (
           <RecipeCard
             recipe={recipe}
             user={this.props.userReducer.user}
@@ -213,7 +213,7 @@ class Recipes extends Component {
             index={Math.floor(Math.random() * 4)}
             key={recipe._id}
           />
-        )
+        ))
       : null;
     return (
       <div className="background">
