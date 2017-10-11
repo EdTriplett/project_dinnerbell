@@ -10,6 +10,7 @@ import { withRouter, Link } from "react-router-dom";
 import AsyncManager from '../../services/AsyncManager.js'
 // import FlatButton from "material-ui/FlatButton"
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
+import _ from 'lodash';
 
 const Searchbar = () => (
   <form className="search-form" method="get">
@@ -79,6 +80,15 @@ class Profile extends Component {
     }
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.recipes && this.state.recipes.length) {
+      if (!_.isEqual(this.state.recipes, nextState.recipes)) {
+        console.log('different!')
+        console.log(nextState.displayedUser, 'current')
+        this.props.userActions.updateUser(nextState.displayedUser)
+      }    
+    }
+  }
 
   // deleteRecipe = recipe => async ()=> {
   //     const recipes = this.props.userReducer.user.recipes.filter(entry=> entry._id !== recipe._id )
@@ -89,8 +99,10 @@ class Profile extends Component {
   //   }
 
   onSortEnd = ({oldIndex, newIndex}) => {
+    let newRecipeLocations = arrayMove(this.state.recipes, oldIndex, newIndex)
     this.setState({
-      recipes: arrayMove(this.state.recipes, oldIndex, newIndex),
+      recipes: newRecipeLocations,
+      displayedUser: { ...this.state.displayedUser, recipes: newRecipeLocations }
     });
   };
 

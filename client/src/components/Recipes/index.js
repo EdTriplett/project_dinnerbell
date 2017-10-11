@@ -211,6 +211,7 @@ class Recipes extends Component {
             removeRecipeToUser={this.removeRecipeToUser}
             recipeBelongsToUser={this.recipeBelongsToUser}
             index={Math.floor(Math.random() * 4)}
+            key={recipe._id}
           />
         )
       : null;

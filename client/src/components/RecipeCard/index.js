@@ -17,7 +17,7 @@ const RecipeCard = ({
   recipeBelongsToUser,
   index
 }) =>
-  <Card className={`recipe-card delay-${index}`} key={recipe.edamamId}>
+  <Card className={`recipe-card delay-${index}`}>
     <Link to={`/recipes/${recipe.edamamId}`}>
       <CardMedia>
         <img src={recipe.image} alt="" />
