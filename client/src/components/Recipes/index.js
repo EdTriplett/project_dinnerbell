@@ -1,30 +1,19 @@
 import React, { Component } from "react";
-
-// import parseUrl from "parse-url";
 import queryString from "query-string";
-
-import * as userActions from "../../actions/user_actions";
-import * as recipeActions from "../../actions/recipe_actions";
-import * as recipesActions from "../../actions/recipes_actions";
-import _ from 'lodash'
-import AsyncManager from "../../services/AsyncManager";
-
+import _ from "lodash";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
-
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Card, CardTitle, CardMedia } from "material-ui";
-
-import LoadingFork from "../LoadingFork";
-
-import InputToken from "./InputTokenForm";
-import "./InputTokenForm.css";
-
-import "./Recipes.css";
 import StarRatingComponent from "react-star-rating-component";
 
-let previous_rand = 1;
+import * as userActions from "../../actions/user_actions";
+import AsyncManager from "../../services/AsyncManager";
+import LoadingFork from "../LoadingFork";
+import InputToken from "./InputTokenForm";
+import "./InputTokenForm.css";
+import "./Recipes.css";
+import RecipeCard from "../RecipeCard";
 
 class Recipes extends Component {
   state = {
@@ -62,15 +51,7 @@ class Recipes extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
-    console.log("made it to recieved props");
-    console.log("made it to this");
     let { q, preferences } = this.parseSearchParams(nextProps.location.search);
-    console.log("made it to this");
-    console.log("preferences: ", preferences.sort());
-    console.log(
-      "state.preferences: ",
-      [...this.state.healthFilters, ...this.state.dietFilters].sort()
-    );
     if (
       q !== this.state.q ||
       !_.isEqual(
@@ -78,7 +59,6 @@ class Recipes extends Component {
         [...this.state.healthFilters, ...this.state.dietFilters].sort()
       )
     ) {
-      console.log("made it to the this thing");
       await this.setDietaryPreferences(preferences);
       this.setState({ q }, this.searchRecipes);
     } else if (!this.state.recipes.length) {
@@ -104,7 +84,6 @@ class Recipes extends Component {
         ...this.state.healthFilters,
         ...this.state.dietFilters
       ].join(",")}`;
-      console.log("url: ", url);
       const recipes = await AsyncManager.getRequest(url);
       await this.setState({ recipes, loading: false });
     } catch (error) {
@@ -165,34 +144,15 @@ class Recipes extends Component {
     });
   };
 
-  // filterRecipes = recipes => {
-  //   return recipes.filter(recipe => {
-  //     return this.isValidRecipe(recipe);
-  //   });
-  // };
-
   filterRecipesLength = filteredRecipes => {
     return filteredRecipes.length <= 9
       ? filteredRecipes
       : new Array(9).fill(0).map((_, index) => filteredRecipes[index]);
   };
 
-  // findOrCreateRecipe = recipe => async () => {
-  //   // this.props.recipeActions.findOrCreateRecipe(parsedRecipe);
-  // };
-
-  // isValidRecipe = recipe => {
-  //   const filters = [...this.state.dietFilters, ...this.state.healthFilters];
-  //   return filters.reduce(
-  //     (isValid, filter) =>
-  //       recipe.preferences &&
-  //       !!recipe.preferences.find(
-  //         preference => preference.toLowerCase() === filter.toLowerCase()
-  //       ) &&
-  //       isValid,
-  //     true
-  //   );
-  // };
+  // addRecipeToUser = () => {
+  //   AsyncManager.patchRequest(this.props.userReducer.user.id)
+  // }
 
   renderHealthInputToken = () =>
     <InputToken
@@ -212,16 +172,16 @@ class Recipes extends Component {
       onSelect={this.selectToken}
     />;
 
-  getRandomIndex = () => {
-    let random = Math.floor(Math.random() * 4) + 1;
-
-    if (previous_rand !== random) {
-      previous_rand = random;
-      return random;
-    }
-
-    return this.getRandomIndex(random);
-  };
+  // getRandomIndex = () => {
+  //   let random = Math.floor(Math.random() * 4) + 1;
+  //
+  //   if (previous_rand !== random) {
+  //     previous_rand = random;
+  //     return random;
+  //   }
+  //
+  //   return this.getRandomIndex(random);
+  // };
 
   render() {
     console.log("recipes: ", this.state.recipes);
@@ -230,28 +190,30 @@ class Recipes extends Component {
       : [];
     const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
-      ? filteredRecipes.map((recipe, index) =>
-          <Card
-            className={`recipe-card delay-${this.getRandomIndex()}`}
-            key={`${recipe.name}${recipe.edamamId
-              ? recipe.edamamId
-              : "bad recipe"}`}
-          >
-            <Link to={`/recipes/${recipe.edamamId}`}>
-              <CardMedia>
-                {recipe.image && <img src={recipe.image} alt="" />}
-              </CardMedia>
-              <CardTitle className="card-title">
-                {recipe.name}
-              </CardTitle>
-              <StarRatingComponent
-                className="star-rating"
-                name="rating"
-                value={Math.floor(Math.random() * 5)}
-                editing={false}
-              />
-            </Link>
-          </Card>
+      ? filteredRecipes.map(
+          (recipe, index) =>
+            <RecipeCard recipe={recipe} index={Math.floor(Math.random() * 4)} />
+          // <Card
+          //   className={`recipe-card delay-${Math.floor(Math.random() * 4)}`}
+          //   key={`${recipe.name}${recipe.edamamId
+          //     ? recipe.edamamId
+          //     : "bad recipe"}`}
+          // >
+          //   <Link to={`/recipes/${recipe.edamamId}`}>
+          //     <CardMedia>
+          //       {recipe.image && <img src={recipe.image} alt="" />}
+          //     </CardMedia>
+          //     <CardTitle className="card-title">
+          //       {recipe.name}
+          //     </CardTitle>
+          //     <StarRatingComponent
+          //       className="star-rating"
+          //       name="rating"
+          //       value={Math.floor(Math.random() * 5)}
+          //       editing={false}
+          //     />
+          //   </Link>
+          // </Card>
         )
       : null;
     return (
@@ -280,9 +242,7 @@ class Recipes extends Component {
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch),
-  recipeActions: bindActionCreators(recipeActions, dispatch),
-  recipesActions: bindActionCreators(recipesActions, dispatch)
+  userActions: bindActionCreators(userActions, dispatch)
 });
 
 export default withRouter(

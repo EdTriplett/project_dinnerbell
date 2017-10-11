@@ -70,9 +70,12 @@ const removePicture = async (req, res) => {
 };
 
 const addRecipe = async (req, res) => {
-  const user = await User.findById(req.params.userId);
-  user.recipes.push(recipes._id);
-  await User.updateUser(user);
+  let user = await User.findById(req.params.userId);
+  if (!user.recipes.includes(req.params.recipesId)) {
+    user.recipes.push(req.params.recipes._id);
+    user = await user.save();
+  }
+  res.json(user);
 };
 
 // Register Route Handlers
