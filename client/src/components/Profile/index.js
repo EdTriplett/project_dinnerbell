@@ -28,7 +28,7 @@ const Searchbar = () => (
 
 const SortableItem = SortableElement((props) => 
   <div>
-    <p key={props.recipe._id}>{props.recipe.name}</p>
+    <Link to={`/recipes/${props.recipe.edamamId}`}><p key={props.recipe._id}>{props.recipe.name}</p></Link>
   </div>
 );
 
@@ -113,6 +113,7 @@ class Profile extends Component {
     const renderLists = <SortableList 
                           items={this.state.recipes} 
                           onSortEnd={this.onSortEnd} 
+                          pressDelay={200}
                           />
 
     return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id === userReducer.user._id ?
