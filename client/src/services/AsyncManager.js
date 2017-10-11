@@ -11,12 +11,13 @@ export default {
   },
 
   postRequest: async (path, params) => {
-    const response = await superagent
+
+      const response = await superagent
       .post(path)
       .set("Accept", "application/json")
       .send(params);
 
-    return response.body;
+      return response.body;
   },
 
   patchRequest: async (path, params) => {

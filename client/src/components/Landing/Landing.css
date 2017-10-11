@@ -2,7 +2,7 @@
 
 .landing {
   display: flex;
-  height: 100vh;
+  height: 100%;
   flex-direction: column;
   align-items: center;
   background-color: #3c8d41;
@@ -350,16 +350,16 @@
     }
 
     .landing-auth-container {
-      top: 21%;
+      top: 15%;
       display: flex;
     }
 
     .landing-description {
-      top: 15%;
+      top: 9%;
     }
 
     .landing-img-cube {
-      margin-top: 200px;
+      margin-top: 120px;
     }
 
 }
@@ -380,7 +380,7 @@
     }
 
     .landing-auth-container {
-      top: 22%;
+      top: 26%;
       display: flex;
     }
 
@@ -389,7 +389,18 @@
     }
 
     .landing-img-cube {
-      margin-top: 180px;
+      margin-top: 120px;
+    }
+}
+
+/* Portrait Custom 667 */
+@media only screen 
+  and (max-width: 667px)  {
+    .landing-description {
+      top: 17%;
     }
 
+    .landing-auth-container {
+      top: 28%;
+    }
 }

@@ -2,12 +2,14 @@ import mealConstants from "../constants/meal_constants";
 
 const initialState = {
   meal: null,
-  mealPicture: ''
+  mealPicture: '',
+  isLoading: false
 };
 
-const mealReducer = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case mealConstants.SET_MEAL:
+
       return {
         ...state,
         meal: action.payload
@@ -18,9 +20,14 @@ const mealReducer = (state = initialState, action) => {
         mealPicture: action.payload 
       };
 
+    case mealConstants.CREATE_MEAL_REQUEST:
+      return {
+        ...state.meal,
+        isLoading: action.payload
+      }
+
     default:
       return state;
   }
 };
 
-export default mealReducer;

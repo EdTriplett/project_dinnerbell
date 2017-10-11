@@ -19,29 +19,22 @@ class CreateMeal extends Component {
 		value: 2,
 		mealName: "",
 		mealTasks: "",
-		isUpdatingImage: false,
-		isLoadingUsers: false,
 		recipeTokens: [],
 		selectedRecipes: [],
 		recipeOptions: [
-			{ id: 1, name: "Apple Pie", _id: '59dcdd2b018b8b6279a4bb65', element: <span>Apple Pie</span> },
-			{ id: 2, name: "New York Steak", _id: '59dcdc2b018b8b6279a4bb65', element: <span>New York Steak</span> },
-			{ id: 3, name: "Chicken Soup", _id: '29dcdc2b018b8b6279a4bb65', element: <span>Chicken Soup</span> },
-			{ id: 4, name: "French Fries", _id: '19dcdc2b018b8b6279a4bb65', element: <span>French Fries</span> },
-			{ id: 5, name: "Tuna Salad", _id: '52dcdc2b018b8b6279a4bb65', element: <span>Tuna Salad</span> }
+			{ id: 1, name: "Beef Tacos", _id: '321f22ade4bdf65d6166eca828bb53fc', element: <span>Beef Tacos</span> },
+			{ id: 2, name: "Beef Stroganoff", _id: '6b2e9d23c0cfa520dee57843153d884b', element: <span>New York Steak</span> },
+			{ id: 3, name: "Pan-Seared Flat Iron Steak", _id: '106483a76f61dbcb85857c75052ce3cd', element: <span>Chicken Soup</span> }
 		],
 		userTokens: [],
 		selectedUsers: [],
-		selectedUserIds: [],
-		userOptions: [
-			
-		],
+		userOptions: [],
 		isLoading: false
 	};
 
 	componentDidMount() {
 		this.setState({
-			isLoadingUsers: true
+			isLoading: true
 		})
 
 		this.props.userActions.getUsers();	
@@ -49,7 +42,7 @@ class CreateMeal extends Component {
 
 	componentDidUpdate() {
 		const { userReducer } = this.props;
-		if (this.props.userReducer.users && this.state.isLoadingUsers) {
+		if (userReducer.users && userReducer.user && this.state.isLoading) {
 			let filtered = userReducer.users.filter(user => user.username !== userReducer.user.username);
 
 			filtered.forEach((item, index) => {
@@ -60,7 +53,7 @@ class CreateMeal extends Component {
 
 			this.setState({
 				userOptions: filtered,
-				isLoadingUsers: false
+				isLoading: false
 			})
 		}
 	}
@@ -154,20 +147,25 @@ class CreateMeal extends Component {
 	};
 
 	onSubmitForm = e => {
-		const { userReducer } = this.props;
- 		e.preventDefault();
+		e.preventDefault();
+		const { userReducer, mealReducer, mealActions } = this.props;
+		const { mealName, selectedRecipes, selectedUsers, mealTasks } = this.state;
  		
 		const data = {
-			name: this.state.mealName,
+			name: mealName,
 			date: new Date(Date.now()),
 			owner: userReducer.user && userReducer.user._id,
-			recipes: this.state.selectedRecipes,
-			registeredGuests: this.state.selectedUsers,
-			tasks: this.state.mealTasks,
-			image: this.props.mealReducer.mealPicture
+			recipes: selectedRecipes,
+			registeredGuests: selectedUsers,
+			tasks: mealTasks,
+			image: mealReducer.mealPicture
 		}
 
-		console.log(data, 'what is the data??')
+		console.log(data, 'before being submitted')
+
+		mealActions.createMeal(data).then(() => {
+			alert('done!')
+		});
 	};
 
 	imageSelected = files => {
