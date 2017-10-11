@@ -1,6 +1,7 @@
 import React from "react";
 import { UsersList } from "../UsersContainer/UsersList";
 import PaperList from "../PaperList";
+import Paper from "material-ui/Paper";
 
 const styles = {
   background: "#3c8d41",
@@ -10,15 +11,15 @@ const styles = {
   marginTop: "25px",
   color: "white",
   fontFamily: "'Open Sans', sans-serif",
-  width: "100%"
+  width: "100%",
+  height: "100%"
 };
 
 const Guests = ({ unregGuests, regGuests }) =>
   <div>
     {regGuests
       ? <div>
-          <p>Attending</p>
-          <UsersList users={regGuests} />{" "}
+          <UsersList users={regGuests} title="Attending" />
         </div>
       : null}
     {unregGuests.length
@@ -28,16 +29,19 @@ const Guests = ({ unregGuests, regGuests }) =>
       : null}
   </div>;
 
-const RecipesList = ({ recipes }) => {
-  return recipes.length
-    ? recipes.map(recipe =>
-        <p key={recipe._id}>
-          {recipe.name}
-        </p>
-      )
-    : null;
-};
-
+const RecipesList = ({ recipes }) =>
+  <div>
+    <h3 style={{ textAlign: "center", margin: 0, paddingTop: "10px" }}>
+      Recipes
+    </h3>
+    {recipes.length
+      ? recipes.map(recipe =>
+          <p key={recipe._id}>
+            {recipe.name}
+          </p>
+        )
+      : null}
+  </div>;
 const Meal = ({ meal }) => {
   let regGuests = [];
   let unregGuests = [];
@@ -51,19 +55,23 @@ const Meal = ({ meal }) => {
       <h1 style={{ fontSize: "3em" }}>
         {meal.name}
       </h1>
+
       <img
         src={meal.image}
         alt="meal"
         style={{ width: "300px", borderRadius: "300px" }}
       />
       <h3>
-        This delicious meal hosted by {meal.owner.username}
+        hosted by {meal.owner.username}
       </h3>
+
       <div style={{ display: "flex", flexDirection: "row" }}>
         <Guests regGuests={regGuests} unregGuests={unregGuests} />
         <PaperList title="Tasks" data={meal.tasks} />
+        <Paper zDepth={4} style={{ borderRadius: "25px" }}>
+          <RecipesList recipes={meal.recipes} />
+        </Paper>
       </div>
-      <RecipesList recipes={meal.recipes} />
     </div>
   );
 };
