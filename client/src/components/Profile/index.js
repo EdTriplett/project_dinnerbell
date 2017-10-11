@@ -27,7 +27,7 @@ const Searchbar = () => (
 class Profile extends Component {
   state = {
     isUpdatingImage: false,
-    displayedUser: null
+    displayedUser: this.props.userReducer.user
 
   };
 
@@ -38,18 +38,23 @@ class Profile extends Component {
   };
 
   async componentDidMount() {
-    console.log(this.props)
-    if (this.props.userReducer.user) {
-      console.log('passed first if')
-      if (this.props.match.params._id !== this.props.userReducer.user._id) {
-        console.log('passed second if')
-        let displayedUser = await AsyncManager.getRequest(`/api/users/${this.props.match.params._id}`)
-        this.setState({
-          displayedUser
-        })
-      }
+    let displayedUser = await AsyncManager.getRequest(`/api/users/${this.props.match.params._id}`)
+    this.setState({
+      displayedUser
+    })
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    const currentId = this.props.match.params._id;
+    const nextId = nextProps.match.params._id;
+//    const storedId = this.state.displayedUser._id;
+    if (nextId && nextId !== currentId) {
+      let displayedUser = await AsyncManager.getRequest(`/api/users/${nextId}`)
+      this.setState({displayedUser});
     }
   }
+
+
 
   render() {
     const {userReducer} = this.props;
@@ -59,7 +64,7 @@ class Profile extends Component {
     //     : userReducer.user ? userReducer.user.username: null;
 
          
-    return !this.state.displayedUser ?
+    return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id ===userReducer.user._id ?
     (
       <div className="profile">
         <p className="profile-name">{userReducer.user ? userReducer.user.username : null}</p>

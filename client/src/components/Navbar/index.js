@@ -117,7 +117,7 @@ class Navbar extends Component {
         const showProfile =
           this.props.userReducer.user &&
           <Link
-            to={`/profile/${this.props.userReducer.user.username}`}
+            to={`/profile/${this.props.userReducer.user._id}`}
             className="non-logo-item"
             key="profile"
           >
@@ -138,7 +138,7 @@ class Navbar extends Component {
         if (this.props.userReducer.user) {
           navItems.push(
             <Link
-              to={`/profile/${this.props.userReducer.user.username}`}
+              to={`/profile/${this.props.userReducer.user._id}`}
               className="non-logo-item"
               key="profile"
             >
