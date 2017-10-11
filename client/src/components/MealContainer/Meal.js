@@ -21,17 +21,22 @@ const Guests = ({ unregGuests, regGuests }) =>
           <UsersList users={regGuests} />{" "}
         </div>
       : null}
-    {unregGuests
+    {unregGuests.length
       ? <div>
           <PaperList title="others attending" data={unregGuests} />
         </div>
       : null}
   </div>;
 
-const RecipesList = ({ recipes }) =>
-  <div>
-    {recipes[0].name}
-  </div>;
+const RecipesList = ({ recipes }) => {
+  return recipes.length
+    ? recipes.map(recipe =>
+        <p key={recipe._id}>
+          {recipe.name}
+        </p>
+      )
+    : null;
+};
 
 const Meal = ({ meal }) => {
   let regGuests = [];
@@ -46,13 +51,17 @@ const Meal = ({ meal }) => {
       <h1 style={{ fontSize: "3em" }}>
         {meal.name}
       </h1>
-      <img src={meal.image} alt='meal image'/>
+      <img
+        src={meal.image}
+        alt="meal"
+        style={{ width: "300px", borderRadius: "300px" }}
+      />
       <h3>
         This delicious meal hosted by {meal.owner.username}
       </h3>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <Guests regGuests={regGuests} unregGuests={unregGuests} />
-        <PaperList title="" data={meal.tasks} />
+        <PaperList title="Tasks" data={meal.tasks} />
       </div>
       <RecipesList recipes={meal.recipes} />
     </div>
