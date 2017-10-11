@@ -17,7 +17,7 @@ const wrapper = require("../util/errorWrappers").mongooseWrapper;
 
 const RecipeSchema = new Schema(
   {
-    edamamId: { type: String, required: true, unique: true },
+    edamamId: { type: String, required: true },
     kind: String,
     name: { type: String, index: true },
     ingredients: [String],
@@ -52,31 +52,8 @@ RecipeSchema.statics.sparseCreate = async function(newProps) {
   }
 };
 
-// Propagation Hooks
-const propagateToOwner = async function() {
-  if (
-    this.owner &&
-    this.owner.recipes &&
-    !this.owner.recipes.includes(this._id)
-  ) {
-    this.owner.recipes.push(this._id);
-    await this.owner.save();
-  }
-};
-RecipeSchema.pre("save", wrapper(propagateToOwner));
-
-const removeFromOwner = async function() {
-  await mongoose
-    .model("User")
-    .update(
-      { recipes: { $elemMatch: this._id } },
-      { $pull: { recipes: this._id } }
-    );
-};
-RecipeSchema.pre("remove", wrapper(removeFromOwner));
-
 const populateAll = function(next) {
-  this.populate("owner ratings");
+  this.populate("ratings");
   next();
 };
 RecipeSchema.pre("find", populateAll);

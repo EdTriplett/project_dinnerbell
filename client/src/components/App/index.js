@@ -21,7 +21,7 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <Router>
-          <div>
+          <div style={{ height: '100%' }}>
             <Navbar />
             <Route exact path="/" render={() => <Landing />} />
             <Route

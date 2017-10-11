@@ -8,6 +8,12 @@ export const setMeal = meal => {
   };
 };
 
+export const createMealRequest = meal => {
+  return {
+    type: mealConstants.CREATE_MEAL_REQUEST
+  }
+}
+
 export const setMealImage = img => {
   return {
     type: mealConstants.SET_MEAL_IMAGE,
@@ -17,12 +23,10 @@ export const setMealImage = img => {
 
 export const setMealProfileImage = file => async dispatch => {
   try {
-    console.log('get here????????')
     const response = await AsyncManager.uploadFile("/api/meals/picture", file);
     dispatch(setMealImage(response));
   } catch (e) {
     console.error(e.stack);
-    // dispatch(setUserError(e.message));
   }
 };
 
@@ -34,3 +38,29 @@ export const getMeal = id => async dispatch => {
     console.log(err);
   }
 };
+
+export const createMeal = meal => async dispatch => {
+  try {
+    dispatch(createMealRequest(true));
+    const response = await AsyncManager.postRequest(`/api/meals`);
+
+    if (response.body.error || response.body.errors) {
+      let errorMsg = response.body.error || response.body.errors;
+      throw new Error(errorMsg);
+    }
+
+    dispatch(createMealRequest(false));
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+
+
+
+
+
+
+
+

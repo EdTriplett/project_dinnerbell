@@ -18,6 +18,8 @@ const UserSchema = new Schema(
     ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
     // meals we have created
     meals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
+    // meals we are registered to
+    registeredMeals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
     // users we are following
     following: [{ type: Schema.Types.ObjectId, ref: "User" }],
     public: { type: Boolean, default: true },
@@ -26,7 +28,9 @@ const UserSchema = new Schema(
   },
   {
     timestamps: true,
-    virtuals: true
+    toJSON: {
+      virtuals: true
+    }
   }
 );
 
@@ -93,7 +97,7 @@ UserSchema.pre("remove", wrapper(removeRatings));
 
 // Populate ALL THE FIELDS
 const populateAll = function(next) {
-  this.populate("recipes meals image following ratings");
+  this.populate("recipes meals image following ratings registeredMeals");
   next();
 };
 UserSchema.pre("find", populateAll);
