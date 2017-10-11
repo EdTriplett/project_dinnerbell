@@ -16,39 +16,30 @@ const RecipeCard = ({
   removeRecipeToUser,
   recipeBelongsToUser,
   index
-}) =>
+}) => (
   <Card className={`recipe-card delay-${index}`}>
     <Link to={`/recipes/${recipe.edamamId}`}>
       <CardMedia>
         <img src={recipe.image} alt="" />
       </CardMedia>
-      <CardTitle className="card-title">
-        {recipe.name}
-      </CardTitle>
-      <StarRatingComponent
-        className="star-rating"
-        name="rating"
-        value={Math.floor(Math.random() * 5)}
-        editing={false}
-      />
+      <CardTitle className="card-title">{recipe.name}</CardTitle>
     </Link>
-    {user && user._id
-      ? <FloatingActionButton
-          className="add-button"
-          mini={true}
-          secondary={recipeBelongsToUser(user, recipe)}
-          // style={recipeBelongsToUser(user, recipe) ? removeStyle : addStyle}
-          onClick={
-            recipeBelongsToUser(user, recipe)
-              ? () => removeRecipeToUser(user, recipe)
-              : () => addRecipeToUser(user, recipe)
-          }
-        >
-          {recipeBelongsToUser(user, recipe)
-            ? <ContentRemove />
-            : <ContentAdd />}
-        </FloatingActionButton>
-      : null}
-  </Card>;
+    {user && user._id ? (
+      <FloatingActionButton
+        className="add-button"
+        mini={true}
+        secondary={recipeBelongsToUser(user, recipe)}
+        // style={recipeBelongsToUser(user, recipe) ? removeStyle : addStyle}
+        onClick={
+          recipeBelongsToUser(user, recipe)
+            ? () => removeRecipeToUser(user, recipe)
+            : () => addRecipeToUser(user, recipe)
+        }
+      >
+        {recipeBelongsToUser(user, recipe) ? <ContentRemove /> : <ContentAdd />}
+      </FloatingActionButton>
+    ) : null}
+  </Card>
+);
 
 export default RecipeCard;
