@@ -3,12 +3,17 @@ import { Link } from "react-router-dom";
 import { Card, CardTitle, CardMedia } from "material-ui";
 import StarRatingComponent from "react-star-rating-component";
 import FloatingActionButton from "material-ui/FloatingActionButton";
+// import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from "material-ui/svg-icons/content/add";
+import ContentRemove from "material-ui/svg-icons/content/remove";
+
+import "./RecipeCard.css";
 
 const RecipeCard = ({
   recipe,
   user,
   addRecipeToUser,
+  removeRecipeToUser,
   recipeBelongsToUser,
   index
 }) =>
@@ -27,9 +32,19 @@ const RecipeCard = ({
         editing={false}
       />
     </Link>
-    {user && user._id && !recipeBelongsToUser(user, recipe)
-      ? <FloatingActionButton onClick={() => addRecipeToUser(user, recipe)}>
-          <ContentAdd />
+    {user && user._id
+      ? <FloatingActionButton
+          className="add-button"
+          mini={true}
+          onClick={
+            recipeBelongsToUser(user, recipe)
+              ? () => removeRecipeToUser(user, recipe)
+              : () => addRecipeToUser(user, recipe)
+          }
+        >
+          {recipeBelongsToUser(user, recipe)
+            ? <ContentRemove className="add-svg" />
+            : <ContentAdd className="add-svg" />}
         </FloatingActionButton>
       : null}
   </Card>;
