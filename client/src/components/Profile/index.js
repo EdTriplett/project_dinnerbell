@@ -5,14 +5,17 @@ import * as userActions from "../../actions/user_actions";
 import Dropzone from "react-dropzone";
 import "./Profile.css";
 import PreferenceSetter from "../PreferenceSetter";
-// import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
+import ProfileUpdater from "../ProfileUpdater/ProfileUpdater.js";
 import { withRouter, Link } from "react-router-dom";
-import AsyncManager from '../../services/AsyncManager.js'
-// import FlatButton from "material-ui/FlatButton"
-import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
-import _ from 'lodash';
+import AsyncManager from "../../services/AsyncManager.js";
+import FlatButton from "material-ui/FlatButton";
+import {
+  SortableContainer,
+  SortableElement,
+  arrayMove
+} from "react-sortable-hoc";
 
-const Searchbar = () => (
+const Searchbar = () =>
   <form className="search-form" method="get">
     <input
       className="logs-search-box"
@@ -24,28 +27,29 @@ const Searchbar = () => (
     <button className="logs-search-btn" type="submit">
       <i className="fa fa-search search-form-icon" aria-hidden="true" />
     </button>
-  </form>
-);
+  </form>;
 
-const SortableItem = SortableElement((props) => 
+const SortableItem = SortableElement(props =>
   <div>
     <Link to={`/recipes/${props.recipe.edamamId}`}><p key={props.recipe._id}>{props.recipe.name}</p></Link>
   </div>
 );
 
-const SortableList = SortableContainer((props) => {
-      return (
-        <div>
-          {props.items.map((recipe, index) => {
-                 return <SortableItem 
-                          key={`item-${index}`} 
-                          index={index}  
-                          {...props} 
-                          recipe={recipe} />
-                })}      
-            
-        </div> 
-      );     
+const SortableList = SortableContainer(props => {
+  return (
+    <div>
+      {props.items.map((recipe, index) => {
+        return (
+          <SortableItem
+            key={`item-${index}`}
+            index={index}
+            {...props}
+            recipe={recipe}
+          />
+        );
+      })}
+    </div>
+  );
 });
 
 class Profile extends Component {
@@ -53,7 +57,6 @@ class Profile extends Component {
     isUpdatingImage: false,
     displayedUser: this.props.userReducer.user,
     recipes: []
-
   };
 
   imageSelected = files => {
@@ -62,21 +65,23 @@ class Profile extends Component {
   };
 
   async componentDidMount() {
-    let displayedUser = await AsyncManager.getRequest(`/api/users/${this.props.match.params._id}`)
+    let displayedUser = await AsyncManager.getRequest(
+      `/api/users/${this.props.match.params._id}`
+    );
     this.setState({
       ...this.state,
       displayedUser,
       recipes: displayedUser.recipes
-    })
+    });
   }
 
   async componentWillReceiveProps(nextProps) {
     const currentId = this.props.match.params._id;
     const nextId = nextProps.match.params._id;
-//    const storedId = this.state.displayedUser._id;
+    //    const storedId = this.state.displayedUser._id;
     if (nextId && nextId !== currentId) {
-      let displayedUser = await AsyncManager.getRequest(`/api/users/${nextId}`)
-      this.setState({displayedUser});
+      let displayedUser = await AsyncManager.getRequest(`/api/users/${nextId}`);
+      this.setState({ displayedUser });
     }
   }
 
@@ -106,16 +111,14 @@ class Profile extends Component {
     });
   };
 
-
-
   // buildRecipeListItem(recipe) {
-  //   return 
+  //   return
   //     (<div>
   //       <p key={recipe._id}>
-  //         <Link to={`/recipes/${recipe.edamamId}`}> 
+  //         <Link to={`/recipes/${recipe.edamamId}`}>
   //         {recipe.name}</Link>
   //         <FlatButton label='remove'  primary={true} onClick={this.deleteRecipe(recipe)}/>
-    
+
   //       </p>
   //     </div>)
   // }
@@ -150,129 +153,123 @@ class Profile extends Component {
         {/*<ProfileUpdater 
             updateUser={this.props.userActions.updateUser}
             user={this.props.user}/>  */}
-          
 
-        <PreferenceSetter
-          updateUser={this.props.userActions.updateUser}
-          show={true}
-          user={this.props.user}
-        />
-
-
-        <div className="user-logs-container">
-          <div className="user-logs-col">
-            <div className="user-logs-recipes">
-              <p>recipes</p>
-            </div>
-
-            <Searchbar />
-
-            <div className="user-logs">
-              {userReducer.user ? (renderLists)
-               : ( <p>No saved recipes</p> )}
-            </div>
-          </div>
-
-          <div className="user-logs-col">
-            <div className="user-logs-meals">
-              <p>meals</p>
-            </div>
-            <Searchbar />
-            <div className="user-logs">
-              {userReducer.user ? (
-                userReducer.user.meals
-              ) : (
-                <p>No saved meals</p>
-              )}
-            </div>
-          </div>
-
-          <div className="user-logs-col">
-            <div className="user-logs-activities">
-              <p>activities</p>
-            </div>
-            <Searchbar />
-            <div className="user-logs">
-              <p>Activities (Sprint 2)</p>
-            </div>
-          </div>
-          
-        </div>
-
-      </div>
-    )
-    : (
-      <div className="profile">
-        <p className="profile-name">{this.state.displayedUser.username}</p>
-          {!this.state.displayedUser.profilePicture ? (
-            <div className="profile-pic-default" />
-          ) : (
-            <div className="profile-pic-custom">
-              <img
-                src={this.state.displayedUser &&this.state.displayedUser.profilePicture}
-                alt="this.displayedUser"
+              <PreferenceSetter
+                updateUser={this.props.userActions.updateUser}
+                show={true}
+                user={this.props.user}
               />
+
+              <div className="user-logs-container">
+                <div className="user-logs-col">
+                  <div className="user-logs-recipes">
+                    <p>recipes</p>
+                  </div>
+
+                  <Searchbar />
+
+                  <div className="user-logs">
+                    {userReducer.user ? renderLists : <p>No saved recipes</p>}
+                  </div>
+                </div>
+
+                <div className="user-logs-col">
+                  <div className="user-logs-meals">
+                    <p>meals</p>
+                  </div>
+                  <Searchbar />
+                  <div className="user-logs">
+                    {userReducer.user
+                      ? userReducer.user.meals.map(meal =>
+                          <Link to={`/meals/${meal._id}`}>
+                            {meal.name}
+                          </Link>
+                        )
+                      : <p>No saved meals</p>}
+                  </div>
+                </div>
+
+                <div className="user-logs-col">
+                  <div className="user-logs-activities">
+                    <p>activities</p>
+                  </div>
+                  <Searchbar />
+                  <div className="user-logs">
+                    <p>Activities (Sprint 2)</p>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        {this.state.isUpdatingImage && (
-          <a style={{ color: "white", marginTop: "10px" }}>save</a>
-        )}
-          
+          : <div className="profile">
+              <p className="profile-name">
+                {this.state.displayedUser.username}
+              </p>
+              {!this.state.displayedUser.profilePicture
+                ? <div className="profile-pic-default" />
+                : <div className="profile-pic-custom">
+                    <img
+                      src={
+                        this.state.displayedUser &&
+                        this.state.displayedUser.profilePicture
+                      }
+                      alt="this.displayedUser"
+                    />
+                  </div>}
+              {this.state.isUpdatingImage &&
+                <a style={{ color: "white", marginTop: "10px" }}>save</a>}
 
-        <PreferenceSetter
-          updateUser={null}
-          show={false}
-          user={this.state.displayedUser}
-        />
+              <PreferenceSetter
+                updateUser={null}
+                show={false}
+                user={this.state.displayedUser}
+              />
 
+              <div className="user-logs-container">
+                <div className="user-logs-col">
+                  <div className="user-logs-recipes">
+                    <p>recipes</p>
+                  </div>
 
-        <div className="user-logs-container">
-          <div className="user-logs-col">
-            <div className="user-logs-recipes">
-              <p>recipes</p>
-            </div>
+                  <Searchbar />
 
-            <Searchbar />
+                  <div className="user-logs">
+                    {this.state.displayedUser
+                      ? this.state.displayedUser.recipes.map(recipe =>
+                          <p key={recipe._id}>
+                            {recipe.name}
+                          </p>
+                        )
+                      : <p>No saved recipes</p>}
+                  </div>
+                </div>
 
-            <div className="user-logs">
-              {this.state.displayedUser ? (
-               this.state.displayedUser.recipes.map(recipe=>
-                <p key={recipe._id}>{recipe.name}</p>
-               ))
-               : (
-                <p>No saved recipes</p>
-              )}
-            </div>
-          </div>
+                <div className="user-logs-col">
+                  <div className="user-logs-meals">
+                    <p>meals</p>
+                  </div>
+                  <Searchbar />
+                  <div className="user-logs">
+                    {this.state.displayedUser
+                      ? this.state.displayedUser.meals.map(meal =>
+                          <Link to={`/meals/${meal._id}`}>
+                            {meal.name}
+                          </Link>
+                        )
+                      : <p>No saved meals</p>}
+                  </div>
+                </div>
 
-          <div className="user-logs-col">
-            <div className="user-logs-meals">
-              <p>meals</p>
-            </div>
-            <Searchbar />
-            <div className="user-logs">
-              {this.state.displayedUser ? (
-               this.state.displayedUser.meals
-              ) : (
-                <p>No saved meals</p>
-              )}
-            </div>
-          </div>
-
-          <div className="user-logs-col">
-            <div className="user-logs-activities">
-              <p>activities</p>
-            </div>
-            <Searchbar />
-            <div className="user-logs">
-              <p>Activities (Sprint 2)</p>
-            </div>
-          </div>
-          
-        </div>
-
-      </div>
-      )
+                <div className="user-logs-col">
+                  <div className="user-logs-activities">
+                    <p>activities</p>
+                  </div>
+                  <Searchbar />
+                  <div className="user-logs">
+                    <p>Activities (Sprint 2)</p>
+                  </div>
+                </div>
+              </div>
+            </div>;
   }
 }
 

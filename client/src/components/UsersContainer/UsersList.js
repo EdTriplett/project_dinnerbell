@@ -4,8 +4,18 @@ import { List, ListItem } from "material-ui/List";
 import Paper from "material-ui/Paper";
 import { Link } from "react-router-dom";
 
-export const UsersList = ({ users }) =>
+export const UsersList = ({ users, title }) =>
   <Paper zDepth={4} style={{ borderRadius: "25px" }}>
+    <h3
+      style={{
+        textAlign: "center",
+        margin: 0,
+        paddingTop: "10px",
+        textDecoration: "underline"
+      }}
+    >
+      {title}
+    </h3>
     <List>
       {users.map(user =>
         <Link
