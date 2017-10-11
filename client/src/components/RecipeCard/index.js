@@ -36,6 +36,8 @@ const RecipeCard = ({
       ? <FloatingActionButton
           className="add-button"
           mini={true}
+          secondary={recipeBelongsToUser(user, recipe)}
+          // style={recipeBelongsToUser(user, recipe) ? removeStyle : addStyle}
           onClick={
             recipeBelongsToUser(user, recipe)
               ? () => removeRecipeToUser(user, recipe)
@@ -43,8 +45,8 @@ const RecipeCard = ({
           }
         >
           {recipeBelongsToUser(user, recipe)
-            ? <ContentRemove className="add-svg" />
-            : <ContentAdd className="add-svg" />}
+            ? <ContentRemove />
+            : <ContentAdd />}
         </FloatingActionButton>
       : null}
   </Card>;
