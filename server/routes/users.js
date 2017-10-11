@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const Recipe = require("../models/Recipe");
 const FileUploader = require("../util/upload");
 const wrapper = require("../util/errorWrappers").expressWrapper;
 const uploadMw = FileUploader.single("photo");
@@ -70,16 +71,25 @@ const removePicture = async (req, res) => {
 };
 
 const addRecipe = async (req, res) => {
-  const user = await User.findById(req.params.userId);
-  user.recipes.push(recipes._id);
-  await User.updateUser(user);
+  let user = await User.findById(req.params.userId);
+  const recipe = await Recipe.findById(req.params.recipeId);
+  const hasRecipe =
+    user &&
+    user.recipes.some(r => {
+      return r.id === recipe.id;
+    });
+  if (user && recipe && !hasRecipe) {
+    user.recipes.push(recipe);
+    user = await user.save();
+  }
+  res.json(user);
 };
 
 // Register Route Handlers
 router.get("/", wrapper(getUsers));
 router.get("/:id", wrapper(getUser));
 router.patch("/:id", allowed, wrapper(updateUser));
-router.patch("/:userId/recipes/:recipeId", wrapper(addRecipe));
+router.patch("/:userId/recipes/:recipeId", allowed, wrapper(addRecipe));
 router.delete("/:id", allowed, wrapper(removeUser));
 router.post("/picture", allowed, uploadMw, wrapper(addPicture));
 router.delete("/picture", allowed, wrapper(removePicture));
