@@ -6,7 +6,7 @@ import Dropzone from "react-dropzone";
 import "./Profile.css";
 import PreferenceSetter from "../PreferenceSetter";
 // import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
-import { withRouter, } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import AsyncManager from '../../services/AsyncManager.js'
 // import FlatButton from "material-ui/FlatButton"
 import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
