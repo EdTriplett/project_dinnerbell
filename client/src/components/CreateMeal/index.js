@@ -21,11 +21,7 @@ class CreateMeal extends Component {
 		mealTasks: "",
 		recipeTokens: [],
 		selectedRecipes: [],
-		recipeOptions: [
-			{ id: 1, name: "Beef Tacos", _id: '321f22ade4bdf65d6166eca828bb53fc', element: <span>Beef Tacos</span> },
-			{ id: 2, name: "Beef Stroganoff", _id: '6b2e9d23c0cfa520dee57843153d884b', element: <span>New York Steak</span> },
-			{ id: 3, name: "Pan-Seared Flat Iron Steak", _id: '106483a76f61dbcb85857c75052ce3cd', element: <span>Chicken Soup</span> }
-		],
+		recipeOptions: [],
 		userTokens: [],
 		selectedUsers: [],
 		userOptions: [],
@@ -44,6 +40,9 @@ class CreateMeal extends Component {
 		const { userReducer } = this.props;
 		if (userReducer.users && userReducer.user && this.state.isLoading) {
 			let filtered = userReducer.users.filter(user => user.username !== userReducer.user.username);
+			let recipes = [...userReducer.user.recipes];
+
+			console.log(recipes, 'recipes??');
 
 			filtered.forEach((item, index) => {
 				item.id = index;
@@ -51,8 +50,14 @@ class CreateMeal extends Component {
 				item.element = <span>{item.username}</span>
 			})
 
+			recipes.forEach((recipe, index) => {
+				recipe.id = index;
+				recipe.element = <span>{recipe.name}</span>
+			})
+
 			this.setState({
 				userOptions: filtered,
+				recipeOptions: recipes,
 				isLoading: false
 			})
 		}
@@ -175,8 +180,9 @@ class CreateMeal extends Component {
 	};
 
 	render() {
-		const { mealReducer } = this.props;
-		console.log(this.state, 'wat')
+		const { mealReducer, userReducer } = this.props;
+		console.log(userReducer, 'user reducer')
+		console.log(this.state, 'state')
 		return (
 			<div className="create-recipe">
 				<form onSubmit={this.onSubmitForm}>

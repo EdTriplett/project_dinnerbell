@@ -6,7 +6,7 @@
   "scripts": {
     "startServer": "cd server && nodemon server.js",
     "startClient": "cd client && npm start",
-    "local": "concurrently --names \"server,client\" -c \"red,blue\" \"npm run startServer\" \"npm run startClient\"",
+    "dev": "concurrently --names \"server,client\" -c \"red,blue\" \"npm run startServer\" \"npm run startClient\"",
     "start": "node ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

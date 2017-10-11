@@ -10,7 +10,7 @@ class RecipeContainer extends Component {
 
   fetchRecipe = async id => {
     try {
-      const url = `http://localhost:3000/api/recipes/${id}`;
+      const url = `/api/recipes/${id}`;
       const recipe = await AsyncManager.getRequest(url);
       if (recipe && !(recipe.error || recipe.errors)) {
         this.setState(recipe);

@@ -9,6 +9,7 @@ import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 import { withRouter, Link } from "react-router-dom";
 import AsyncManager from '../../services/AsyncManager.js'
 import FlatButton from "material-ui/FlatButton"
+import {SortableContainer, SortableElement, arrayMove} from 'react-sortable-hoc';
 
 const Searchbar = () => (
   <form className="search-form" method="get">
@@ -25,10 +26,32 @@ const Searchbar = () => (
   </form>
 );
 
+const SortableItem = SortableElement((props) => 
+  <div>
+    <p key={props.recipe._id}>{props.recipe.name}</p>
+  </div>
+);
+
+const SortableList = SortableContainer((props) => {
+      return (
+        <div>
+          {props.items.map((recipe, index) => {
+                 return <SortableItem 
+                          key={`item-${index}`} 
+                          index={index}  
+                          {...props} 
+                          recipe={recipe} />
+                })}      
+            
+        </div> 
+      );     
+});
+
 class Profile extends Component {
   state = {
     isUpdatingImage: false,
-    displayedUser: this.props.userReducer.user
+    displayedUser: this.props.userReducer.user,
+    recipes: []
 
   };
 
@@ -41,7 +64,8 @@ class Profile extends Component {
     let displayedUser = await AsyncManager.getRequest(`/api/users/${this.props.match.params._id}`)
     this.setState({
       ...this.state,
-      displayedUser
+      displayedUser,
+      recipes: displayedUser.recipes
     })
   }
 
@@ -55,30 +79,43 @@ class Profile extends Component {
     }
   }
 
-  deleteRecipe = recipe => async ()=> {
-      const recipes = this.props.userReducer.user.recipes.filter(entry=> entry._id !== recipe._id )
-      await userActions.updateUser({
-        ...this.props.userReducer.user,
-        recipes
-      })
-    }
 
-  buildRecipeListItem(recipe) {
-    return 
-      (<div>
-        <p key={recipe._id}>
-          <Link to={`/recipes/${recipe.edamamId}`}> 
-          {recipe.name}</Link>
-          <FlatButton label='remove'  primary={true} onClick={this.deleteRecipe(recipe)}/>
+  // deleteRecipe = recipe => async ()=> {
+  //     const recipes = this.props.userReducer.user.recipes.filter(entry=> entry._id !== recipe._id )
+  //     await userActions.updateUser({
+  //       ...this.props.userReducer.user,
+  //       recipes
+  //     })
+  //   }
+
+  onSortEnd = ({oldIndex, newIndex}) => {
+    this.setState({
+      recipes: arrayMove(this.state.recipes, oldIndex, newIndex),
+    });
+  };
+
+
+
+  // buildRecipeListItem(recipe) {
+  //   return 
+  //     (<div>
+  //       <p key={recipe._id}>
+  //         <Link to={`/recipes/${recipe.edamamId}`}> 
+  //         {recipe.name}</Link>
+  //         <FlatButton label='remove'  primary={true} onClick={this.deleteRecipe(recipe)}/>
     
-        </p>
-      </div>)
-  }
+  //       </p>
+  //     </div>)
+  // }
 
   render() {
     const {userReducer} = this.props;
-         
-    return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id ===userReducer.user._id ?
+    const renderLists = <SortableList 
+                          items={this.state.recipes} 
+                          onSortEnd={this.onSortEnd} 
+                          />
+
+    return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id === userReducer.user._id ?
     (
       <div className="profile">
         <p className="profile-name">{userReducer.user ? userReducer.user.username : null}</p>
@@ -118,12 +155,8 @@ class Profile extends Component {
             <Searchbar />
 
             <div className="user-logs">
-              {userReducer.user ? (
-                userReducer.user.recipes.map(recipe=>{this.buildRecipeListItem(recipe)}
-               ))
-               : (
-                <p>No saved recipes</p>
-              )}
+              {userReducer.user ? (renderLists)
+               : ( <p>No saved recipes</p> )}
             </div>
           </div>
 
