@@ -1,132 +1,117 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+//import { Field, reduxForm } from "redux-form";
 import TextField from "material-ui/TextField";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
-import asyncValidate from "../../services/AsyncValidate";
 import { withRouter } from "react-router-dom";
 // import FlatButton from "material-ui/FlatButton";
 import './ProfileUpdater.css';
 
-const validate = values => {
-  const errors = {};
-  if (
-    values.email &&
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-  ) {
-    errors.email = "Invalid email address";
-  }
-  const passwordLength = 6;
-  if (values.password && values.password.length < passwordLength) {
-    errors.password = `Password must be at least ${passwordLength} characters`;
-  }
-  return errors;
-};
-
-// const allDetails = ['Username', 'Email', 'Password']
 
 class ProfileUpdater extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      email:'', 
+      password:'', 
+      username:'',
+      errors: {
+        username: null, 
+        email: null, 
+        password: null
+      }
+    };
   }
 
-  handleFormSubmit = e => {
-    e.preventDefault();
-    const user = this.props.userReducer.user;
-    const { updateUser, formData } = this.props;
-    const {email, password, username} = formData.ProfileUpdater.values;
-    let newDetails = {};
-    if (email) {newDetails.email = email}
-    if (password) {newDetails.password = password}
-    if (username) {newDetails.username = username}
-    updateUser({ ...user, newDetails})
-    .then(() => {
-      if (this.props.userReducer.userError) {
-        alert(this.props.userReducer.userError);
-        this.props.userActions.setUserError(null);
-      }
-    });
+  validate = async newDetails => {
+    const errors = {};
+    await userActions.getUsers();
+
+    console.log('props = ', this.props)
+    if (
+      newDetails.email &&
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(newDetails.email)
+    ) {
+      errors.email = "Invalid email address";
+    }
+    const passwordLength = 6;
+    if (newDetails.password && newDetails.password.length < passwordLength) {
+      errors.password = `Password must be at least ${passwordLength} characters`;
+    }
+    return errors;
   };
 
-  renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
-    <TextField
-      hintText={label}
-      floatingLabelText={label}
-      errorText={touched && error}
-      {...input}
-      {...custom}
-    />
-  );
 
-  render() {
-    const {
-      handleSubmit,
-      pristine,
-      reset,
-      submitting,
-    } = this.props;
+  handleChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
 
-    const authOptions = (
-      <div className="oauth">
-        <a href="/auth/facebook">Add your info from 
-          <img src="https://imgur.com/Hw9YUrJ.png" alt="facebook logo" />
-        </a>
-        <a href="/auth/google"> Add your info from 
-          <img src="https://i.imgur.com/ETp8DOT.png" alt='google logo'/>
-        </a>
-      </div>
-    ) ; 
+  handleFormSubmit = async e => {
+    e.preventDefault();
+    const {email, password, username} = this.state
+    let newDetails = {};
+    if (email.length) {newDetails.email = email}
+    if (password.length) {newDetails.password = password}
+    if (username.length) {newDetails.username = username}
+    await this.setState({
+      errors: this.validate(newDetails)
+    })
+    if (Object.keys(this.state.errors).every(key => this.state.errors[key] === null)) {
+    await this.props.userActions.updateUser({ ...this.props.userReducer.user, ...newDetails})
+    }
+    
+    if (this.props.userReducer.userError) {
+      alert(this.props.userReducer.userError);
+      this.props.userActions.setUserError(null);
+    }
+  };
+
+   render() {
 
     return (
-      <div className='profile-updater'>
-        <form className='profile-updater form'onSubmit={handleSubmit(this.handleFormSubmit)}>
+      <div >
+       <form onSubmit={this.handleFormSubmit}>
           <h3 className="label">Update your Profile</h3>
-          <div>
-            <Field
-              autoComplete="off"
-              className="material-field"
-              name="username"
-              component={this.renderTextField}
-              label="username"
-            />
+           <div>
+            <TextField
+              name='username'
+              type='text'
+              onChange={this.handleChange}
+              value={this.state.username}
+              floatingLabelText='New Username'
+              errorText={this.state.errors.username}
+              />
           </div>
           <div>
-            <Field
-              autoComplete="off"
-              className="material-field"
-              name="email"
-              component={this.renderTextField}
-              label="email"
-            />
+            <TextField
+              name='email'
+              type='text'
+              onChange={this.handleChange}
+              value={this.state.email}
+              floatingLabelText='New Email'
+              errorText={this.state.errors.email}
+              />
           </div>
           <div>
-            <Field
-              autoComplete="off"
-              className="material-field"
-              name="password"
-              type="password"
-              component={this.renderTextField}
-              label="password"
-            />
+            <TextField
+              name='password'
+              type='password'
+              onChange={this.handleChange}
+              value={this.state.password}
+              floatingLabelText='New Password'
+              errorText={this.state.errors.password}
+              />
           </div>
 
           <div className="signup-buttons">
-            <button type="submit" disabled={pristine || submitting}>
+            <button type="submit" >
               update
-            </button>
-            
-            <button
-              type="button"
-              disabled={pristine || submitting}
-              onClick={reset}
-            >
-              clear
             </button>
           </div>
         </form>
-        {/*{authOptions} */}
       </div>
     );
   }
@@ -138,8 +123,6 @@ const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch)
 });
 
-export default reduxForm({
-  form: "ProfileUpdater",
-  validate,
-  asyncValidate
-})(withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileUpdater)));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ProfileUpdater)
+);

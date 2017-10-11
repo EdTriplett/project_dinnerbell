@@ -103,6 +103,7 @@ export const updateUser = userObj => async dispatch => {
     );
     if (payload && payload.errors) throw new Error(payload.errors[0]);
     if (payload && payload.error) throw new Error(payload.error);
+    dispatch(setUserLoading(false))
     dispatch(setCurrentUser(payload));
   } catch (e) {
     dispatch(setUserError(e.message));

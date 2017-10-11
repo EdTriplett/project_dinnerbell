@@ -12,6 +12,7 @@ import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
 import CreateMeal from "../CreateMeal";
 import MealContainer from "../MealContainer/MealContainer";
+import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 
 import "./App.css";
 
@@ -47,6 +48,11 @@ class App extends Component {
             />
             <Route path="/recipes/:id" component={RecipeContainer} />
             <footer style={{ backgroundColor: '#408c45'}}></footer>
+
+            <Route
+              path="/profileUpdater"
+              component={ProfileUpdater}
+              />
           </div>
         </Router>
       </MuiThemeProvider>

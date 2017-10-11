@@ -137,8 +137,8 @@ class Profile extends Component {
         )}
         {/*<ProfileUpdater 
             updateUser={this.props.userActions.updateUser}
-            user={this.props.user}/>  */}
-          
+            user={this.props.user}/>  
+          */}
 
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
@@ -153,7 +153,7 @@ class Profile extends Component {
               <p>recipes</p>
             </div>
 
-            <Searchbar />
+            {/* <Searchbar /> */}
 
             <div className="user-logs">
               {userReducer.user ? (renderLists)
@@ -165,7 +165,7 @@ class Profile extends Component {
             <div className="user-logs-meals">
               <p>meals</p>
             </div>
-            <Searchbar />
+            {/* <Searchbar /> */}
             <div className="user-logs">
               {userReducer.user ? (
                 userReducer.user.meals
@@ -179,7 +179,7 @@ class Profile extends Component {
             <div className="user-logs-activities">
               <p>activities</p>
             </div>
-            <Searchbar />
+            {/* <Searchbar /> */}
             <div className="user-logs">
               <p>Activities (Sprint 2)</p>
             </div>
@@ -220,7 +220,7 @@ class Profile extends Component {
               <p>recipes</p>
             </div>
 
-            <Searchbar />
+            {/* <Searchbar /> */}
 
             <div className="user-logs">
               {this.state.displayedUser ? (
@@ -237,7 +237,7 @@ class Profile extends Component {
             <div className="user-logs-meals">
               <p>meals</p>
             </div>
-            <Searchbar />
+            {/* <Searchbar /> */}
             <div className="user-logs">
               {this.state.displayedUser ? (
                this.state.displayedUser.meals
@@ -251,7 +251,7 @@ class Profile extends Component {
             <div className="user-logs-activities">
               <p>activities</p>
             </div>
-            <Searchbar />
+            {/* <Searchbar /> */}
             <div className="user-logs">
               <p>Activities (Sprint 2)</p>
             </div>
