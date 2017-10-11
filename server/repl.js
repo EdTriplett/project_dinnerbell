@@ -4,7 +4,9 @@ const mongoose = require("mongoose");
 const models = {
   User: require("./models/User"),
   Rating: require("./models/Rating"),
-  Recipe: require("./models/Recipe")
+  Recipe: require("./models/Recipe"),
+  Meal: require("./models/Meal"),
+  Picture: require("./models/Picture")
 };
 
 // connect

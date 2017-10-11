@@ -40,20 +40,39 @@ MealSchema.pre("findOne", populateAll);
 MealSchema.pre("update", populateAll);
 
 // Propagation Hooks
-const propagateToOwner = async function() {
-  if (this.owner && this.owner.meals && !this.owner.meals.includes(this._id)) {
-    this.owner.meals.push(this._id);
-    await this.owner.save();
-  }
+const propagateToUsers = async function() {
+  await Promise.all([
+    mongoose
+      .model("User")
+      .update(
+        { _id: this.owner, meals: { $ne: this._id } },
+        { $push: { meals: this._id } }
+      ),
+    mongoose.model("User").update(
+      {
+        _id: { $in: this.registeredGuests },
+        registeredMeals: { $ne: this._id }
+      },
+      { $push: { registeredMeals: this._id } }
+    )
+  ]);
 };
-MealSchema.pre("save", wrapper(propagateToOwner));
+MealSchema.pre("save", wrapper(propagateToUsers));
 
-const removeFromOwner = async function() {
-  await mongoose
-    .model("User")
-    .update({ _id: this.owner }, { $pull: { meals: this._id } });
+const removeFromUsers = async function() {
+  await Promise.all([
+    mongoose
+      .model("User")
+      .update({ _id: this.owner }, { $pull: { meals: this._id } }),
+    mongoose
+      .model("User")
+      .update(
+        { _id: { $in: this.registeredGuests } },
+        { $pull: { registeredMeals: this._id } }
+      )
+  ]);
 };
-MealSchema.pre("remove", wrapper(removeFromOwner));
+MealSchema.pre("remove", wrapper(removeFromUsers));
 
 const Meal = Ratable.discriminator("Meal", MealSchema);
 

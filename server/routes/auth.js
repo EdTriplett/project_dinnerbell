@@ -1,12 +1,19 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const wrapper = require("../util/errorWrappers").expressWrapper;
-const buildUsername = require('../util/buildUsername')
+const buildUsername = require("../util/buildUsername");
 
-const REDIRECTS = {
+let REDIRECTS = {
   successRedirect: "http://localhost:3000/recipes",
   failureRedirect: "http://localhost:3000/login"
 };
+
+if (process.env.NODE_ENV === "production") {
+  REDIRECTS = {
+    successRedirect: "https://dinnerbell.herokuapp.com/recipes",
+    failureRedirect: "https://dinnerbell.herokuapp.com/login"
+  };
+}
 
 const auth = passport => {
   // User redirect routes, must redirect back to the front-end!
@@ -43,7 +50,7 @@ const auth = passport => {
 
   const register = async (req, res) => {
     const { password, email } = req.body;
-    const username = buildUsername()
+    const username = buildUsername();
     const user = await User.createLocalUser({ email, password, username });
     if (!user.errors) {
       req.session.user = user;
