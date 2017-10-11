@@ -124,6 +124,7 @@
 }
 
 .fa-camera {
+	font-size: 1.5em !important;
 	cursor: pointer;
 }
 

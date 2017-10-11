@@ -28,18 +28,22 @@
   flex-direction: column;
 }
 
-.wrapper {
-  max-width: 800px;
+.table-wrapper {
+  max-width: 70%;
+  margin: 0 auto;
 }
 
 .table {
   margin: 0 0 40px 0;
   width: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   display: flex;
+  justify-content: space-evenly;
+  margin-right: 50px;
 }
 
 .row {
+  background-color: #e14c31 !important;
+  border-radius: 5px;
   display: table-row;
   background: #f6f6f6;
   font-weight: 900;
