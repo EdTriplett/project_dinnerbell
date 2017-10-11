@@ -89,18 +89,21 @@ class PreferenceSetter extends Component {
   render() {
     return (
       <div className="preference-setter">
-        Select your dietary requirements:
+        {this.props.show ? 'Select your dietary requirements' : `${this.props.user.username}'s' dietary preferences:`}
         <form onSubmit={this.handleFormSubmit}>
           {allPreferences.map(pref => this.buildCheckbox(pref))}
-
-          <FlatButton
-            primary
-            backgroundColor="#fff"
-            hoverColor="#aaa"
-            onClick={this.handleFormSubmit}
-          >
-            Save
-          </FlatButton>
+          {this.props.show ? 
+            <FlatButton
+              primary
+              backgroundColor="#fff"
+              hoverColor="#aaa"
+              onClick={this.handleFormSubmit}
+            >
+              Save
+            </FlatButton>
+            : null
+          }
+          
         </form>
       </div>
     );

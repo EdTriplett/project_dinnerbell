@@ -34,7 +34,7 @@ class App extends Component {
             />
             <Route exact path="/recipes" render={() => <Recipes {...this.props} />} />
             <Route
-              path="/profile/:name"
+              path="/profile/:_id"
               render={() => <Profile />}
             />
             <Route
@@ -44,10 +44,7 @@ class App extends Component {
             <Route path="/meals/:id" component={MealContainer} />
             <Route
               path="/users"
-              render={() =>
-                <UsersContainer>
-                  <Test />
-                </UsersContainer>}
+              component={UsersContainer}
             />
             <Route path="/recipes/:id" component={RecipeContainer} />
             <footer style={{ backgroundColor: '#408c45'}}></footer>

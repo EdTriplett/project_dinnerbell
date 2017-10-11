@@ -7,6 +7,7 @@ import "./Profile.css";
 import PreferenceSetter from "../PreferenceSetter";
 import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 import { withRouter } from "react-router-dom";
+import AsyncManager from '../../services/AsyncManager.js'
 
 const Searchbar = () => (
   <form className="search-form" method="get">
@@ -25,7 +26,9 @@ const Searchbar = () => (
 
 class Profile extends Component {
   state = {
-    isUpdatingImage: false
+    isUpdatingImage: false,
+    displayedUser: null
+
   };
 
   imageSelected = files => {
@@ -34,16 +37,32 @@ class Profile extends Component {
     this.props.userActions.setUserProfileImage(image);
   };
 
-  render() {
-    const { userReducer } = this.props;
-    const loadUsername =
-      userReducer.user && userReducer.user.username
-        ? userReducer.user.username
-        : null;
+  async componentDidMount() {
+    console.log(this.props)
+    if (this.props.userReducer.user) {
+      console.log('passed first if')
+      if (this.props.match.params._id !== this.props.userReducer.user._id) {
+        console.log('passed second if')
+        let displayedUser = await AsyncManager.getRequest(`/api/users/${this.props.match.params._id}`)
+        this.setState({
+          displayedUser
+        })
+      }
+    }
+  }
 
-    return (
+  render() {
+    const {userReducer} = this.props;
+    // const loadUsername =
+    //  this.state.displayedUser
+    //     ?this.state.displayedUser.username
+    //     : userReducer.user ? userReducer.user.username: null;
+
+         
+    return !this.state.displayedUser ?
+    (
       <div className="profile">
-        <p className="profile-name">{loadUsername}</p>
+        <p className="profile-name">{userReducer.user ? userReducer.user.username : null}</p>
         <Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
           {userReducer.user && !userReducer.user.profilePicture ? (
             <div className="profile-pic-default" />
@@ -66,6 +85,7 @@ class Profile extends Component {
 
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
+          show={true}
           user={this.props.user}
         />
 
@@ -114,7 +134,79 @@ class Profile extends Component {
         </div>
 
       </div>
-    );
+    )
+    : (
+      <div className="profile">
+        <p className="profile-name">{this.state.displayedUser.username}</p>
+        <Dropzone onDrop={null} style={{ border: "none" }}>
+          {!this.state.displayedUser.profilePicture ? (
+            <div className="profile-pic-default" />
+          ) : (
+            <div className="profile-pic-custom">
+              <img
+                src={this.state.displayedUser &&this.state.displayedUser.profilePicture}
+                alt="this.displayedUser"
+              />
+            </div>
+          )}
+        </Dropzone>
+        {this.state.isUpdatingImage && (
+          <a style={{ color: "white", marginTop: "10px" }}>save</a>
+        )}
+          
+
+        <PreferenceSetter
+          updateUser={null}
+          show={false}
+          user={this.state.displayedUser}
+        />
+
+
+        <div className="user-logs-container">
+          <div className="user-logs-col">
+            <div className="user-logs-recipes">
+              <p>recipes</p>
+            </div>
+
+            <Searchbar />
+
+            <div className="user-logs">
+              {this.state.displayedUser ? (
+               this.state.displayedUser.recipes
+              ) : (
+                <p>No saved recipes</p>
+              )}
+            </div>
+          </div>
+
+          <div className="user-logs-col">
+            <div className="user-logs-meals">
+              <p>meals</p>
+            </div>
+            <Searchbar />
+            <div className="user-logs">
+              {this.state.displayedUser ? (
+               this.state.displayedUser.meals
+              ) : (
+                <p>No saved meals</p>
+              )}
+            </div>
+          </div>
+
+          <div className="user-logs-col">
+            <div className="user-logs-activities">
+              <p>activities</p>
+            </div>
+            <Searchbar />
+            <div className="user-logs">
+              <p>Activities (Sprint 2)</p>
+            </div>
+          </div>
+          
+        </div>
+
+      </div>
+      )
   }
 }
 

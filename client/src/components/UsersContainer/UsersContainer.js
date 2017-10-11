@@ -21,7 +21,7 @@ const UserList = ({ users }) => {
       <List>
         {users.map(user =>
           <Link
-            to={`profile/${user.username}`}
+            to={`profile/${user._id}`}
             key={user._id}
             style={{ textDecoration: "none" }}
           >
