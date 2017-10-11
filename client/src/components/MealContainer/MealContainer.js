@@ -7,7 +7,6 @@ import Meal from "./Meal";
 const styles = {
   display: "flex",
   backgroundColor: "#3c8d41",
-  height: "100vh",
   position: "relative",
   justifyContent: "center"
 };
