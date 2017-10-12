@@ -59,51 +59,48 @@ class Profile extends Component {
   render() {
     const { userReducer } = this.props;
     const { recipes = [], meals = [], registeredMeals = [] } = this.state;
+    const allowed = this.allowedActions();
+
+    const pic = !this.state.profilePicture
+      ? "profile-pic-default"
+      : "profile-pic-custom";
+
+    const theirPic = (
+      <div className={pic}>
+        <img src={this.state.profilePicture} alt="" />
+      </div>
+    );
 
     const myPic = (
       <Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
-        {!this.state.profilePicture ? (
-          <div className="profile-pic-default" />
-        ) : (
-          <div className="profile-pic-custom">
-            <img src={this.state.profilePicture} alt="" />
-          </div>
-        )}
-      </Dropzone>)
-
-    const theirPic = !this.state.profilePicture ? 
-    <div className="profile-pic-default" style={{cursor:'default'}}/> 
-    : 
-    <div className="profile-pic-custom" style={{cursor:'default'}}>
-      <img src={this.state.profilePicture} alt="" />
-    </div> ;
-    
+        <div className="clickable-profile-pic">{theirPic}</div>
+      </Dropzone>
+    );
 
     return (
       <div className="profile">
         <p className="profile-name">{this.state.username}</p>
-        {this.allowedActions() ? myPic : theirPic}
-        <br/>
-        {this.allowedActions() && 
-          <Link to={"/profileUpdater"}>
-            <FlatButton
-              primary
-              backgroundColor="#fff"
-              hoverColor="#aaa"
-              fullWidth={true}
-              style={{ padding: "0px 10px" }}
-            >
-              Update Account Settings
-            </FlatButton>
-          </Link>
-        }
+        {allowed ? myPic : theirPic}
+        <div className="user-profile">
+          {allowed && (
+            <Link to={"/profileUpdater"}>
+              <FlatButton
+                backgroundColor="#E34B27"
+                hoverColor="#C32B07"
+                fullWidth={true}
+                style={{ padding: "0px 10px", color: "#fff" }}
+              >
+                Update Account Settings
+              </FlatButton>
+            </Link>
+          )}
 
-        <br />
-        <PreferenceSetter
-          updateUser={this.props.userActions.updateUser}
-          show={this.allowedActions()}
-          user={this.state}
-        />
+          <PreferenceSetter
+            allowedActions={this.allowedActions()}
+            user={this.state}
+          />
+        </div>
+
         <div className="user-logs-container">
           <UserLogContainer
             title="recipes"

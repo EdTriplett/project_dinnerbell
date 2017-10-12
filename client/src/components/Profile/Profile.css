@@ -8,7 +8,7 @@
 
 .profile-name {
   color: white;
-  font-family: 'Indie Flower', cursive;
+  font-family: "Indie Flower", cursive;
   font-size: 2em;
   text-align: center;
 }
@@ -36,7 +36,6 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  cursor: pointer;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -52,10 +51,17 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  cursor: pointer;
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.clickable-profile-pic {
+  cursor: pointer;
+}
+
+.profile-pic-default img {
+  display: none;
 }
 
 .profile-pic-custom img,
@@ -65,11 +71,23 @@
   object-fit: cover;
 }
 
+.user-profile {
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  background: #eeeeee;
+  flex-direction: column;
+  padding: 10px;
+  height: 100%;
+  min-height: 200px;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
 .user-logs-container {
   font-family: "Open Sans", sans-serif;
   display: flex;
   justify-content: space-around;
-  height: 350px; 
+  height: 350px;
   width: 90%;
   margin-top: 20px;
   padding: 10px 0px 0px;

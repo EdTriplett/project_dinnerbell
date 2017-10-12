@@ -1,13 +1,14 @@
-.profile-updater {
+.profile-updater-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   top: 0;
 }
 
-.profile-updater form {
-  height: 50px;
-  overflow: scroll;
+.profile-updater-form form {
+  width: 300px;
 }
+
 .label {
   font-family: 'Indie Flower', cursive;
   font-size: 3em;
