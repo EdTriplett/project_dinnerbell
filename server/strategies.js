@@ -4,6 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const buildUsername = require("./util/buildUsername");
+
 const User = require("./models/User");
 
 const localHandler = async (req, email, password, done) => {
@@ -13,6 +14,7 @@ const localHandler = async (req, email, password, done) => {
     if (user && user.verifyPassword(password)) {
       const newUser = await User.findOne({ _id: user._id });
       req.session.user = newUser;
+
       done(null, newUser);
     } else {
       req.session.user = null;

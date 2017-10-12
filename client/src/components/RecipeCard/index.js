@@ -28,7 +28,7 @@ const RecipeCard = ({
     </Link>
     {user && user._id ? (
       <FloatingActionButton
-        data-tip="Add to your recipes"
+        data-tip="Add or remove recipe"
         className="add-button"
         mini={true}
         secondary={recipeBelongsToUser(user, recipe)}

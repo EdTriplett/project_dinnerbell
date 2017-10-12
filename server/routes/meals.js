@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Meal = require("../models/Meal");
+const User = require("../models/User");
 const wrapper = require("../util/errorWrappers").expressWrapper;
 const FileUploader = require("../util/upload");
 const uploadMw = FileUploader.single("photo");
@@ -28,7 +29,7 @@ const updateMeal = async (req, res) => {
 };
 
 const addMeal = async (req, res) => {
-  console.log(req.body, 'do we get here??', '**********************************')
+  
 
   const data = {
     name: req.body.name,
@@ -40,8 +41,9 @@ const addMeal = async (req, res) => {
     image: req.body.image
   }
 
-  console.log('***************************', data, '*********************')
   const meal = await Meal.create(data);
+
+  console.log(meal, 'meal???? populating')
 
   res.json(meal);
 }

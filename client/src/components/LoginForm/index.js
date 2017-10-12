@@ -4,6 +4,7 @@ import TextField from "material-ui/TextField";
 import asyncValidate from "../../services/AsyncValidate";
 import CircularProgress from "material-ui/CircularProgress";
 import { withRouter } from "react-router-dom";
+import swal from 'sweetalert2';
 
 import "./LoginForm.css";
 
@@ -35,8 +36,21 @@ class LoginForm extends Component {
 
     loginUser({ password, email }).then(() => {
       if (this.props.userReducer.userError) {
-        alert(this.props.userReducer.userError);
+        swal(
+          'Oops...',
+          'You entered the wrong login information! Please try again.',
+          'error'
+        )
         setUserError(null);
+      } else {
+        swal({
+          title: 'Hey there :)',
+          text: `Welcome back ${this.props.userReducer.user.username}`,
+          timer: 2000,
+          onOpen: () => {
+            swal.showLoading()
+          }
+        })
       }
     });
   };

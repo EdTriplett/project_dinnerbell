@@ -65,8 +65,8 @@
 	padding-right: 20px;
 	padding-top: 45px;
 	padding-bottom: 34px;
-	background-image: url(https://static.tumblr.com/maopbtg/E9Bmgtoht/lines.png),
-		url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
+	background-image: url(https://imgur.com/FSOc2Ww.jpg),
+		url(https://imgur.com/jcqF5e8.jpg);
 	background-repeat: repeat-y, repeat;
 	-webkit-border-radius: 12px;
 	border-radius: 12px;
@@ -103,7 +103,7 @@
 	-webkit-box-shadow: 0px 2px 14px #000;
 	box-shadow: 0px 2px 14px #000;
 	background-color: #62add6;
-	background-image: url(https://static.tumblr.com/maopbtg/ZHLmgtok7/button.png);
+	background-image: url(https://imgur.com/WulkGEJ.jpg);
 	background-repeat: repeat-x;
 }
 .button:active {
@@ -133,7 +133,7 @@
 	height: 100px;
 	border: 3px solid white;
 	border-radius: 200px;
-	background-image: url("https://avatars0.githubusercontent.com/u/191233?v=4&s=460.jpg");
+	background-image: url("https://imgur.com/gWYzeND.jpg");
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;

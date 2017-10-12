@@ -146,7 +146,7 @@ class Profile extends Component {
               <a style={{ color: "white", marginTop: "10px" }}>save</a>
             )}
             <br/>
-            <FlatButton primary backgroundColor="#fff" hoverColor="#aaa">
+            <FlatButton primary backgroundColor="#fff" hoverColor="#aaa" >
               <Link to={"/profileUpdater"}>Update your Account Settings</Link>
             </FlatButton>
           </div>
