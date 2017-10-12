@@ -56,7 +56,6 @@ class RecipeContainer extends Component {
   findRecipeRating = () => {
     const rating = this.props.userReducer.user.ratings.find(
       rating => rating.recipe === this.state._id
-
     );
     // rating is an object that contains a "rating" which is a value from 1 - 5
     return rating ? rating.rating : rating;
@@ -81,31 +80,33 @@ class RecipeContainer extends Component {
   };
 
   render() {
-    return this.state.edamamId
-      ? this.props.userReducer.user
-        ? <Recipe
-            recipe={this.state}
-            user={this.props.userReducer.user}
-            addRecipeToUser={this.addRecipeToUser}
-            removeRecipeToUser={this.removeRecipeToUser}
-            recipeBelongsToUser={this.recipeBelongsToUser}
-            showRating={true}
-            onStarClick={this.onStarClick}
-            initialRating={
-              this.findRecipeRating() ? this.findRecipeRating() : 0
-            }
-          />
-        : <Recipe
-            recipe={this.state}
-            user={this.props.userReducer.user}
-            addRecipeToUser={this.addRecipeToUser}
-            removeRecipeToUser={this.removeRecipeToUser}
-            recipeBelongsToUser={this.recipeBelongsToUser}
-            showRating={false}
-          />
-      : <h1>
-          <br />No. Recipe. Yo.
-        </h1>;
+    return this.state.edamamId ? (
+      this.props.userReducer.user ? (
+        <Recipe
+          recipe={this.state}
+          user={this.props.userReducer.user}
+          addRecipeToUser={this.addRecipeToUser}
+          removeRecipeToUser={this.removeRecipeToUser}
+          recipeBelongsToUser={this.recipeBelongsToUser}
+          showRating={true}
+          onStarClick={this.onStarClick}
+          initialRating={this.findRecipeRating() ? this.findRecipeRating() : 0}
+        />
+      ) : (
+        <Recipe
+          recipe={this.state}
+          user={this.props.userReducer.user}
+          addRecipeToUser={this.addRecipeToUser}
+          removeRecipeToUser={this.removeRecipeToUser}
+          recipeBelongsToUser={this.recipeBelongsToUser}
+          showRating={false}
+        />
+      )
+    ) : (
+      <div className="recipe-results">
+        <LoadingFork />
+      </div>
+    );
   }
 }
 
