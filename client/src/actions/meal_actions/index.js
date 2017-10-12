@@ -35,7 +35,7 @@ export const getMeal = id => async dispatch => {
     const meal = await AsyncManager.getRequest(`/api/meals/${id}`);
     dispatch(setMeal(meal));
   } catch (err) {
-    console.log(err.stack);
+    console.error(err.stack);
   }
 };
 
@@ -43,9 +43,8 @@ export const createMeal = meal => async dispatch => {
   try {
     dispatch(createMealRequest(true));
     const response = await AsyncManager.postRequest(`/api/meals`, meal);
-    console.log(response, 'this is the meal response!!')
     dispatch(createMealRequest(false));
   } catch (err) {
-    console.log(err.stack);
+    console.error(err.stack);
   }
 };
