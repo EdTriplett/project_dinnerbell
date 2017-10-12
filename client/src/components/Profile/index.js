@@ -103,19 +103,19 @@ class Profile extends Component {
 
         <div className="user-logs-container">
           <UserLogContainer
-            title="recipes"
+            title="Your Recipes"
             resource="recipes"
             items={recipes}
             updateArray={this.updateArray("recipes")}
           />
           <UserLogContainer
-            title="meals"
+            title="Your Meals"
             resource="meals"
             items={meals}
             updateArray={this.updateArray("meals")}
           />
           <UserLogContainer
-            title="invited"
+            title="Invited Meals"
             resource="meals"
             items={registeredMeals}
             updateArray={this.updateArray("registeredMeals")}
