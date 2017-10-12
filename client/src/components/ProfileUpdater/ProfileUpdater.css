@@ -9,6 +9,10 @@
   width: 300px;
 }
 
+.profile-updater-paper {
+  padding: 25px;
+}
+
 .label {
   font-family: 'Indie Flower', cursive;
   font-size: 3em;

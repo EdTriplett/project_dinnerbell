@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import { withRouter } from "react-router-dom";
 import "./ProfileUpdater.css";
+import Paper from "material-ui/Paper";
 
 class ProfileUpdater extends Component {
   constructor(props) {
@@ -91,43 +92,45 @@ class ProfileUpdater extends Component {
 
   render() {
     return (
-      <div className='profile-updater-form'>
-        <form onSubmit={this.handleFormSubmit} >
+      <div className="profile-updater-form">
+        <form onSubmit={this.handleFormSubmit}>
           <h3 className="label">Update your Profile</h3>
-          <div>
-            <TextField
-              name="username"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.username}
-              floatingLabelText="New Username"
-              errorText={this.state.errors.username}
-            />
-          </div>
-          <div>
-            <TextField
-              name="email"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.email}
-              floatingLabelText="New Email"
-              errorText={this.state.errors.email}
-            />
-          </div>
-          <div>
-            <TextField
-              name="password"
-              type="password"
-              onChange={this.handleChange}
-              value={this.state.password}
-              floatingLabelText="New Password"
-              errorText={this.state.errors.password}
-            />
-          </div>
+          <Paper zDepth={4} className="profile-updater-paper">
+            <div>
+              <TextField
+                name="username"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.username}
+                floatingLabelText="New Username"
+                errorText={this.state.errors.username}
+              />
+            </div>
+            <div>
+              <TextField
+                name="email"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.email}
+                floatingLabelText="New Email"
+                errorText={this.state.errors.email}
+              />
+            </div>
+            <div>
+              <TextField
+                name="password"
+                type="password"
+                onChange={this.handleChange}
+                value={this.state.password}
+                floatingLabelText="New Password"
+                errorText={this.state.errors.password}
+              />
+            </div>
 
-          <div className="signup-buttons">
-            <button type="submit">update</button>
-          </div>
+            <div className="signup-buttons">
+              <button type="submit">update</button>
+            </div>
+          </Paper>
         </form>
       </div>
     );
