@@ -11,6 +11,7 @@
   color: white;
   font-family: "Open Sans", sans-serif;
   font-size: 2em;
+  text-align: center;
 }
 
 .top-row {
@@ -23,8 +24,8 @@
 }
 
 .profile-pic-default {
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
   border: 3px solid white;
   border-radius: 200px;
   background-image: url("https://pbs.twimg.com/profile_images/740272510420258817/sd2e6kJy.jpg");
@@ -33,11 +34,14 @@
   -o-background-size: cover;
   background-size: cover;
   cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile-pic-custom {
-  width: 75px;
-  height: 75px;
+  width: 100px;
+  height: 100px;
   border: 3px solid white;
   border-radius: 200px;
   overflow: hidden;
@@ -46,6 +50,9 @@
   -o-background-size: cover;
   background-size: cover;
   cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .profile-pic-custom img,

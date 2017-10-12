@@ -5,7 +5,6 @@ import * as userActions from "../../actions/user_actions";
 import Dropzone from "react-dropzone";
 import "./Profile.css";
 import PreferenceSetter from "../PreferenceSetter";
-import ProfileUpdater from "../ProfileUpdater/ProfileUpdater.js";
 import { withRouter, Link } from "react-router-dom";
 import AsyncManager from "../../services/AsyncManager.js";
 import FlatButton from "material-ui/FlatButton";
@@ -82,7 +81,6 @@ class Profile extends Component {
   async componentWillReceiveProps(nextProps) {
     const currentId = this.props.match.params._id;
     const nextId = nextProps.match.params._id;
-    //    const storedId = this.state.displayedUser._id;
     if (nextId && nextId !== currentId) {
       let displayedUser = await AsyncManager.getRequest(`/api/users/${nextId}`);
       this.setState({ displayedUser });
@@ -92,20 +90,10 @@ class Profile extends Component {
   componentWillUpdate(nextProps, nextState) {
     if (this.state.recipes && this.state.recipes.length) {
       if (!_.isEqual(this.state.recipes, nextState.recipes)) {
-        console.log("different!");
-        console.log(nextState.displayedUser, "current");
         this.props.userActions.updateUser(nextState.displayedUser);
       }
     }
   }
-
-  // deleteRecipe = recipe => async ()=> {
-  //     const recipes = this.props.userReducer.user.recipes.filter(entry=> entry._id !== recipe._id )
-  //     await userActions.updateUser({
-  //       ...this.props.userReducer.user,
-  //       recipes
-  //     })
-  //   }
 
   onSortEnd = ({ oldIndex, newIndex }) => {
     let newRecipeLocations = arrayMove(this.state.recipes, oldIndex, newIndex);
@@ -118,18 +106,6 @@ class Profile extends Component {
     });
   };
 
-  // buildRecipeListItem(recipe) {
-  //   return
-  //     (<div>
-  //       <p key={recipe._id}>
-  //         <Link to={`/recipes/${recipe.edamamId}`}>
-  //         {recipe.name}</Link>
-  //         <FlatButton label='remove'  primary={true} onClick={this.deleteRecipe(recipe)}/>
-
-  //       </p>
-  //     </div>)
-  // }
-
   render() {
     const { userReducer } = this.props;
     const renderLists = (
@@ -141,11 +117,11 @@ class Profile extends Component {
     );
 
     return !userReducer.user ? null : 
-    //if there's a user logged in
+    // If there's a user logged in
     !this.state.displayedUser ? null : 
     // ...and the user to be displayed is set 
     this.state.displayedUser._id === userReducer.user._id ? 
-    // show their profile if those two are the same
+    // ...and those two are the same, show their profile,
     (
       <div className="profile">
         <div className="top-row">
@@ -169,6 +145,7 @@ class Profile extends Component {
             {this.state.isUpdatingImage && (
               <a style={{ color: "white", marginTop: "10px" }}>save</a>
             )}
+            <br/>
             <FlatButton primary backgroundColor="#fff" hoverColor="#aaa">
               <Link to={"/profileUpdater"}>Update your Account Settings</Link>
             </FlatButton>
@@ -208,7 +185,6 @@ class Profile extends Component {
                   </Link>
                 ))
               ) : 
-              // ...or a sanitized version of the other user's profile if not
               (
                 <p>No saved meals</p>
               )}
@@ -228,6 +204,7 @@ class Profile extends Component {
       </div>
     ) 
     :
+    // ...or a sanitized view of the other user's profile if not
     (
       <div className="profile">
         <div className="top-row">
