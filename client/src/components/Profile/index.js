@@ -72,27 +72,28 @@ class Profile extends Component {
             </div>
           )}
         </Dropzone>
-        <br />
-        {allowed && (
-          <Link to={"/profileUpdater"}>
-            <FlatButton
-              primary
-              backgroundColor="#fff"
-              hoverColor="#aaa"
-              fullWidth={true}
-              style={{ padding: "0px 10px" }}
-            >
-              Update Account Settings
-            </FlatButton>
-          </Link>
-        )}
 
-        <br />
-        <PreferenceSetter
-          updateUser={this.props.userActions.updateUser}
-          show={allowed}
-          user={this.state}
-        />
+        <div className="user-profile">
+          {allowed && (
+            <Link to={"/profileUpdater"}>
+              <FlatButton
+                backgroundColor="#E34B27"
+                hoverColor="#C32B07"
+                fullWidth={true}
+                style={{ padding: "0px 10px", color: "#fff" }}
+              >
+                Update Account Settings
+              </FlatButton>
+            </Link>
+          )}
+
+          <PreferenceSetter
+            updateUser={this.props.userActions.updateUser}
+            show={allowed}
+            user={this.state}
+          />
+        </div>
+
         <div className="user-logs-container">
           <UserLogContainer
             title="recipes"

@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
 
-import './PreferenceSetter.css';
+import "./PreferenceSetter.css";
 
 const allPreferences = [
   "balanced",
@@ -89,21 +89,23 @@ class PreferenceSetter extends Component {
   render() {
     return (
       <div className="preference-setter">
-        {this.props.show ? 'Select your dietary requirements' : `${this.props.user.username}'s dietary preferences:`}
+        <h5>
+          {this.props.show
+            ? "Select your dietary requirements"
+            : `${this.props.user.username}'s dietary preferences:`}
+        </h5>
         <form onSubmit={this.handleFormSubmit}>
           {allPreferences.map(pref => this.buildCheckbox(pref))}
-          {this.props.show ? 
+          {this.props.show ? (
             <FlatButton
-              primary
-              backgroundColor="#fff"
-              hoverColor="#aaa"
+              backgroundColor="#E34B27"
+              hoverColor="#C32B07"
+              style={{ marginTop: "5px", padding: "0px 10px", color: "#fff" }}
               onClick={this.handleFormSubmit}
             >
               Save
             </FlatButton>
-            : null
-          }
-          
+          ) : null}
         </form>
       </div>
     );
