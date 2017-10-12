@@ -47,8 +47,6 @@ class CreateMeal extends Component {
       );
       let recipes = [...userReducer.user.recipes];
 
-      console.log(recipes, "recipes??");
-
       filtered.forEach((item, index) => {
         item.id = index;
         item.name = item.username;
@@ -154,7 +152,7 @@ class CreateMeal extends Component {
 
   onSubmitForm = e => {
     e.preventDefault();
-    const { userReducer, mealReducer, mealActions } = this.props;
+    const { userReducer, userActions, mealReducer, mealActions } = this.props;
     const { mealName, selectedRecipes, selectedUsers, mealTasks } = this.state;
 
     if (
@@ -179,7 +177,7 @@ class CreateMeal extends Component {
     };
 
     mealActions.createMeal(data).then(() => {
-      this.props.userReducer.userActions.checkCurrentUser();
+      this.props.userActions.checkCurrentUser();
       swal({
         title: "Meal created!",
         text: "Time to break out those cooking skills!",
@@ -208,8 +206,6 @@ class CreateMeal extends Component {
 
   render() {
     const { mealReducer, userReducer } = this.props;
-    console.log(userReducer, "user reducer");
-    console.log(this.state, "state");
     return (
       <div className="create-recipe">
         <ReactTooltip
