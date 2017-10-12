@@ -4,4 +4,6 @@ To begin using Dinnerbell immediately, visit dinnerbell.herokuapp.com.  You can 
 
 Whichever registration method you prefer, your account will be given a randomly generated username.  Click the 'profile' link at the top of the page to see it and your other details.  You can change your username as well as your email and password by clicking the 'Update Account Settings' button.
 
-You can  upload an avatar image from the profile page by clicking inside the grey circle.  
+You can upload an avatar image from the profile page by clicking inside the grey circle. 
+
+ 

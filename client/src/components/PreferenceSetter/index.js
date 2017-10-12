@@ -91,11 +91,11 @@ class PreferenceSetter extends Component {
   render() {
     return (
       <div className="preference-setter">
-        <h5>
+        <h4>
           {this.props.show
             ? "Select your dietary requirements"
             : `${this.props.user.username}'s dietary preferences:`}
-        </h5>
+        </h4>
         <form onSubmit={this.handleFormSubmit}>
           {allPreferences.map(pref => this.buildCheckbox(pref))}
           {this.props.allowedActions ? (
