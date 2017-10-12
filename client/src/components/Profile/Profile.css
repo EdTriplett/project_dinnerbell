@@ -18,6 +18,10 @@
   flex-direction: row;
 }
 
+.top-row-col {
+  word-wrap: break-word;
+}
+
 .profile-pic-default {
   width: 75px;
   height: 75px;

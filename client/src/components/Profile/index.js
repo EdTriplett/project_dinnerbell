@@ -144,7 +144,7 @@ class Profile extends Component {
     (
       <div className="profile">
       <div className='top-row'>
-      <div>  
+      <div className='top-row-col'>  
       <p className="profile-name">
           {userReducer.user ? userReducer.user.username : null}
         </p>
@@ -177,11 +177,11 @@ class Profile extends Component {
         </div>
         <div>
         </div>
-        <div>
+        <div className='top-row-col'>
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
           show={true}
-          user={this.props.user}
+          user={userReducer.user}
         />
         </div>
         </div>
@@ -231,6 +231,8 @@ class Profile extends Component {
     :
     (
       <div className="profile">
+      <div className='top-row'>
+      <div>
         <p className="profile-name">{this.state.displayedUser.username}</p>
         {!this.state.displayedUser.profilePicture ? (
           <div className="profile-pic-default" />
@@ -248,13 +250,15 @@ class Profile extends Component {
         {this.state.isUpdatingImage && (
           <a style={{ color: "white", marginTop: "10px" }}>save</a>
         )}
-
+        </div>
+        <div>
         <PreferenceSetter
           updateUser={null}
           show={false}
           user={this.state.displayedUser}
         />
-
+        </div>
+        </div>
         <div className="user-logs-container">
           <div className="user-logs-col">
             <div className="user-logs-recipes">

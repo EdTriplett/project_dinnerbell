@@ -56,7 +56,7 @@ class PreferenceSetter extends Component {
 
   componentDidMount = () => {
     if (this.props.userReducer.user) {
-      this.populatePreferences(this.props.userReducer.user);
+      this.populatePreferences(this.props.user);
     }
   };
 
@@ -69,7 +69,7 @@ class PreferenceSetter extends Component {
       key={label}
       label={label}
       checked={this.state[label]}
-      onCheck={this.onCheck(label)}
+      onCheck={this.props.show ? this.onCheck(label) : null}
     />
   );
 
@@ -89,7 +89,7 @@ class PreferenceSetter extends Component {
   render() {
     return (
       <div className="preference-setter">
-        {this.props.show ? 'Select your dietary requirements' : `${this.props.user.username}'s' dietary preferences:`}
+        {this.props.show ? 'Select your dietary requirements' : `${this.props.user.username}'s dietary preferences:`}
         <form onSubmit={this.handleFormSubmit}>
           {allPreferences.map(pref => this.buildCheckbox(pref))}
           {this.props.show ? 
