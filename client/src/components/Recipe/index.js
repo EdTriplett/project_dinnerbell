@@ -70,6 +70,7 @@ const Recipe = ({
         <PaperList title={"Ingredients"} data={recipe.ingredients} />
         <PaperList title={"Health Stuff"} data={recipe.preferences} />
       </div>
+          <br />
       <div className="table-wrapper">
         <div className="table">
           <div className="row header">
