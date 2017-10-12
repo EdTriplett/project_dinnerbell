@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import Recipe from "../Recipe";
 import AsyncManager from "../../services/AsyncManager";
+import LoadingFork from "../LoadingFork";
 
 class RecipeContainer extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class RecipeContainer extends Component {
       if (recipe && !(recipe.error || recipe.errors)) {
         this.setState(recipe);
       } else {
-        console.error(recipe);
+        this.props.history.goBack();
       }
     } catch (error) {
       console.error(error);
@@ -37,7 +38,7 @@ class RecipeContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const currentId = this.props.match.params.id;
     const nextId = nextProps.match.params.id;
-    const storedId = this.state.edamamId;
+    const storedId = this.state._id;
     if (nextId && nextId !== currentId && nextId !== storedId) {
       this.fetchRecipe(nextId);
     }
@@ -79,31 +80,33 @@ class RecipeContainer extends Component {
   };
 
   render() {
-    return this.state.edamamId
-      ? this.props.userReducer.user
-        ? <Recipe
-            recipe={this.state}
-            user={this.props.userReducer.user}
-            addRecipeToUser={this.addRecipeToUser}
-            removeRecipeToUser={this.removeRecipeToUser}
-            recipeBelongsToUser={this.recipeBelongsToUser}
-            showRating={true}
-            onStarClick={this.onStarClick}
-            initialRating={
-              this.findRecipeRating() ? this.findRecipeRating() : 0
-            }
-          />
-        : <Recipe
-            recipe={this.state}
-            user={this.props.userReducer.user}
-            addRecipeToUser={this.addRecipeToUser}
-            removeRecipeToUser={this.removeRecipeToUser}
-            recipeBelongsToUser={this.recipeBelongsToUser}
-            showRating={false}
-          />
-      : <h1>
-          <br />No. Recipe. Yo.
-        </h1>;
+    return this.state.edamamId ? (
+      this.props.userReducer.user ? (
+        <Recipe
+          recipe={this.state}
+          user={this.props.userReducer.user}
+          addRecipeToUser={this.addRecipeToUser}
+          removeRecipeToUser={this.removeRecipeToUser}
+          recipeBelongsToUser={this.recipeBelongsToUser}
+          showRating={true}
+          onStarClick={this.onStarClick}
+          initialRating={this.findRecipeRating() ? this.findRecipeRating() : 0}
+        />
+      ) : (
+        <Recipe
+          recipe={this.state}
+          user={this.props.userReducer.user}
+          addRecipeToUser={this.addRecipeToUser}
+          removeRecipeToUser={this.removeRecipeToUser}
+          recipeBelongsToUser={this.recipeBelongsToUser}
+          showRating={false}
+        />
+      )
+    ) : (
+      <div className="recipe-results">
+        <LoadingFork />
+      </div>
+    );
   }
 }
 

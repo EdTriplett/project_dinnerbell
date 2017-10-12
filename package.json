@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/EdTriplett/project_dinnerbell#readme",
   "dependencies": {
-    "concurrently": "^3.5.0",
-    "react-star-ratings": "^1.0.20"
+    "concurrently": "^3.5.0"
   }
 }

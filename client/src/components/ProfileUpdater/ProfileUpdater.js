@@ -22,10 +22,12 @@ class ProfileUpdater extends Component {
       }
     };
   }
-  // FuchsiaPracticalMobileTransmitterSensor
+
   validate = async newDetails => {
-    console.log("this.props: ", this.props);
     const errors = {};
+    if (newDetails.username && newDetails.username.length>25) {
+      errors.username = 'username should be less than 25 characters'
+    }
     await this.props.userActions.getUsers();
     if (
       this.props.userReducer.users &&
@@ -85,11 +87,13 @@ class ProfileUpdater extends Component {
     //   alert(this.props.userReducer.userError);
     //   this.props.userActions.setUserError(null);
     // }
+    
+    this.props.history.goBack()
   };
 
   render() {
     return (
-      <div>
+      <div >
         <form onSubmit={this.handleFormSubmit}>
           <h3 className="label">Update your Profile</h3>
           <div>

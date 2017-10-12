@@ -4,6 +4,7 @@ import TextField from "material-ui/TextField";
 import asyncValidate from "../../services/AsyncValidate";
 import CircularProgress from "material-ui/CircularProgress";
 import { withRouter } from "react-router-dom";
+import swal from 'sweetalert2';
 
 import "./SignupForm.css";
 
@@ -32,15 +33,27 @@ class SignupForm extends Component {
   onSubmit = () => {
     const { registerUser, formData, setUserError } = this.props;
     const {  email, password } = formData.SignupForm.values;
-    console.log();
 
     registerUser({
       email,
       password
     }).then(() => {
       if (this.props.userReducer.userError) {
-        alert(this.props.userReducer.userError);
+        swal(
+          'Oops...',
+          'Something went wrong! Please try again.',
+          'error'
+        );
         setUserError(null);
+      } else {
+        swal({
+          title: 'Success!',
+          text: 'You are registered!',
+          timer: 2000,
+          onOpen: function () {
+            swal.showLoading()
+          }
+        })
       }
     });
   };
@@ -77,7 +90,7 @@ class SignupForm extends Component {
     ) : null;
 
     if (userLoading && !this.props.userReducer.userError) {
-      return <CircularProgress size={80} thickness={3} color="#fc5830" />;
+      return <div><CircularProgress size={80} thickness={3} color="#fc5830" /></div>;
     }
 
     return (

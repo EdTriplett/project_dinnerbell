@@ -35,7 +35,7 @@ export const getMeal = id => async dispatch => {
     const meal = await AsyncManager.getRequest(`/api/meals/${id}`);
     dispatch(setMeal(meal));
   } catch (err) {
-    console.log(err);
+    console.log(err.stack);
   }
 };
 
@@ -44,13 +44,8 @@ export const createMeal = meal => async dispatch => {
     dispatch(createMealRequest(true));
     const response = await AsyncManager.postRequest(`/api/meals`, meal);
 
-    if (response.body.error || response.body.errors) {
-      let errorMsg = response.body.error || response.body.errors;
-      throw new Error(errorMsg);
-    }
-
     dispatch(createMealRequest(false));
   } catch (err) {
-    console.log(err);
+    console.log(err.stack);
   }
 };

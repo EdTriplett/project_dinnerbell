@@ -169,6 +169,13 @@ class Navbar extends Component {
             >
               profile
             </Link>,
+            <Link
+              to={'/users'}
+              className="non-logo-item"
+              key="users"
+            >
+              users
+            </Link>,
             ROUTE_MAP.createMeal,
             <a
               onClick={this.onClickLogout}

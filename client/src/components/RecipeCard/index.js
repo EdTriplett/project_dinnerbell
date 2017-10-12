@@ -34,7 +34,7 @@ const RecipeCard = ({
         effect="float"
         className="recipe-btn-tooltip"
       />
-      <Link to={`/recipes/${recipe.edamamId}`}>
+      <Link to={`/recipes/${recipe._id}`}>
         <CardMedia>
           <img src={recipe.image} alt="" />
         </CardMedia>

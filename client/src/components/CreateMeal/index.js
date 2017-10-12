@@ -11,6 +11,7 @@ import * as mealActions from "../../actions/meal_actions";
 
 import Dropzone from "react-dropzone";
 import ReactTooltip from "react-tooltip";
+import swal from 'sweetalert2';
 
 import "./CreateMeal.css";
 import "./InputTokenForm.css";
@@ -156,6 +157,16 @@ class CreateMeal extends Component {
 		e.preventDefault();
 		const { userReducer, mealReducer, mealActions } = this.props;
 		const { mealName, selectedRecipes, selectedUsers, mealTasks } = this.state;
+
+		if (!mealName.length || !selectedRecipes.length || !selectedUsers.length || !mealTasks.length) {
+			swal(
+			  'Incomplete!',
+			  'You need to fill out all the fields!',
+			  'error'
+			)
+
+			return;
+		}
  		
 		const data = {
 			name: mealName,
@@ -170,7 +181,23 @@ class CreateMeal extends Component {
 		console.log(data, 'before being submitted')
 
 		mealActions.createMeal(data).then(() => {
-			alert('done!')
+			swal({
+			  title: 'Meal created!',
+			  text: 'Time to break out those cooking skills!',
+			  timer: 2000,
+			  onOpen: function () {
+			    swal.showLoading()
+			  }
+			}).then(
+			  () => {},
+			  // handling the promise rejection
+			  (dismiss) => {
+			    if (dismiss === 'timer') {
+			    	this.props.history.push(`/profile/${userReducer.user._id}`)
+			      console.log('I was closed by the timer')
+			    }
+			  }
+			)
 		});
 	};
 

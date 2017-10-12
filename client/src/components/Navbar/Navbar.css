@@ -20,7 +20,7 @@
 
 .non-logo-item {
   color: white;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 0.8em;
   margin-left: 25px;
 }
@@ -28,7 +28,7 @@
 .namanyay-search-btn {
   background: #e34b27;
   color: white;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   padding: 10px 20px;
   border-radius: 0 10px 10px 0;
   -moz-border-radius: 0 10px 10px 0;
@@ -53,23 +53,17 @@
 .logo {
   width: 40px;
   height: 40px;
-  background-image: url('https://i.imgur.com/5TYZkyJ.png');
+  background-image: url("/favicon.png");
 }
 
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .namanyay-search-box {
+    margin-top: 10px;
+    width: 70px;
+    padding: 5px;
+  }
 
-    .namanyay-search-box {
-      margin-top: 10px;
-      width: 70px;
-      padding: 5px;
-    }
-
-    .namanyay-search-btn {
-      padding: 4px 6px;
-    }
-
+  .namanyay-search-btn {
+    padding: 4px 6px;
+  }
 }
