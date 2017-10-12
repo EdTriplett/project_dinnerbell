@@ -43,7 +43,7 @@ export const createMeal = meal => async dispatch => {
   try {
     dispatch(createMealRequest(true));
     const response = await AsyncManager.postRequest(`/api/meals`, meal);
-
+    console.log(response, 'this is the meal response!!')
     dispatch(createMealRequest(false));
   } catch (err) {
     console.log(err.stack);

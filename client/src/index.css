@@ -11,6 +11,8 @@ body {
 }
 
 body {
+  background-color: #3c8d41; 
+  background-size:cover;
   margin: 0;
   padding: 0;
 }

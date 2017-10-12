@@ -1,11 +1,13 @@
 .recipe-container {
   display: flex;
   flex-direction: column;
+  padding-right: 2%;
+  padding-bottom: 5%;
   top: 50px;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   font-family: "Open Sans", sans-serif;
-  background-color: #3c8d41;
   color: white;
 }
 
@@ -19,6 +21,7 @@
 }
 
 .flex-row {
+  margin-bottom: 20px;
   display: flex;
   flex-direction: row;
 }
@@ -29,7 +32,6 @@
 }
 
 .table-wrapper {
-  max-width: 70%;
   margin: 0 auto;
 }
 
@@ -59,3 +61,216 @@
   padding: 2px 12px;
   display: block;
 }
+
+.star-container {
+  display: flex;
+  justify-content: center;
+}
+
+#recipe-wrapper .dv-star-rating {
+  font-size: 2.1em;
+}
+
+.notes-group {
+  display: flex;
+}
+
+.floating-btn-container {
+  display: flex;
+  justify-content: center;
+}
+
+
+#recipe-wrapper{
+  padding: 10px;
+  width:400px; 
+  height:auto;
+  border:10px solid white;
+  border-radius:16px;
+  position:relative;
+  background:white;
+  box-shadow:
+    3px 3px 3px 3px rgba(40,40,40,0.2); 
+  z-index: 99px;
+}
+#recipe-wrapper:before, #wrapper:after{
+    content:"";
+  display:block;
+  width:98%;
+  height:98%;
+  background:white;
+  box-shadow:
+    3px 3px 3px 3px rgba(40,40,40,0.2);
+  position:absolute;
+  border:10px solid white;
+  border-radius:16px;
+  transition: all 0.5s ease-out;
+  z-index: 99px;
+}
+#recipe-wrapper:before{
+  z-index:-9; 
+  transform:rotate(-5deg);
+  top:-15px;
+  left:-20px;
+}
+#recipe-wrapper:after {
+  z-index:-10;
+  transform:rotate(6deg);
+  top:0px;
+  left:20px;
+  z-index: 99px;
+}
+#recipe-wrapper:hover:before, #recipe-wrapper:hover:after{
+    transform:rotate(0);
+}
+#recipe-wrapper:hover:before{top:10px; left:0px;}
+#recipe-wrapper:hover:after{top:-15px; left:0px;}
+#recipe-wrapper img{
+  border-radius:10px; 
+  opacity:0.7;
+  transition:opacity 0.5s ease;
+  z-index: 99px;
+}
+/*#recipe-wrapper:hover img {
+    opacity:1;
+}*/
+#recipe-wrapper img {
+   width: 100%;
+}
+
+#recipe-wrapper p, h2 {
+  text-align: center;
+  color: black;
+}
+
+/**
+ * Stick note styles
+ */
+
+/*#note {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}*/
+
+#note a {
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#note .btn {
+  background-image: linear-gradient(bottom, rgb(112,87,65) 3%, rgb(163,136,102) 82%);
+  background-image: -o-linear-gradient(bottom, rgb(112,87,65) 3%, rgb(163,136,102) 82%);
+  background-image: -moz-linear-gradient(bottom, rgb(112,87,65) 3%, rgb(163,136,102) 82%);
+  background-image: -webkit-linear-gradient(bottom, rgb(112,87,65) 3%, rgb(163,136,102) 82%);
+  background-image: -ms-linear-gradient(bottom, rgb(112,87,65) 3%, rgb(163,136,102) 82%);
+  background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0.03, rgb(112,87,65)),
+  color-stop(0.82, rgb(163,136,102)));
+  color:#4e3c2a;
+  border-radius: 20px;
+  padding:3px 17px;
+  text-shadow:0 1px 0 #aa8863;
+  border:1px solid #5d4d3a;
+  font-size:18px;
+  font-style: italic;
+}
+
+#note { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display:block;
+  width:340px;
+  height:240px;
+  position:relative;
+  margin:40px 0 0 20px;
+}
+
+#note .lines {
+  overflow: hidden;
+  position: absolute;
+  width:100%;
+  opacity: 0.6;
+  top:36px;
+}
+
+#note .lines span { display: block; }
+
+#note .horizontal span {
+  width:100%;
+  height:1px;
+    background: linear-gradient(to right, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -o-linear-gradient(right, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -moz-linear-gradient(right, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -webkit-linear-gradient(right, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -ms-linear-gradient(right, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  margin-bottom:28px;
+}
+
+#note .vertical { margin:-239px 0 0 30px; }
+
+#note .vertical span {
+  float:left;
+  margin-right:5px;
+  width:1px;
+  height: 237px;
+  background: linear-gradient(to bottom, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -o-linear-gradient(bottom, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -moz-linear-gradient(bottom, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -webkit-linear-gradient(bottom, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+  background-image: -ms-linear-gradient(bottom, rgba(236,231,191,1),rgba(211,206,167,1), rgba(236,231,191,1));
+}
+
+#note .sticky {
+  background: url('https://raw.github.com/Arbaoui-Mehdi/Sticky-Notepaper/master/images/noise.png') repeat #f3efd1;
+  width:100%;
+  height: 100%;
+  border:1px solid #f3f0d3;
+  box-shadow: 1px 2px 4px -1px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+#note .inner {
+  height:100%;
+  box-shadow: inset 0 0 22px 8px rgba(220,215,174,0.35);
+  z-index:1;
+}
+
+#note .sticky .paper {
+  width: 100%;
+  position: absolute;
+  line-height: 1.4em;
+  font-size: 22px;
+  color: #494949;
+  padding: 10px;
+  padding-top: 15px;
+}
+
+#note .paper b {
+  background:#fdfbf0;
+  padding:0 5px;
+  font-size:17px; 
+}
+
+#note .scratch {
+  display:block;
+  background-color:rgba(255,255,255,0.4);
+  width:45%;
+  height:33px;
+  margin:-20px 0 0 28%;
+  float:left;
+  transform: rotate(-2deg);
+  -ms-transform: rotate(-2deg); /* IE 9 */
+  -webkit-transform: rotate(-2deg); /* Safari and Chrome */
+  -o-transform: rotate(-2deg); /* Opera */
+  -moz-transform: rotate(-2deg); /* Firefox */
+  box-shadow: 1px 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+#note .recipe-list {
+  font-size: 14px;
+  overflow: scroll;
+  height: 180px;
+}
+
+

@@ -24,6 +24,10 @@ const getMeal = async (req, res) => {
   res.json({ meal });
 };
 
+// const sendMealUpdates = async (req, res) => {
+//   const 
+// }
+
 const updateMeal = async (req, res) => {
   res.json({ warning: "not implemented" });
 };
