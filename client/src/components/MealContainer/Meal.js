@@ -31,11 +31,17 @@ const styles = {
   },
   infoRow: {
     display: "flex",
-
     flexDirection: "row"
+  },
+  recipes: {
+    borderRadius: "25px",
+    paddingRight: "20px",
+    paddingLeft: "20px",
+    fontFamily: "Open Sans"
   }
 };
 
+// renders invitees that have accounts as user objects and that don't as strings
 const Guests = ({ unregGuests, regGuests }) =>
   <div>
     {regGuests
@@ -61,7 +67,10 @@ const RecipesList = ({ recipes }) =>
         )
       : null}
   </div>;
+
 const Meal = ({ meal }) => {
+  // Conditional check to populate the guests that do and don't have accounts with
+  // the site
   let regGuests = [];
   let unregGuests = [];
   if (meal.registeredGuests.length)
@@ -75,7 +84,11 @@ const Meal = ({ meal }) => {
         {meal.name}
       </h1>
 
-      <img src={meal.image || 'https://imgur.com/gWYzeND.jpg'} alt="meal" style={styles.img} />
+      <img
+        src={meal.image || "https://imgur.com/gWYzeND.jpg"}
+        alt="meal"
+        style={styles.img}
+      />
       <h2 style={styles.h2}>
         hosted by{" "}
         <span style={{ fontSize: "1.5em" }}>{meal.owner.username}</span>
@@ -84,7 +97,7 @@ const Meal = ({ meal }) => {
       <div style={styles.infoRow}>
         <Guests regGuests={regGuests} unregGuests={unregGuests} />
         <PaperList title="Tasks" data={meal.tasks} />
-        <Paper zDepth={4} style={{ borderRadius: "25px" }}>
+        <Paper zDepth={4} style={styles.recipes}>
           <RecipesList recipes={meal.recipes} />
         </Paper>
       </div>
