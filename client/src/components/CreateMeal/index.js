@@ -179,6 +179,7 @@ class CreateMeal extends Component {
     };
 
     mealActions.createMeal(data).then(() => {
+      this.props.userReducer.userActions.checkCurrentUser();
       swal({
         title: "Meal created!",
         text: "Time to break out those cooking skills!",
@@ -192,9 +193,9 @@ class CreateMeal extends Component {
         dismiss => {
           if (dismiss === "timer") {
             this.props.history.push(`/profile/${userReducer.user._id}`);
-            console.log("I was closed by the timer");
           }
         }
+
       );
     });
   };
