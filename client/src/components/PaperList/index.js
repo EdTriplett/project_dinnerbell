@@ -27,6 +27,9 @@ const PaperList = ({ title, data }) =>
 
                     {data.map(item =>
                       <div key={item}>
+                        <span className="horizontal">
+                          <span></span>
+                        </span>
                         {item}
                       </div>
                     )}

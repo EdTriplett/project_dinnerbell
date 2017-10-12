@@ -32,6 +32,22 @@ button {
   height: 100%;
 }
 
+#root::-webkit-scrollbar { 
+    display: none; 
+}
+
+#root::-moz-scrollbar { 
+    display: none; 
+}
+
+#root::-o-scrollbar { 
+    display: none; 
+}
+
+#root::-ms-scrollbar { 
+    display: none; 
+}
+
 /**
  * Sweet Alert Styling
  */
