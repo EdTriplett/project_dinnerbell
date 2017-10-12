@@ -45,27 +45,17 @@ class CreateMeal extends Component {
       let filtered = userReducer.users.filter(
         user => user.username !== userReducer.user.username
       );
-      let recipes = [...userReducer.user.recipes];
-
-      console.log(recipes, "recipes??");
+      let recipes = userReducer.user.recipes || [];
 
       filtered.forEach((item, index) => {
         item.id = index;
         item.name = item.username;
-        item.element = (
-          <span>
-            {item.username}
-          </span>
-        );
+        item.element = <span>{item.username}</span>;
       });
 
       recipes.forEach((recipe, index) => {
         recipe.id = index;
-        recipe.element = (
-          <span>
-            {recipe.name}
-          </span>
-        );
+        recipe.element = <span>{recipe.name}</span>;
       });
 
       this.setState({
@@ -91,12 +81,6 @@ class CreateMeal extends Component {
     if (e.key === "Enter") {
       e.stopPropagation();
       e.preventDefault();
-
-      let recipeOptions = [...this.state.recipeOptions];
-
-      let recipeTokens = [...this.state.recipeTokens];
-
-      this.setState({ recipeOptions, recipeTokens });
     }
   };
 
@@ -131,14 +115,15 @@ class CreateMeal extends Component {
     this.setState({ recipeTokens: tokens, selectedRecipes });
   };
 
-  renderTextField = ({ input, label, meta: { touched, error }, ...custom }) =>
+  renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
     <TextField
       hintText={label}
       floatingLabelText={label}
       errorText={touched && error}
       {...input}
       {...custom}
-    />;
+    />
+  );
 
   onTextInputName = e => {
     this.setState({
@@ -179,7 +164,6 @@ class CreateMeal extends Component {
     };
 
     mealActions.createMeal(data).then(() => {
-      this.props.userReducer.userActions.checkCurrentUser();
       swal({
         title: "Meal created!",
         text: "Time to break out those cooking skills!",
@@ -193,9 +177,9 @@ class CreateMeal extends Component {
         dismiss => {
           if (dismiss === "timer") {
             this.props.history.push(`/profile/${userReducer.user._id}`);
+            console.log("I was closed by the timer");
           }
         }
-
       );
     });
   };
@@ -220,17 +204,19 @@ class CreateMeal extends Component {
         />
         <form onSubmit={this.onSubmitForm}>
           <p className="label">Plan out your meal</p>
-          {!mealReducer.mealPicture
-            ? <div
-                className="user-recipe-img-default"
-                style={{ margin: "0 auto" }}
-              />
-            : <div
-                className="user-recipe-img-custom"
-                style={{ margin: "0 auto" }}
-              >
-                <img src={mealReducer.mealPicture} alt="meal-img" />
-              </div>}
+          {!mealReducer.mealPicture ? (
+            <div
+              className="user-recipe-img-default"
+              style={{ margin: "0 auto" }}
+            />
+          ) : (
+            <div
+              className="user-recipe-img-custom"
+              style={{ margin: "0 auto" }}
+            >
+              <img src={mealReducer.mealPicture} alt="meal-img" />
+            </div>
+          )}
           <div className="recipe-form-body">
             <div className="recipe-name-ingredient-container">
               <div
@@ -309,25 +295,8 @@ class CreateMeal extends Component {
           </div>
 
           <div className="recipe-login-buttons">
-            <FlatButton
-              type="submit"
-              backgroundColor="#1fbcd2"
-              style={{
-                padding: "0px 10px",
-                color: "#fff",
-                minWidth: "80px",
-                marginRight: 20
-              }}
-            >
-              create
-            </FlatButton>
-            <FlatButton
-              backgroundColor="#E34B27"
-              style={{ padding: "0px 10px", color: "#fff", minWidth: "80px" }}
-              onClick={this.props.history.goBack}
-            >
-              cancel
-            </FlatButton>
+            <button type="submit">submit</button>
+            <button onClick={this.props.history.goBack}>cancel</button>
           </div>
         </form>
       </div>
