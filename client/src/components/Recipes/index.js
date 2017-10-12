@@ -172,7 +172,7 @@ class Recipes extends Component {
     <InputToken
       name="health"
       value={this.state.healthTokens}
-      placeholder="pick health option"
+      placeholder="health options"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
     />;
@@ -181,7 +181,7 @@ class Recipes extends Component {
     <InputToken
       name="diet"
       value={this.state.dietTokens}
-      placeholder="pick diet option"
+      placeholder="diet options"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
     />;

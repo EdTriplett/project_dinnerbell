@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import ContentAdd from "material-ui/svg-icons/content/add";
 import ContentRemove from "material-ui/svg-icons/content/remove";
+import ReactTooltip from "react-tooltip";
 
 import "./Recipe.css";
 import PaperList from "../PaperList";
@@ -18,6 +19,12 @@ const Recipe = ({
   showRating
 }) =>
   <div className="recipe-container">
+    <ReactTooltip
+      place="left"
+      type="dark"
+      effect="float"
+      className="recipe-btn-tooltip"
+    />
     <h1>
       {recipe.name}
     </h1>
@@ -39,6 +46,9 @@ const Recipe = ({
     </h2>
     {user && user._id
       ? <FloatingActionButton
+          data-tip={
+            recipeBelongsToUser(user, recipe) ? "remove recipe" : "add recipe"
+          }
           mini={false}
           secondary={recipeBelongsToUser(user, recipe)}
           onClick={

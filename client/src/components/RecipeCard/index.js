@@ -18,6 +18,12 @@ const findAvgRating = recipe => {
   return Math.floor(ratingsSum / recipe.ratings.length);
 };
 
+const findRecipeName = recipe => {
+  return recipe.name.length > 40
+    ? `${recipe.name.slice(0, 37)}...`
+    : recipe.name;
+};
+
 const RecipeCard = ({
   recipe,
   user,
@@ -39,7 +45,7 @@ const RecipeCard = ({
           <img src={recipe.image} alt="" />
         </CardMedia>
         <CardTitle className="card-title">
-          {recipe.name}
+          {findRecipeName(recipe)}
         </CardTitle>
         <article className="ratings-container">
           <StarRatingComponent
@@ -56,7 +62,9 @@ const RecipeCard = ({
       </Link>
       {user && user._id
         ? <FloatingActionButton
-            data-tip="Add or remove recipe"
+            data-tip={
+              recipeBelongsToUser(user, recipe) ? "remove recipe" : "add recipe"
+            }
             className="add-button"
             mini={true}
             secondary={recipeBelongsToUser(user, recipe)}
