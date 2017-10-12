@@ -178,7 +178,7 @@ class CreateMeal extends Component {
 			image: mealReducer.mealPicture
 		}
 
-		console.log(data, 'before being submitted')
+		
 
 		mealActions.createMeal(data).then(() => {
 			swal({
