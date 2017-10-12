@@ -22,3 +22,13 @@ button {
   outline: 0;
   cursor: pointer;
 }
+
+#root {
+  position: relative;
+}
+
+#footing {
+  width: 100%;
+  height: 100%;
+  background-color: #3c8d41;
+}

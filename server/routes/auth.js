@@ -46,7 +46,6 @@ const auth = passport => {
     }
     res.json(req.session.user);
   };
-
   router.get("/current-user", wrapper(getCurrentUser));
 
   router.post("/login", passport.authenticate("local"), (req, res) => {
