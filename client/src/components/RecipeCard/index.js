@@ -18,6 +18,12 @@ const findAvgRating = recipe => {
   return Math.floor(ratingsSum / recipe.ratings.length);
 };
 
+const findRecipeName = recipe => {
+  return recipe.name.length > 40
+    ? `${recipe.name.slice(0, 37)}...`
+    : recipe.name;
+};
+
 const RecipeCard = ({
   recipe,
   user,
@@ -38,7 +44,9 @@ const RecipeCard = ({
         <CardMedia>
           <img src={recipe.image} alt="" />
         </CardMedia>
-        <CardTitle className="card-title">{recipe.name}</CardTitle>
+        <CardTitle className="card-title">
+          {findRecipeName(recipe)}
+        </CardTitle>
         <article className="ratings-container">
           <StarRatingComponent
             name="star-rating"
@@ -52,25 +60,25 @@ const RecipeCard = ({
           </p>
         </article>
       </Link>
-      {user && user._id ? (
-        <FloatingActionButton
-          data-tip="Add or remove recipe"
-          className="add-button"
-          mini={true}
-          secondary={recipeBelongsToUser(user, recipe)}
-          onClick={
-            recipeBelongsToUser(user, recipe)
-              ? () => removeRecipeToUser(user, recipe)
-              : () => addRecipeToUser(user, recipe)
-          }
-        >
-          {recipeBelongsToUser(user, recipe) ? (
-            <ContentRemove />
-          ) : (
-            <ContentAdd />
-          )}
-        </FloatingActionButton>
-      ) : null}
+      {user && user._id
+        ? <FloatingActionButton
+            data-tip={
+              recipeBelongsToUser(user, recipe) ? "remove recipe" : "add recipe"
+            }
+            className="add-button"
+            mini={true}
+            secondary={recipeBelongsToUser(user, recipe)}
+            onClick={
+              recipeBelongsToUser(user, recipe)
+                ? () => removeRecipeToUser(user, recipe)
+                : () => addRecipeToUser(user, recipe)
+            }
+          >
+            {recipeBelongsToUser(user, recipe)
+              ? <ContentRemove />
+              : <ContentAdd />}
+          </FloatingActionButton>
+        : null}
     </Card>
   );
 };

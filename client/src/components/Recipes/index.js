@@ -43,25 +43,27 @@ class Recipes extends Component {
       this.props.location.search
     );
     await this.setDietaryPreferences(preferences);
-    if (q !== this.state.q) {
+    if (q !== this.state.q && q.length > 0) {
       this.setState({ q }, this.searchRecipes);
     }
   }
 
   async componentWillReceiveProps(nextProps) {
     let { q, preferences } = this.parseSearchParams(nextProps.location.search);
-    if (
-      q !== this.state.q ||
-      !_.isEqual(
-        preferences.sort(),
-        [...this.state.healthFilters, ...this.state.dietFilters].sort()
-      )
-    ) {
-      await this.setDietaryPreferences(preferences);
-      this.setState({ q }, this.searchRecipes);
-    } else if (!this.state.recipes.length) {
-      await this.setDietaryPreferences(preferences);
-      this.setState({ q }, this.searchRecipes);
+    if (q.length > 0) {
+      if (
+        q !== this.state.q ||
+        !_.isEqual(
+          preferences.sort(),
+          [...this.state.healthFilters, ...this.state.dietFilters].sort()
+        )
+      ) {
+        await this.setDietaryPreferences(preferences);
+        this.setState({ q }, this.searchRecipes);
+      } else if (!this.state.recipes.length) {
+        await this.setDietaryPreferences(preferences);
+        this.setState({ q }, this.searchRecipes);
+      }
     }
   }
 
@@ -166,25 +168,23 @@ class Recipes extends Component {
     await this.props.userActions.checkCurrentUser();
   };
 
-  renderHealthInputToken = () => (
+  renderHealthInputToken = () =>
     <InputToken
       name="health"
       value={this.state.healthTokens}
-      placeholder="pick health option"
+      placeholder="health options"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
-  renderDietInputToken = () => (
+  renderDietInputToken = () =>
     <InputToken
       name="diet"
       value={this.state.dietTokens}
-      placeholder="pick diet option"
+      placeholder="diet options"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />
-  );
+    />;
 
   // getRandomIndex = () => {
   //   let random = Math.floor(Math.random() * 4) + 1;
@@ -203,7 +203,7 @@ class Recipes extends Component {
       : [];
     const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
-      ? filteredRecipes.map((recipe, index) => (
+      ? filteredRecipes.map((recipe, index) =>
           <RecipeCard
             recipe={recipe}
             user={this.props.userReducer.user}
@@ -213,7 +213,7 @@ class Recipes extends Component {
             index={Math.floor(Math.random() * 4)}
             key={recipe._id}
           />
-        ))
+        )
       : null;
     return (
       <div className="background">

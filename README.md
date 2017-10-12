@@ -6,4 +6,4 @@ Whichever registration method you prefer, your account will be given a randomly 
 
 You can upload an avatar image from the profile page by clicking inside the grey circle. 
 
- 
+Change your dietary preferences by selecting any of the available checkboxes.  These choices will be remembered and used as defaults in future recipe searches. 

@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-//import { Field, reduxForm } from "redux-form";
 import TextField from "material-ui/TextField";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import { withRouter } from "react-router-dom";
-// import FlatButton from "material-ui/FlatButton";
 import "./ProfileUpdater.css";
 
 class ProfileUpdater extends Component {
@@ -25,8 +23,8 @@ class ProfileUpdater extends Component {
 
   validate = async newDetails => {
     const errors = {};
-    if (newDetails.username && newDetails.username.length>25) {
-      errors.username = 'username should be less than 25 characters'
+    if (newDetails.username && newDetails.username.length > 25) {
+      errors.username = "username should be less than 25 characters";
     }
     await this.props.userActions.getUsers();
     if (
@@ -87,8 +85,8 @@ class ProfileUpdater extends Component {
     //   alert(this.props.userReducer.userError);
     //   this.props.userActions.setUserError(null);
     // }
-    
-    this.props.history.goBack()
+
+    this.props.history.goBack();
   };
 
   render() {
