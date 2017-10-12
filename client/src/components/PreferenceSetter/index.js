@@ -46,16 +46,13 @@ class PreferenceSetter extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    if (
-      this.props.userReducer.user === null &&
-      nextProps.userReducer.user !== null
-    ) {
-      this.populatePreferences(nextProps.userReducer.user);
+    if (nextProps.user._id && nextProps.user._id !== this.props.user._id) {
+      this.populatePreferences(nextProps.user);
     }
   };
 
   componentDidMount = () => {
-    if (this.props.userReducer.user) {
+    if (this.props.user) {
       this.populatePreferences(this.props.user);
     }
   };
@@ -69,21 +66,26 @@ class PreferenceSetter extends Component {
       key={label}
       label={label}
       checked={this.state[label]}
-      onCheck={this.props.show ? this.onCheck(label) : null}
+      onCheck={this.props.allowedActions ? this.onCheck(label) : null}
+      disabled={!this.props.allowedActions}
     />
   );
 
   handleFormSubmit = e => {
     e.preventDefault();
-    const user = this.props.userReducer.user;
-    const { updateUser } = this.props;
+    const user = this.props.user;
     const preferences = Object.entries(
       this.state
     ).reduce((acc, [pref, selected]) => {
       if (selected) acc.push(pref);
       return acc;
     }, []);
-    updateUser({ ...user, dietaryRestrictions: preferences });
+    if (this.props.allowedActions) {
+      this.props.allowedActions.updateUser({
+        ...user,
+        dietaryRestrictions: preferences
+      });
+    }
   };
 
   render() {
@@ -96,7 +98,7 @@ class PreferenceSetter extends Component {
         </h5>
         <form onSubmit={this.handleFormSubmit}>
           {allPreferences.map(pref => this.buildCheckbox(pref))}
-          {this.props.show ? (
+          {this.props.allowedActions ? (
             <FlatButton
               backgroundColor="#E34B27"
               hoverColor="#C32B07"

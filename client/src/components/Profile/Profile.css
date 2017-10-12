@@ -36,7 +36,6 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  cursor: pointer;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -52,10 +51,17 @@
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-  cursor: pointer;
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.clickable-profile-pic {
+  cursor: pointer;
+}
+
+.profile-pic-default img {
+  display: none;
 }
 
 .profile-pic-custom img,

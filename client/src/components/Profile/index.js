@@ -59,20 +59,28 @@ class Profile extends Component {
   render() {
     const { userReducer } = this.props;
     const { recipes = [], meals = [], registeredMeals = [] } = this.state;
-    const allowed = !!this.allowedActions();
+    const allowed = this.allowedActions();
+
+    const pic = !this.state.profilePicture
+      ? "profile-pic-default"
+      : "profile-pic-custom";
+
+    const theirPic = (
+      <div className={pic}>
+        <img src={this.state.profilePicture} alt="" />
+      </div>
+    );
+
+    const myPic = (
+      <Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
+        <div className="clickable-profile-pic">{theirPic}</div>
+      </Dropzone>
+    );
+
     return (
       <div className="profile">
         <p className="profile-name">{this.state.username}</p>
-        <Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
-          {!this.state.profilePicture ? (
-            <div className="profile-pic-default" />
-          ) : (
-            <div className="profile-pic-custom">
-              <img src={this.state.profilePicture} alt="" />
-            </div>
-          )}
-        </Dropzone>
-
+        {allowed ? myPic : theirPic}
         <div className="user-profile">
           {allowed && (
             <Link to={"/profileUpdater"}>
@@ -88,8 +96,7 @@ class Profile extends Component {
           )}
 
           <PreferenceSetter
-            updateUser={this.props.userActions.updateUser}
-            show={allowed}
+            allowedActions={this.allowedActions()}
             user={this.state}
           />
         </div>
