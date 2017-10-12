@@ -42,9 +42,7 @@ class CreateMeal extends Component {
 		const { userReducer } = this.props;
 		if (userReducer.users && userReducer.user && this.state.isLoading) {
 			let filtered = userReducer.users.filter(user => user.username !== userReducer.user.username);
-			let recipes = [...userReducer.user.recipes];
-
-			console.log(recipes, 'recipes??');
+			let recipes = userReducer.user.recipes || [];
 
 			filtered.forEach((item, index) => {
 				item.id = index;
@@ -65,7 +63,6 @@ class CreateMeal extends Component {
 		}
 	}
 
-
 	handleUsersKeyPress = e => {
 		if (e.key === "Enter") {
 			e.stopPropagation();
@@ -85,14 +82,6 @@ class CreateMeal extends Component {
 		if (e.key === "Enter") {
 			e.stopPropagation();
 			e.preventDefault();
-
-			let recipeOptions = [
-				...this.state.recipeOptions
-			];
-
-			let recipeTokens = [...this.state.recipeTokens];
-
-			this.setState({ recipeOptions, recipeTokens });
 		}
 	};
 
@@ -177,8 +166,6 @@ class CreateMeal extends Component {
 			tasks: mealTasks,
 			image: mealReducer.mealPicture
 		}
-
-		
 
 		mealActions.createMeal(data).then(() => {
 			swal({

@@ -28,45 +28,39 @@ const Recipe = ({
         From the kitchen of <a href={recipe.url}>{recipe.source}</a>
       </p>
       <img src={recipe.image} alt="recipe-image" width="200" />
-      {showRating
-      ? <div className="star-container"><StarRatingComponent
+      {showRating &&
+        <div className="star-container"><StarRatingComponent
           name="star-rating"
           value={initialRating}
           starCount={5}
           editing={true}
           onStarClick={onStarClick}
-        /></div>
-      : null}
+        /></div>}
       
       <div className="nutrition-btn-container">
        <NutritionInfo recipe={recipe} />
       </div>
-
-      <p>
-        ({Math.floor(recipe.calories)} calories)
-      </p>
-          {user && user._id
-      ? <div className="floating-btn-container">
-          <ReactTooltip
-            place="left"
-            type="dark"
-            effect="float"
-          />
-          <FloatingActionButton
-            mini={false}
-            secondary={recipeBelongsToUser(user, recipe)}
-            onClick={
-              recipeBelongsToUser(user, recipe)
-                ? () => removeRecipeToUser(user, recipe)
-                : () => addRecipeToUser(user, recipe)
-            }
-          >
-            {recipeBelongsToUser(user, recipe)
-              ? <ContentRemove data-tip="remove recipe" />
-              : <ContentAdd data-tip="add recipe" />}
-          </FloatingActionButton>
-        </div>
-      : null}
+        {user && user._id &&
+         <div className="floating-btn-container">
+            <ReactTooltip
+              place="left"
+              type="dark"
+              effect="float"
+            />
+            <FloatingActionButton
+              mini={false}
+              secondary={recipeBelongsToUser(user, recipe)}
+              onClick={
+                recipeBelongsToUser(user, recipe)
+                  ? () => removeRecipeToUser(user, recipe)
+                  : () => addRecipeToUser(user, recipe)
+              }
+            >
+              {recipeBelongsToUser(user, recipe)
+                ? <ContentRemove data-tip="remove recipe" />
+                : <ContentAdd data-tip="add recipe" />}
+            </FloatingActionButton>
+          </div>}
     </div>
 
     <div className="notes-group">
