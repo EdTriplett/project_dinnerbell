@@ -10,6 +10,7 @@ import * as userActions from "../../actions/user_actions";
 import PreferenceSetter from "../PreferenceSetter";
 import AsyncManager from "../../services/AsyncManager.js";
 import UserLogContainer from "../UserLogContainer";
+import _ from "lodash";
 
 class Profile extends Component {
   state = {};
@@ -49,10 +50,12 @@ class Profile extends Component {
     if (next && next !== current) this.fetchUser(next);
 
     const nextUser = nextProps.userReducer.user;
-    const currentPic = this.state.profilePicture;
-    const allowed = !!this.allowedActions();
-    if (allowed && nextUser && currentPic !== nextUser.profilePicture) {
-      this.setState({ profilePicture: nextUser.profilePicture });
+    if (
+      !!this.allowedActions() &&
+      nextUser &&
+      !_.isEqual(nextUser, this.state)
+    ) {
+      this.setState(nextUser);
     }
   }
 
@@ -82,19 +85,6 @@ class Profile extends Component {
         <p className="profile-name">{this.state.username}</p>
         {allowed ? myPic : theirPic}
         <div className="user-profile">
-          {allowed && (
-            <Link to={"/profileUpdater"}>
-              <FlatButton
-                backgroundColor="#E34B27"
-                hoverColor="#C32B07"
-                fullWidth={true}
-                style={{ padding: "0px 10px", color: "#fff" }}
-              >
-                Update Account Settings
-              </FlatButton>
-            </Link>
-          )}
-
           <PreferenceSetter
             allowedActions={this.allowedActions()}
             user={this.state}
@@ -103,19 +93,19 @@ class Profile extends Component {
 
         <div className="user-logs-container">
           <UserLogContainer
-            title="recipes"
+            title="Your Recipes"
             resource="recipes"
             items={recipes}
             updateArray={this.updateArray("recipes")}
           />
           <UserLogContainer
-            title="meals"
+            title="Your Meals"
             resource="meals"
             items={meals}
             updateArray={this.updateArray("meals")}
           />
           <UserLogContainer
-            title="invited"
+            title="Invited Meals"
             resource="meals"
             items={registeredMeals}
             updateArray={this.updateArray("registeredMeals")}

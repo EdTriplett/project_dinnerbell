@@ -83,83 +83,40 @@
   border-radius: 10px;
 }
 
+.user-logs-item {
+  font-family: "Open Sans", sans-serif;
+}
+
 .user-logs-container {
   font-family: "Open Sans", sans-serif;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  height: 350px;
   width: 90%;
   margin-top: 20px;
-  padding: 10px 0px 0px;
+  padding: 20px 0px;
 }
 
-.user-logs-recipes {
-  background: #e34b27;
-  display: flex;
-  position: relative;
-  height: 30px;
-  width: 100px;
+.user-logs-title {
+  color: #494949;
+  background: #fdfbf0;
   padding: 5px;
-  border-radius: 5px;
-}
-
-.user-logs-recipes p {
-  font-family: "Open Sans", sans-serif;
-  color: white;
-  font-size: 0.9em;
-  position: absolute;
-  bottom: -12px;
-  left: 25px;
-}
-
-.user-logs-meals {
-  background: #e34b27;
-  display: flex;
-  position: relative;
-  height: 30px;
-  width: 100px;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.user-logs-meals p {
-  font-family: "Open Sans", sans-serif;
-  color: white;
-  font-size: 0.9em;
-  position: absolute;
-  bottom: -12px;
-  left: 30px;
-}
-
-.user-logs-activities {
-  background: #e34b27;
-  display: flex;
-  position: relative;
-  height: 30px;
-  width: 100px;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.user-logs-activities p {
-  color: white;
-  font-size: 0.9em;
-  position: absolute;
-  bottom: -12px;
-  left: 20px;
+  font-weight: bold;
 }
 
 .user-logs {
   display: flex;
-  background: #eeeeee;
   flex-direction: column;
+  align-items: center;
+  background: #eeeeee;
   padding: 10px;
   width: 100%;
-  height: 100%;
   min-height: 200px;
   margin-top: 20px;
-  border-radius: 10px;
-  overflow: auto;
+  box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  background: url("https://raw.github.com/Arbaoui-Mehdi/Sticky-Notepaper/master/images/noise.png")
+    repeat #f3efd1;
 }
 
 .user-logs-col {
@@ -167,32 +124,32 @@
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  width: 25%;
+  width: 350px;
 }
 
-.logs-search-btn {
-  background: black;
-  color: white;
-  position: relative;
-  font-family: "Open Sans", sans-serif;
-  padding: 15px 15px;
-  border-radius: 0 10px 10px 0;
-  -moz-border-radius: 0 10px 10px 0;
-  -webkit-border-radius: 0 10px 10px 0;
-  -o-border-radius: 0 10px 10px 0;
-  border: 0 none;
-  font-weight: bold;
+.user-logs-col .scratch {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.4);
+  width: 45%;
+  height: 33px;
+  margin: -30px 0 10px 0;
+  transform: rotate(-2deg);
+  -ms-transform: rotate(-2deg); /* IE 9 */
+  -webkit-transform: rotate(-2deg); /* Safari and Chrome */
+  -o-transform: rotate(-2deg); /* Opera */
+  -moz-transform: rotate(-2deg); /* Firefox */
+  box-shadow: 1px 2px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
 .logs-search-box {
   outline: none;
   background: #eee;
-  padding: 15px;
+  padding: 8px;
   border-radius: 10px 10px 10px 10px;
   -moz-border-radius: 10px 10px 10px 10px;
   -webkit-border-radius: 10px 10px 10px 10px;
   -o-border-radius: 10px 10px 10px 10px;
-  border: 0 none;
+  border: 0.5px solid #494949;
   width: 160px;
 }
 
@@ -217,10 +174,6 @@
   .search-form input {
     width: 68px;
   }
-
-  .user-logs {
-    width: 105px;
-  }
 }
 
 /* Portrait Galaxy S5 */
@@ -231,10 +184,6 @@
 
   .search-form input {
     width: 68px;
-  }
-
-  .user-logs {
-    width: 105px;
   }
 }
 
@@ -247,10 +196,6 @@
   .search-form input {
     width: 60px;
   }
-
-  .user-logs {
-    width: 90px;
-  }
 }
 
 /* Portrait Custom 655 */
@@ -260,10 +205,6 @@
   }
 
   .search-form input {
-    width: 140px;
-  }
-
-  .user-logs {
     width: 140px;
   }
 
@@ -288,10 +229,6 @@
     width: 100px;
   }
 
-  .user-logs {
-    width: 130px;
-  }
-
   .namanyay-search-box {
     margin-top: 10px;
     width: 120px;
@@ -313,10 +250,6 @@
     width: 70px;
   }
 
-  .user-logs {
-    width: 120px;
-  }
-
   .namanyay-search-box {
     margin-top: 10px;
     width: 120px;
@@ -336,10 +269,6 @@
 
   .search-form input {
     width: 70px;
-  }
-
-  .user-logs {
-    width: 100px;
   }
 
   .namanyay-search-box {

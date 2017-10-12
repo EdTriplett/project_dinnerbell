@@ -12,7 +12,6 @@ import RecipeContainer from "../RecipeContainer";
 import UsersContainer from "../UsersContainer/UsersContainer";
 import CreateMeal from "../CreateMeal";
 import MealContainer from "../MealContainer/MealContainer";
-import ProfileUpdater from '../ProfileUpdater/ProfileUpdater.js'
 
 import "./App.css";
 
@@ -21,7 +20,7 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <Router>
-          <div style={{ height: '100%' }}>
+          <div style={{ height: "100%" }}>
             <Navbar />
             <Route exact path="/" render={() => <Landing />} />
             <Route
@@ -32,27 +31,17 @@ class App extends Component {
               path="/login"
               render={() => <Authentication showLogin={true} />}
             />
-            <Route exact path="/recipes" render={() => <Recipes {...this.props} />} />
             <Route
-              path="/profile/:_id"
-              render={() => <Profile />}
+              exact
+              path="/recipes"
+              render={() => <Recipes {...this.props} />}
             />
-            <Route
-              path="/create_meal"
-              render={() => <CreateMeal />}
-            />
+            <Route path="/profile/:_id" render={() => <Profile />} />
+            <Route path="/create_meal" render={() => <CreateMeal />} />
             <Route path="/meals/:id" component={MealContainer} />
-            <Route
-              path="/users"
-              component={UsersContainer}
-            />
+            <Route path="/users" component={UsersContainer} />
             <Route path="/recipes/:id" component={RecipeContainer} />
-            <footer style={{ backgroundColor: '#408c45'}}></footer>
-
-            <Route
-              path="/profileUpdater"
-              component={ProfileUpdater}
-              />
+            <footer style={{ backgroundColor: "#408c45" }} />
           </div>
         </Router>
       </MuiThemeProvider>
