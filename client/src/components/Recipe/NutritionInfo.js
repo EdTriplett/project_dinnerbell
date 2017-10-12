@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import React, { Component } from "react";
+import Dialog from "material-ui/Dialog";
+import FlatButton from "material-ui/FlatButton";
+import RaisedButton from "material-ui/RaisedButton";
+import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
 
 const styles = {
   radioButton: {
-    marginTop: 16,
-  },
+    marginTop: 16
+  }
 };
 
 /**
@@ -15,31 +15,33 @@ const styles = {
  */
 export default class NutritionInfo extends Component {
   state = {
-    open: false,
+    open: false
   };
 
   handleOpen = () => {
-    this.setState({open: true});
+    this.setState({ open: true });
   };
 
   handleClose = () => {
-    this.setState({open: false});
+    this.setState({ open: false });
   };
 
   render() {
     const actions = [
-      <FlatButton
-        label="Ok"
-        primary={true}
-        onClick={this.handleClose}
-      />
+      <FlatButton label="Back" primary={true} onClick={this.handleClose} />
     ];
 
     const { recipe } = this.props;
 
     return (
       <div>
-        <RaisedButton labelColor="#fff" backgroundColor="#E34B27" hoverColor="#C32B07" label="Nutrition Facts" onClick={this.handleOpen} />
+        <RaisedButton
+          labelColor="#fff"
+          backgroundColor="#E34B27"
+          hoverColor="#C32B07"
+          label="Nutrition Facts"
+          onClick={this.handleOpen}
+        />
         <Dialog
           actions={actions}
           modal={false}
@@ -78,8 +80,8 @@ export default class NutritionInfo extends Component {
 
                   {recipe.digest.slice(0, 9).map(nut => {
                     let individualServe = Math.floor(nut.total / recipe.serves);
-                    let individualDaily = Math.floor(nut.daily / recipe.serves)
-         
+                    let individualDaily = Math.floor(nut.daily / recipe.serves);
+
                     return (
                       <tr>
                         <th colspan="2">
@@ -90,19 +92,21 @@ export default class NutritionInfo extends Component {
                           <b>{individualDaily}%</b>
                         </td>
                       </tr>
-                    )
-                    
+                    );
                   })}
-
                 </tbody>
               </table>
 
-              <p className="small-info">* Percent Daily Values are based on a 2,000 calorie diet. Your daily values may be higher or lower depending on your calorie needs:</p>
-              
+              <p className="small-info">
+                * Percent Daily Values are based on a 2,000 calorie diet. Your
+                daily values may be higher or lower depending on your calorie
+                needs:
+              </p>
+
               <table className="performance-facts__table--small small-info">
                 <thead>
                   <tr>
-                    <td colspan="2"></td>
+                    <td colspan="2" />
                     <th>Calories:</th>
                     <th>2,000</th>
                     <th>2,500</th>
@@ -116,7 +120,7 @@ export default class NutritionInfo extends Component {
                     <td>80g</td>
                   </tr>
                   <tr>
-                    <td className="blank-cell"></td>
+                    <td className="blank-cell" />
                     <th>Saturated Fat</th>
                     <td>Less than</td>
                     <td>20g</td>
@@ -140,25 +144,18 @@ export default class NutritionInfo extends Component {
                     <td>375g</td>
                   </tr>
                   <tr>
-                    <td class="blank-cell"></td>
+                    <td class="blank-cell" />
                     <th colspan="2">Dietary Fiber</th>
                     <td>25g</td>
                     <td>30g</td>
                   </tr>
                 </tbody>
               </table>
-              
-              <p className="small-info">
-                Calories per gram:
-              </p>
+
+              <p className="small-info">Calories per gram:</p>
               <p classNames="small-info text-center">
-                Fat 9
-                &bull;
-                Carbohydrate 4
-                &bull;
-                Protein 4
+                Fat 9 &bull; Carbohydrate 4 &bull; Protein 4
               </p>
-              
             </section>
           </div>
         </Dialog>

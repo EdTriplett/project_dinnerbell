@@ -9,6 +9,8 @@ import PaperList from "../PaperList";
 import StarRatingComponent from "react-star-rating-component";
 import NutritionInfo from "./NutritionInfo";
 
+import IframeComponent from "./IframeComponent";
+
 const Recipe = ({
   recipe,
   user,
@@ -22,9 +24,7 @@ const Recipe = ({
   <div className="recipe-container">
     <h1>{recipe.name}</h1>
     <div id="recipe-wrapper">
-      <p>
-        From the kitchen of <a href={recipe.url}>{recipe.source}</a>
-      </p>
+      <IframeComponent url={recipe.url} author={recipe.source} />
       <img src={recipe.image} alt="recipe-image" width="200" />
       {showRating && (
         <div className="star-container">
@@ -72,3 +72,7 @@ const Recipe = ({
 );
 
 export default Recipe;
+
+// <p>
+//        From the kitchen of <a href={recipe.url}>{recipe.source}</a>
+//      </p>

@@ -8,6 +8,8 @@ import "./UpdateSettings.css";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
 
+import AlertContainer from "react-alert";
+
 class UpdateSettings extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +24,22 @@ class UpdateSettings extends Component {
       }
     };
   }
+
+  alertOptions = {
+    offset: 14,
+    position: "bottom left",
+    theme: "dark",
+    time: 5000,
+    transition: "scale"
+  };
+
+  showAlert = () => {
+    this.msg.show("Your profile information has been updated!", {
+      time: 2000,
+      type: "success",
+      icon: <img src="path/to/some/img/32x32.png" />
+    });
+  };
 
   validate = async newDetails => {
     const errors = {};
@@ -77,10 +95,14 @@ class UpdateSettings extends Component {
         key => this.state.errors[key] === null
       )
     ) {
-      await this.props.userActions.updateUser({
-        ...this.props.userReducer.user,
-        ...newDetails
-      });
+      await this.props.userActions
+        .updateUser({
+          ...this.props.userReducer.user,
+          ...newDetails
+        })
+        .then(() => {
+          this.showAlert();
+        });
     }
 
     // if (this.props.userReducer.userError) {
@@ -92,6 +114,7 @@ class UpdateSettings extends Component {
   render() {
     return (
       <div className="preference-setter">
+        <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
         <form onSubmit={this.handleFormSubmit}>
           <h4>Update your Profile</h4>
           <div>

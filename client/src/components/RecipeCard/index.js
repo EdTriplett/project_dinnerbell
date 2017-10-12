@@ -33,14 +33,12 @@ const RecipeCard = ({
   index
 }) => {
   return (
-    <Card className={`recipe-card delay-${index}`}>
+    <Card className="recipe-card">
       <Link to={`/recipes/${recipe._id}`}>
         <CardMedia>
           <img src={recipe.image} alt="" />
         </CardMedia>
-        <CardTitle className="card-title">
-          {findRecipeName(recipe)}
-        </CardTitle>
+        <CardTitle className="card-title">{findRecipeName(recipe)}</CardTitle>
         <article className="ratings-container">
           <StarRatingComponent
             name="star-rating"
@@ -55,13 +53,14 @@ const RecipeCard = ({
         </article>
       </Link>
       <ReactTooltip
-          place="left"
-          type="dark"
-          effect="float"
-          className="recipe-btn-tooltip"
-        />
-      {user && user._id
-        && <FloatingActionButton
+        place="left"
+        type="dark"
+        effect="float"
+        className="recipe-btn-tooltip"
+      />
+      {user &&
+        user._id && (
+          <FloatingActionButton
             data-tip={
               recipeBelongsToUser(user, recipe) ? "remove recipe" : "add recipe"
             }
@@ -74,10 +73,13 @@ const RecipeCard = ({
                 : () => addRecipeToUser(user, recipe)
             }
           >
-            {recipeBelongsToUser(user, recipe)
-              ? <ContentRemove />
-              : <ContentAdd />}
-          </FloatingActionButton>}
+            {recipeBelongsToUser(user, recipe) ? (
+              <ContentRemove />
+            ) : (
+              <ContentAdd />
+            )}
+          </FloatingActionButton>
+        )}
     </Card>
   );
 };
