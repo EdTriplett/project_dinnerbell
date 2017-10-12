@@ -93,8 +93,8 @@ class ProfileUpdater extends Component {
 
   render() {
     return (
-      <div >
-        <form onSubmit={this.handleFormSubmit}>
+      <div className='profile-updater-form'>
+        <form onSubmit={this.handleFormSubmit} >
           <h3 className="label">Update your Profile</h3>
           <div>
             <TextField
