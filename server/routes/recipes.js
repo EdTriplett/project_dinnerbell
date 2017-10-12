@@ -49,18 +49,7 @@ const findOrCreateRecipe = async (req, res) => {
 };
 
 const getRecipe = async (req, res) => {
-  const edamamId = req.params.id;
-  let recipe = await Recipe.findOne({ edamamId });
-  if (!recipe) {
-    const base = `http://www.edamam.com/ontologies/edamam.owl%23recipe_`;
-    const response = await fetch(buildRecipeURL([`r=${base + edamamId}`]));
-    const json = await response.json();
-    if (json) {
-      recipe = sanitizeRecipe({ recipe: json[0] });
-      await Recipe.sparseCreate(recipe);
-    }
-  }
-  res.json(recipe);
+  res.json(await Recipe.findOne({ _id: req.params.id }));
 };
 
 const updateRecipe = async (req, res) => {

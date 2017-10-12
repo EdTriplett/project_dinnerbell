@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Recipe from "../Recipe";
 import AsyncManager from "../../services/AsyncManager";
+import LoadingFork from "../LoadingFork";
 
 class RecipeContainer extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class RecipeContainer extends Component {
       if (recipe && !(recipe.error || recipe.errors)) {
         this.setState(recipe);
       } else {
-        console.error(recipe);
+        this.props.history.goBack();
       }
     } catch (error) {
       console.error(error);
@@ -29,19 +30,19 @@ class RecipeContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const currentId = this.props.match.params.id;
     const nextId = nextProps.match.params.id;
-    const storedId = this.state.edamamId;
+    const storedId = this.state._id;
     if (nextId && nextId !== currentId && nextId !== storedId) {
       this.fetchRecipe(nextId);
     }
   }
 
   render() {
-    return this.state.edamamId ? (
+    return this.state._id ? (
       <Recipe recipe={this.state} />
     ) : (
-      <h1>
-        <br />No. Recipe. Yo.
-      </h1>
+      <div className="recipe-container">
+        <LoadingFork />
+      </div>
     );
   }
 }

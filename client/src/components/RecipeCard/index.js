@@ -6,7 +6,7 @@ import FloatingActionButton from "material-ui/FloatingActionButton";
 // import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from "material-ui/svg-icons/content/add";
 import ContentRemove from "material-ui/svg-icons/content/remove";
-import ReactTooltip from 'react-tooltip'
+import ReactTooltip from "react-tooltip";
 
 import "./RecipeCard.css";
 
@@ -19,8 +19,13 @@ const RecipeCard = ({
   index
 }) => (
   <Card className={`recipe-card delay-${index}`}>
-    <ReactTooltip place="left" type="dark" effect="float" className="recipe-btn-tooltip" />
-    <Link to={`/recipes/${recipe.edamamId}`}>
+    <ReactTooltip
+      place="left"
+      type="dark"
+      effect="float"
+      className="recipe-btn-tooltip"
+    />
+    <Link to={`/recipes/${recipe._id}`}>
       <CardMedia>
         <img src={recipe.image} alt="" />
       </CardMedia>
@@ -39,7 +44,6 @@ const RecipeCard = ({
             : () => addRecipeToUser(user, recipe)
         }
       >
-      
         {recipeBelongsToUser(user, recipe) ? <ContentRemove /> : <ContentAdd />}
       </FloatingActionButton>
     ) : null}
