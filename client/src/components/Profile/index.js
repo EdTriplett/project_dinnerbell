@@ -100,8 +100,7 @@ class Profile extends Component {
 
         <br />
         <PreferenceSetter
-          updateUser={this.props.userActions.updateUser}
-          show={this.allowedActions()}
+          allowedActions={this.allowedActions()}
           user={this.state}
         />
         <div className="user-logs-container">
