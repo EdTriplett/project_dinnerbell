@@ -7,6 +7,7 @@ import * as userActions from "../../actions/user_actions";
 import { withRouter } from "react-router-dom";
 // import FlatButton from "material-ui/FlatButton";
 import "./ProfileUpdater.css";
+import Paper from "material-ui/Paper";
 
 class ProfileUpdater extends Component {
   constructor(props) {
@@ -25,8 +26,8 @@ class ProfileUpdater extends Component {
 
   validate = async newDetails => {
     const errors = {};
-    if (newDetails.username && newDetails.username.length>25) {
-      errors.username = 'username should be less than 25 characters'
+    if (newDetails.username && newDetails.username.length > 25) {
+      errors.username = "username should be less than 25 characters";
     }
     await this.props.userActions.getUsers();
     if (
@@ -87,49 +88,51 @@ class ProfileUpdater extends Component {
     //   alert(this.props.userReducer.userError);
     //   this.props.userActions.setUserError(null);
     // }
-    
-    this.props.history.goBack()
+
+    this.props.history.goBack();
   };
 
   render() {
     return (
-      <div className='profile-updater-form'>
-        <form onSubmit={this.handleFormSubmit} >
+      <div className="profile-updater-form">
+        <form onSubmit={this.handleFormSubmit}>
           <h3 className="label">Update your Profile</h3>
-          <div>
-            <TextField
-              name="username"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.username}
-              floatingLabelText="New Username"
-              errorText={this.state.errors.username}
-            />
-          </div>
-          <div>
-            <TextField
-              name="email"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.email}
-              floatingLabelText="New Email"
-              errorText={this.state.errors.email}
-            />
-          </div>
-          <div>
-            <TextField
-              name="password"
-              type="password"
-              onChange={this.handleChange}
-              value={this.state.password}
-              floatingLabelText="New Password"
-              errorText={this.state.errors.password}
-            />
-          </div>
+          <Paper zDepth={4} className="profile-updater-paper">
+            <div>
+              <TextField
+                name="username"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.username}
+                floatingLabelText="New Username"
+                errorText={this.state.errors.username}
+              />
+            </div>
+            <div>
+              <TextField
+                name="email"
+                type="text"
+                onChange={this.handleChange}
+                value={this.state.email}
+                floatingLabelText="New Email"
+                errorText={this.state.errors.email}
+              />
+            </div>
+            <div>
+              <TextField
+                name="password"
+                type="password"
+                onChange={this.handleChange}
+                value={this.state.password}
+                floatingLabelText="New Password"
+                errorText={this.state.errors.password}
+              />
+            </div>
 
-          <div className="signup-buttons">
-            <button type="submit">update</button>
-          </div>
+            <div className="signup-buttons">
+              <button type="submit">update</button>
+            </div>
+          </Paper>
         </form>
       </div>
     );
