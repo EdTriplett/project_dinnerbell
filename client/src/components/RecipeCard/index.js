@@ -3,12 +3,20 @@ import { Link } from "react-router-dom";
 import { Card, CardTitle, CardMedia } from "material-ui";
 import StarRatingComponent from "react-star-rating-component";
 import FloatingActionButton from "material-ui/FloatingActionButton";
-// import FlatButton from 'material-ui/FlatButton';
 import ContentAdd from "material-ui/svg-icons/content/add";
 import ContentRemove from "material-ui/svg-icons/content/remove";
-import ReactTooltip from 'react-tooltip'
+import ReactTooltip from "react-tooltip";
 
 import "./RecipeCard.css";
+
+const findAvgRating = recipe => {
+  if (recipe.ratings.length < 1) return 0;
+  const ratingsSum = recipe.ratings.reduce(
+    (sum, rating) => sum + rating.rating,
+    0
+  );
+  return Math.floor(ratingsSum / recipe.ratings.length);
+};
 
 const RecipeCard = ({
   recipe,

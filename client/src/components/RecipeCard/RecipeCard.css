@@ -5,5 +5,19 @@
 }
 
 .recipe-btn-tooltip {
-	z-index: 99px !important;
+  z-index: 99px !important;
+}
+
+.ratings-container {
+  display: flex;
+  align-items: center;
+}
+
+.star-ratings {
+  padding-left: 16px;
+}
+
+.ratings-length {
+  font-size: calc(0.4em + 0.3vw);
+  padding-left: calc(0.5vw);
 }
