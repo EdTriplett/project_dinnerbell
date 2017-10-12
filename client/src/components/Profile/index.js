@@ -96,12 +96,12 @@ class Profile extends Component {
               Update Account Settings
             </FlatButton>
           </Link>
-        )}
+        }
 
         <br />
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
-          show={allowed}
+          show={this.allowedActions()}
           user={this.state}
         />
         <div className="user-logs-container">
