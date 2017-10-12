@@ -168,34 +168,25 @@ class Recipes extends Component {
     await this.props.userActions.checkCurrentUser();
   };
 
-  renderHealthInputToken = () =>
+  renderHealthInputToken = () => (
     <InputToken
       name="health"
       value={this.state.healthTokens}
       placeholder="health options"
       options={this.state.healthOptions}
       onSelect={this.selectToken}
-    />;
+    />
+  );
 
-  renderDietInputToken = () =>
+  renderDietInputToken = () => (
     <InputToken
       name="diet"
       value={this.state.dietTokens}
       placeholder="diet options"
       options={this.state.dietOptions}
       onSelect={this.selectToken}
-    />;
-
-  // getRandomIndex = () => {
-  //   let random = Math.floor(Math.random() * 4) + 1;
-  //
-  //   if (previous_rand !== random) {
-  //     previous_rand = random;
-  //     return random;
-  //   }
-  //
-  //   return this.getRandomIndex(random);
-  // };
+    />
+  );
 
   render() {
     const recipeArray = Array.isArray(this.state.recipes)
@@ -203,17 +194,16 @@ class Recipes extends Component {
       : [];
     const filteredRecipes = this.filterRecipesLength(recipeArray);
     const recipes = filteredRecipes
-      ? filteredRecipes.map((recipe, index) =>
+      ? filteredRecipes.map((recipe, index) => (
           <RecipeCard
             recipe={recipe}
             user={this.props.userReducer.user}
             addRecipeToUser={this.addRecipeToUser}
             removeRecipeToUser={this.removeRecipeToUser}
             recipeBelongsToUser={this.recipeBelongsToUser}
-            index={Math.floor(Math.random() * 4)}
             key={recipe._id}
           />
-        )
+        ))
       : null;
     return (
       <div className="background">

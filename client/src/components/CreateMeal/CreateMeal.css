@@ -42,6 +42,11 @@
 	color: #fff;
 	font-size: 8px;
 }
+
+.paper textarea {
+	overflow: scroll;
+}
+
 .margin {
 	margin-left: 12px;
 	margin-bottom: 20px;
@@ -161,33 +166,20 @@
 }
 
 /* Portrait iPhone 6 */
-@media only screen 
-  and (min-device-width: 375px) 
-  and (max-device-width: 667px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .label {
-    	font-size: 2em;
-    }
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+	.label {
+		font-size: 2em;
+	}
 
-    .wrapper {
-    	width: 377px;
-    }
+	.wrapper {
+		width: 377px;
+	}
 
-    .paper textarea::placeholder {
-    	font-size: 0.9em;
-    }
+	.paper textarea::placeholder {
+		font-size: 0.9em;
+	}
 
-    .paper textarea {
-    	font-size: 2em;
-    }
+	.paper textarea {
+		font-size: 2em;
+	}
 }
-
-
-
-
-
-
-
-
-

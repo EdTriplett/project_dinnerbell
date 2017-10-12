@@ -8,6 +8,8 @@ import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
 import UpdateSettings from "./UpdateSettings";
 
+import AlertContainer from "react-alert";
+
 import "./PreferenceSetter.css";
 
 const allPreferences = [
@@ -36,6 +38,22 @@ class PreferenceSetter extends Component {
       checkboxes: allPreferences.reduce(buildCheckboxes, {})
     };
   }
+
+  alertOptions = {
+    offset: 14,
+    position: "bottom left",
+    theme: "dark",
+    time: 5000,
+    transition: "scale"
+  };
+
+  showAlert = () => {
+    this.msg.show("Your dietary requirements have been updated!", {
+      time: 2000,
+      type: "success",
+      icon: <img src="path/to/some/img/32x32.png" />
+    });
+  };
 
   populatePreferences = user => {
     const checkboxes = { ...this.state.checkboxes };
@@ -90,10 +108,14 @@ class PreferenceSetter extends Component {
       return acc;
     }, []);
     if (this.props.allowedActions) {
-      this.props.allowedActions.updateUser({
-        ...user,
-        dietaryRestrictions: preferences
-      });
+      this.props.allowedActions
+        .updateUser({
+          ...user,
+          dietaryRestrictions: preferences
+        })
+        .then(() => {
+          this.showAlert();
+        });
     }
   };
 
@@ -107,6 +129,7 @@ class PreferenceSetter extends Component {
     } else {
       return (
         <div className="preference-setter">
+          <AlertContainer ref={a => (this.msg = a)} {...this.alertOptions} />
           <h4>
             {this.props.allowedActions
               ? "Select your dietary requirements"
