@@ -2,100 +2,96 @@ import React from "react";
 import UsersList from "../UsersContainer/UsersList";
 import PaperList from "../PaperList";
 import Paper from "material-ui/Paper";
+import { List, ListItem } from "material-ui/List";
+import Avatar from "material-ui/Avatar";
+import { Link } from "react-router-dom";
+import "./Meal.css";
 
-const styles = {
-  container: {
-    background: "#3c8d41",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginTop: "25px",
-    color: "white",
-    fontFamily: "'Open Sans', sans-serif",
-    width: "100%",
-    height: "100%"
-  },
-  img: { width: "300px", borderRadius: "25px" },
-  h3: {
-    textAlign: "center",
-    margin: 0,
-    paddingTop: "10px",
-    fontFamily: "'Open Sans', sans-serif",
-    textDecoration: "underline"
-  },
-  h2: {
-    fontSize: "1em",
-    marginBottom: 50,
-    marginTop: 10,
-    fontFamily: "'Open Sans', sans-serif"
-  },
-  infoRow: {
-    display: "flex",
-    flexDirection: "row"
-  },
-  recipes: {
-    borderRadius: "25px",
-    paddingRight: "20px",
-    paddingLeft: "20px",
-    fontFamily: "Open Sans"
-  }
-};
-
-// renders invitees that have accounts as user objects and that don't as strings
-const Guests = ({ unregGuests, regGuests }) => (
-  <div>
-    {regGuests ? (
-      <div>
-        <UsersList users={regGuests} title="Attending" />
-      </div>
-    ) : null}
-    {unregGuests.length ? (
-      <div>
-        <PaperList title="others attending" data={unregGuests} />
-      </div>
-    ) : null}
-  </div>
+const Recipes = ({ recipes = [] }) => (
+  <List>
+    {recipes.map(recipe => (
+      <Link
+        to={`/recipes/${recipe._id}`}
+        key={recipe._id}
+        style={{ textDecoration: "none" }}
+      >
+        <ListItem
+          primaryText={recipe.name}
+          leftAvatar={<Avatar src={recipe.image} />}
+        />
+      </Link>
+    ))}
+  </List>
 );
 
-const RecipesList = ({ recipes }) => (
-  <div>
-    <h3 style={styles.h3}>Recipes</h3>
-    {recipes.length
-      ? recipes.map(recipe => <p key={recipe._id}>{recipe.name}</p>)
-      : null}
+const Tasks = ({ tasks = [] }) => (
+  <List>
+    {tasks.map(task => <ListItem key={task._id} primaryText={task} />)}
+  </List>
+);
+
+const Attending = ({ guests = [] }) => (
+  <List>
+    {guests.map(user => (
+      <Link
+        to={`/profile/${user._id}`}
+        key={user._id}
+        style={{ textDecoration: "none" }}
+      >
+        <ListItem
+          primaryText={user.username}
+          leftAvatar={<Avatar src={user.profilePicture} />}
+        />
+      </Link>
+    ))}
+  </List>
+);
+
+const MealList = ({ title, children }) => (
+  <div className="single-meal-card-column">
+    <div className="single-meal-card">
+      <span className="single-meal-card-tape" />
+      <span className="single-meal-card-title">{title}</span>
+      {children}
+    </div>
   </div>
 );
 
 const Meal = ({ meal }) => {
-  // Conditional check to populate the guests that do and don't have accounts with
-  // the site
-  let regGuests = [];
-  let unregGuests = [];
-  if (meal.registeredGuests.length)
-    regGuests = regGuests.concat(meal.registeredGuests);
-  if (meal.unregisteredGuests.length)
-    unregGuests = unregGuests.concat(meal.unregisteredGuests);
+  const pic = !meal.owner.profilePicture
+    ? "single-meal-host-default"
+    : "single-meal-host-custom";
 
   return (
-    <div style={styles.container}>
-      <h1 style={{ fontSize: "3em" }}>{meal.name}</h1>
-
-      <img
-        src={meal.image || "https://imgur.com/gWYzeND.jpg"}
-        alt="meal"
-        style={styles.img}
-      />
-      <h2 style={styles.h2}>
-        hosted by{" "}
-        <span style={{ fontSize: "1.5em" }}>{meal.owner.username}</span>
-      </h2>
-
-      <div style={styles.infoRow}>
-        <Guests regGuests={regGuests} unregGuests={unregGuests} />
-        <PaperList title="Tasks" data={meal.tasks} />
-        <Paper zDepth={4} style={styles.recipes}>
-          <RecipesList recipes={meal.recipes} />
-        </Paper>
+    <div className="single-meal-container">
+      <h1 className="single-meal-title">{meal.name}</h1>
+      {meal.image && (
+        <img src={meal.image} alt="meal" className="single-meal-image" />
+      )}
+      <Link
+        to={`/profile/${meal.owner._id}`}
+        key={meal.owner._id}
+        style={{ textDecoration: "none" }}
+      >
+        <div className="single-meal-host">
+          <div className={pic}>
+            <img src={meal.owner.profilePicture} alt="" />
+          </div>
+          <div className="single-meal-host-name">
+            <small>hosted by:</small> {meal.owner.username}
+          </div>
+        </div>
+      </Link>
+      <div className="single-meal-card-container">
+        <MealList title="Attending">
+          <Attending guests={meal.registeredGuests} />
+        </MealList>
+        <MealList title="Tasks">
+          <Tasks tasks={meal.tasks} />
+        </MealList>
+        <MealList title="Recipes">
+          <Recipes recipes={meal.recipes} />
+        </MealList>
       </div>
     </div>
   );

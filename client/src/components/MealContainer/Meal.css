@@ -1,0 +1,120 @@
+.single-meal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3c8d41;
+  position: relative;
+  width: 100%;
+}
+
+.single-meal-title {
+  font-family: "Indie Flower", cursive;
+  font-size: 4em;
+  color: white;
+  margin: 20px;
+}
+
+.single-meal-image {
+  width: "300px";
+  border-radius: "25px";
+}
+
+.single-meal-card-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  width: 400px;
+}
+
+.single-meal-card-container {
+  font-family: "Open Sans", sans-serif;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 90%;
+  margin-top: 20px;
+  padding: 20px 0px;
+}
+
+.single-meal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #eeeeee;
+  padding: 10px;
+  width: 100%;
+  min-height: 200px;
+  margin-top: 20px;
+  box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  background: url("https://raw.github.com/Arbaoui-Mehdi/Sticky-Notepaper/master/images/noise.png")
+    repeat #f3efd1;
+}
+
+.single-meal-card-title {
+  color: #494949;
+  background: #fdfbf0;
+  padding: 5px;
+  font-weight: bold;
+}
+
+.single-meal-host {
+  color: #fff;
+  text-decoration: none;
+}
+
+.single-meal-host-name {
+  margin: 10px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.5em;
+}
+
+.single-meal-card-tape {
+  display: block;
+  background-color: rgba(255, 255, 255, 0.4);
+  width: 45%;
+  height: 33px;
+  margin: -20px 0 10px 0;
+  float: left;
+  transform: rotate(-2deg);
+  -ms-transform: rotate(-2deg); /* IE 9 */
+  -webkit-transform: rotate(-2deg); /* Safari and Chrome */
+  -o-transform: rotate(-2deg); /* Opera */
+  -moz-transform: rotate(-2deg); /* Firefox */
+  box-shadow: 1px 2px 2px -1px rgba(0, 0, 0, 0.1);
+}
+
+.single-meal-host-custom {
+  width: 100px;
+  height: 100px;
+  border: 3px solid white;
+  border-radius: 200px;
+  overflow: hidden;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.single-meal-host-default {
+  width: 100px;
+  height: 100px;
+  border: 3px solid white;
+  border-radius: 200px;
+  background-image: url("https://i.imgur.com/Ltz5GrZ.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.single-meal-host-default img {
+  display: none;
+}
