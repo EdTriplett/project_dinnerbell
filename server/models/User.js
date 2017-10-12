@@ -103,6 +103,7 @@ const populateAll = function(next) {
 UserSchema.pre("find", populateAll);
 UserSchema.pre("findOne", populateAll);
 UserSchema.pre("update", populateAll);
+UserSchema.pre("findOneAndUpdate", populateAll);
 
 UserSchema.index({
   googleID: 1,

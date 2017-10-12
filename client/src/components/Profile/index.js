@@ -140,12 +140,16 @@ class Profile extends Component {
       />
     );
 
-    return !userReducer.user ? null : !this.state.displayedUser ? null : this
-      .state.displayedUser._id === userReducer.user._id ? (
+  return !userReducer.user ? null : !this.state.displayedUser ? null : this.state.displayedUser._id === userReducer.user._id ? 
+    (
       <div className="profile">
-        <p className="profile-name">
+      <div className='top-row'>
+      <div>  
+      <p className="profile-name">
           {userReducer.user ? userReducer.user.username : null}
         </p>
+        
+        
         <Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
           {userReducer.user && !userReducer.user.profilePicture ? (
             <div className="profile-pic-default" />
@@ -161,17 +165,26 @@ class Profile extends Component {
         {this.state.isUpdatingImage && (
           <a style={{ color: "white", marginTop: "10px" }}>save</a>
         )}
-        {/*<ProfileUpdater 
-            updateUser={this.props.userActions.updateUser}
-            user={this.props.user}/>  
-          */}
-
+        <FlatButton
+          primary
+          backgroundColor="#fff"
+          hoverColor="#aaa"
+          >
+          <Link to={'/profileUpdater'}>
+            Update your Account Settings
+          </Link>
+        </FlatButton>
+        </div>
+        <div>
+        </div>
+        <div>
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
           show={true}
           user={this.props.user}
         />
-
+        </div>
+        </div>
         <div className="user-logs-container">
           <div className="user-logs-col">
             <div className="user-logs-recipes">
@@ -214,7 +227,9 @@ class Profile extends Component {
           </div>
         </div>
       </div>
-    ) : (
+    ) 
+    :
+    (
       <div className="profile">
         <p className="profile-name">{this.state.displayedUser.username}</p>
         {!this.state.displayedUser.profilePicture ? (

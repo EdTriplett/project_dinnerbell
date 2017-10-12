@@ -13,6 +13,11 @@
   font-size: 2em;
 }
 
+.top-row {
+  display: flex;
+  flex-direction: row;
+}
+
 .profile-pic-default {
   width: 75px;
   height: 75px;
@@ -50,7 +55,7 @@
   font-family: "Open Sans", sans-serif;
   display: flex;
   justify-content: space-around;
-  /* height: 350px; */
+  height: 350px; 
   width: 90%;
   margin-top: 20px;
 }
