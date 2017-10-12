@@ -38,12 +38,12 @@ const UserList = ({ users }) => {
 
 class UsersContainer extends Component {
   componentDidMount() {
-    this.props.users ? console.log(this.props.users) : this.props.getUsers();
+    this.props.getUsers();
   }
 
   render() {
     return (
-      <div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         {this.props.users
           ? <UserList users={this.props.users} />
           : <div>Loading...</div>}
