@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -13,7 +13,7 @@ const styles = {
 /**
  * Dialog content can be scrollable.
  */
-export default class DialogExampleScrollable extends React.Component {
+export default class NutritionInfo extends Component {
   state = {
     open: false,
   };
