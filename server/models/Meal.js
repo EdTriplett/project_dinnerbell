@@ -33,6 +33,7 @@ const populateAll = function(next) {
     path: "registeredGuests",
     select: "username email profilePicture _id"
   });
+
   next();
 };
 MealSchema.pre("find", populateAll);

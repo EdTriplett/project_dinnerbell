@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const wrapper = require("../util/errorWrappers").expressWrapper;
 const buildUsername = require("../util/buildUsername");
+const EmailService = require('../util/email');
 
 let REDIRECTS = {
   successRedirect: "http://localhost:3000/recipes",
@@ -56,8 +57,18 @@ const auth = passport => {
     const { password, email } = req.body;
     const username = buildUsername();
     const user = await User.createLocalUser({ email, password, username });
+    
     if (!user.errors) {
       req.session.user = user;
+
+      const options = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: `Welcome to Dinnerbell ${username}!`,
+        text: `Thanks for signing up! Dinnerbell helps you discover and share new recipes with friends and family.`
+      };
+
+      await EmailService.send(options);
     }
     res.json(user);
   };
