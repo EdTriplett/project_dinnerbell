@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as userActions from "../../actions/user_actions";
-import Dropzone from "react-dropzone";
-import "./Profile.css";
-import PreferenceSetter from "../PreferenceSetter";
 import { withRouter, Link } from "react-router-dom";
-import AsyncManager from "../../services/AsyncManager.js";
+import Dropzone from "react-dropzone";
 import FlatButton from "material-ui/FlatButton";
-import _ from "lodash";
 
+import "./Profile.css";
+import * as userActions from "../../actions/user_actions";
+import PreferenceSetter from "../PreferenceSetter";
+import AsyncManager from "../../services/AsyncManager.js";
 import UserLogContainer from "../UserLogContainer";
 
 class Profile extends Component {
@@ -37,7 +36,6 @@ class Profile extends Component {
     this.setState(await AsyncManager.getRequest(`/api/users/${id}`));
   };
 
-
   componentDidMount() {
     const user = this.props.userReducer.user;
     let id = this.props.match.params._id;
@@ -52,7 +50,8 @@ class Profile extends Component {
 
     const nextUser = nextProps.userReducer.user;
     const currentPic = this.state.profilePicture;
-    if (this.allowedActions() && nextUser && currentPic !== nextUser.profilePicture) {
+    const allowed = !!this.allowedActions();
+    if (allowed && nextUser && currentPic !== nextUser.profilePicture) {
       this.setState({ profilePicture: nextUser.profilePicture });
     }
   }
@@ -87,21 +86,25 @@ class Profile extends Component {
         <br/>
         {this.allowedActions() && 
           <Link to={"/profileUpdater"}>
-            <FlatButton primary backgroundColor="#fff" hoverColor="#aaa"
-              fullWidth={true} 
-              style={{padding: '0px 10px'}}
-              >Update Account Settings
+            <FlatButton
+              primary
+              backgroundColor="#fff"
+              hoverColor="#aaa"
+              fullWidth={true}
+              style={{ padding: "0px 10px" }}
+            >
+              Update Account Settings
             </FlatButton>
           </Link>
-            }
-        
+        )}
+
         <br />
         <PreferenceSetter
           updateUser={this.props.userActions.updateUser}
-          show={this.allowedActions()}
+          show={allowed}
           user={this.state}
         />
-        <div className='user-logs-container'>
+        <div className="user-logs-container">
           <UserLogContainer
             title="recipes"
             resource="recipes"

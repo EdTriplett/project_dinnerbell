@@ -34,7 +34,7 @@ const RecipeCard = ({
         effect="float"
         className="recipe-btn-tooltip"
       />
-      <Link to={`/recipes/${recipe.edamamId}`}>
+      <Link to={`/recipes/${recipe._id}`}>
         <CardMedia>
           <img src={recipe.image} alt="" />
         </CardMedia>
@@ -59,11 +59,9 @@ const RecipeCard = ({
           mini={true}
           secondary={recipeBelongsToUser(user, recipe)}
           onClick={
-            recipeBelongsToUser(user, recipe) ? (
-              () => removeRecipeToUser(user, recipe)
-            ) : (
-              () => addRecipeToUser(user, recipe)
-            )
+            recipeBelongsToUser(user, recipe)
+              ? () => removeRecipeToUser(user, recipe)
+              : () => addRecipeToUser(user, recipe)
           }
         >
           {recipeBelongsToUser(user, recipe) ? (
