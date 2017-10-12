@@ -170,10 +170,10 @@
   outline: none;
   background: #eee;
   padding: 15px;
-  border-radius: 10px 0 0 10px;
-  -moz-border-radius: 10px 0 0 10px;
-  -webkit-border-radius: 10px 0 0 10px;
-  -o-border-radius: 10px 0 0 10px;
+  border-radius: 10px 10px 10px 10px;
+  -moz-border-radius: 10px 10px 10px 10px;
+  -webkit-border-radius: 10px 10px 10px 10px;
+  -o-border-radius: 10px 10px 10px 10px;
   border: 0 none;
   width: 160px;
 }

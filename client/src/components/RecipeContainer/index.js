@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import Recipe from "../Recipe";
 import AsyncManager from "../../services/AsyncManager";
+import LoadingFork from "../LoadingFork";
 
 class RecipeContainer extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class RecipeContainer extends Component {
       if (recipe && !(recipe.error || recipe.errors)) {
         this.setState(recipe);
       } else {
-        console.error(recipe);
+        this.props.history.goBack();
       }
     } catch (error) {
       console.error(error);
@@ -37,7 +38,7 @@ class RecipeContainer extends Component {
   componentWillReceiveProps(nextProps) {
     const currentId = this.props.match.params.id;
     const nextId = nextProps.match.params.id;
-    const storedId = this.state.edamamId;
+    const storedId = this.state._id;
     if (nextId && nextId !== currentId && nextId !== storedId) {
       this.fetchRecipe(nextId);
     }
@@ -55,6 +56,7 @@ class RecipeContainer extends Component {
   findRecipeRating = () => {
     const rating = this.props.userReducer.user.ratings.find(
       rating => rating.recipe === this.state._id
+
     );
     // rating is an object that contains a "rating" which is a value from 1 - 5
     return rating ? rating.rating : rating;
