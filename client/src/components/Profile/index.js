@@ -10,6 +10,7 @@ import * as userActions from "../../actions/user_actions";
 import PreferenceSetter from "../PreferenceSetter";
 import AsyncManager from "../../services/AsyncManager.js";
 import UserLogContainer from "../UserLogContainer";
+import _ from "lodash";
 
 class Profile extends Component {
   state = {};
@@ -49,10 +50,12 @@ class Profile extends Component {
     if (next && next !== current) this.fetchUser(next);
 
     const nextUser = nextProps.userReducer.user;
-    const currentPic = this.state.profilePicture;
-    const allowed = !!this.allowedActions();
-    if (allowed && nextUser && currentPic !== nextUser.profilePicture) {
-      this.setState({ profilePicture: nextUser.profilePicture });
+    if (
+      !!this.allowedActions() &&
+      nextUser &&
+      !_.isEqual(nextUser, this.state)
+    ) {
+      this.setState(nextUser);
     }
   }
 

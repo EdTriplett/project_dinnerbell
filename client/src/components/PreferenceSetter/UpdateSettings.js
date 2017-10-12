@@ -4,11 +4,11 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import { withRouter } from "react-router-dom";
-import "./ProfileUpdater.css";
+import "./UpdateSettings.css";
 import Paper from "material-ui/Paper";
 import FlatButton from "material-ui/FlatButton";
 
-class ProfileUpdater extends Component {
+class UpdateSettings extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,65 +87,61 @@ class ProfileUpdater extends Component {
     //   alert(this.props.userReducer.userError);
     //   this.props.userActions.setUserError(null);
     // }
-
-    this.props.history.goBack();
   };
 
   render() {
     return (
-      <div className="profile-updater-form">
+      <div className="preference-setter">
         <form onSubmit={this.handleFormSubmit}>
-          <h3 className="label">Update your Profile</h3>
-          <Paper zDepth={4} className="profile-updater-paper">
-            <div>
-              <TextField
-                name="username"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.username}
-                floatingLabelText="New Username"
-                errorText={this.state.errors.username}
-              />
-            </div>
-            <div>
-              <TextField
-                name="email"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.email}
-                floatingLabelText="New Email"
-                errorText={this.state.errors.email}
-              />
-            </div>
-            <div>
-              <TextField
-                name="password"
-                type="password"
-                onChange={this.handleChange}
-                value={this.state.password}
-                floatingLabelText="New Password"
-                errorText={this.state.errors.password}
-              />
-            </div>
-            <div className="preference-setter-buttons">
-              <FlatButton
-                onClick={this.handleFormSubmit}
-                backgroundColor="#E34B27"
-                hoverColor="#C32B07"
-                style={{ padding: "0px 10px", color: "#fff" }}
-              >
-                Save
-              </FlatButton>
-              <FlatButton
-                onClick={() => this.props.history.goBack()}
-                backgroundColor="#E34B27"
-                hoverColor="#C32B07"
-                style={{ padding: "0px 10px", color: "#fff" }}
-              >
-                Back
-              </FlatButton>
-            </div>
-          </Paper>
+          <h4>Update your Profile</h4>
+          <div>
+            <TextField
+              name="username"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.username}
+              floatingLabelText="New Username"
+              errorText={this.state.errors.username}
+            />
+          </div>
+          <div>
+            <TextField
+              name="email"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.email}
+              floatingLabelText="New Email"
+              errorText={this.state.errors.email}
+            />
+          </div>
+          <div>
+            <TextField
+              name="password"
+              type="password"
+              onChange={this.handleChange}
+              value={this.state.password}
+              floatingLabelText="New Password"
+              errorText={this.state.errors.password}
+            />
+          </div>
+          <div className="preference-setter-buttons">
+            <FlatButton
+              onClick={this.handleFormSubmit}
+              backgroundColor="#E34B27"
+              hoverColor="#C32B07"
+              style={{ padding: "0px 10px", color: "#fff" }}
+            >
+              Save
+            </FlatButton>
+            <FlatButton
+              onClick={() => this.props.leaveSettings()}
+              backgroundColor="#E34B27"
+              hoverColor="#C32B07"
+              style={{ padding: "0px 10px", color: "#fff" }}
+            >
+              Back
+            </FlatButton>
+          </div>
         </form>
       </div>
     );
@@ -159,5 +155,5 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(ProfileUpdater)
+  connect(mapStateToProps, mapDispatchToProps)(UpdateSettings)
 );

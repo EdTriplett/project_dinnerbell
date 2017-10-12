@@ -6,6 +6,7 @@ import "../Profile/Profile.css";
 import { withRouter, Link } from "react-router-dom";
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
+import UpdateSettings from "./UpdateSettings";
 
 import "./PreferenceSetter.css";
 
@@ -30,18 +31,21 @@ const buildCheckboxes = (acc, preference) => {
 class PreferenceSetter extends Component {
   constructor(props) {
     super(props);
-    this.state = allPreferences.reduce(buildCheckboxes, {});
+    this.state = {
+      settings: false,
+      checkboxes: allPreferences.reduce(buildCheckboxes, {})
+    };
   }
 
   populatePreferences = user => {
-    const checkboxes = { ...this.state };
+    const checkboxes = { ...this.state.checkboxes };
     if (user && Array.isArray(user.dietaryRestrictions)) {
       user.dietaryRestrictions.forEach(restriction => {
         if (allPreferences.includes(restriction)) {
           checkboxes[restriction] = true;
         }
       });
-      this.setState(checkboxes);
+      this.setState({ checkboxes });
     }
   };
 
@@ -58,7 +62,11 @@ class PreferenceSetter extends Component {
   };
 
   onCheck = preference => () => {
-    this.setState({ ...this.state, [preference]: !this.state[preference] });
+    let checkboxes = {
+      ...this.state.checkboxes,
+      [preference]: !this.state.checkboxes[preference]
+    };
+    this.setState({ checkboxes });
   };
 
   buildCheckbox = label => (
@@ -66,7 +74,7 @@ class PreferenceSetter extends Component {
       labelStyle={{ color: "#494949" }}
       key={label}
       label={label}
-      checked={this.state[label]}
+      checked={this.state.checkboxes[label]}
       onCheck={this.props.allowedActions ? this.onCheck(label) : null}
       disabled={!this.props.allowedActions}
     />
@@ -76,7 +84,7 @@ class PreferenceSetter extends Component {
     e.preventDefault();
     const user = this.props.user;
     const preferences = Object.entries(
-      this.state
+      this.state.checkboxes
     ).reduce((acc, [pref, selected]) => {
       if (selected) acc.push(pref);
       return acc;
@@ -89,40 +97,47 @@ class PreferenceSetter extends Component {
     }
   };
 
+  handleLeaveSettings = () => {
+    this.setState({ settings: false });
+  };
+
   render() {
-    return (
-      <div className="preference-setter">
-        <h4>
-          {this.props.allowedActions
-            ? "Select your dietary requirements"
-            : `${this.props.user.username}'s dietary preferences:`}
-        </h4>
-        <form onSubmit={this.handleFormSubmit}>
-          {allPreferences.map(pref => this.buildCheckbox(pref))}
-          {this.props.allowedActions ? (
-            <div className="preference-setter-buttons">
-              <FlatButton
-                backgroundColor="#E34B27"
-                hoverColor="#C32B07"
-                style={{ padding: "0px 10px", color: "#fff" }}
-                onClick={this.handleFormSubmit}
-              >
-                Save
-              </FlatButton>
-              <Link to={"/profileUpdater"}>
+    if (this.state.settings) {
+      return <UpdateSettings leaveSettings={this.handleLeaveSettings} />;
+    } else {
+      return (
+        <div className="preference-setter">
+          <h4>
+            {this.props.allowedActions
+              ? "Select your dietary requirements"
+              : `${this.props.user.username}'s dietary preferences:`}
+          </h4>
+          <form onSubmit={this.handleFormSubmit}>
+            {allPreferences.map(pref => this.buildCheckbox(pref))}
+            {this.props.allowedActions && (
+              <div className="preference-setter-buttons">
                 <FlatButton
                   backgroundColor="#E34B27"
                   hoverColor="#C32B07"
                   style={{ padding: "0px 10px", color: "#fff" }}
+                  onClick={this.handleFormSubmit}
+                >
+                  Save
+                </FlatButton>
+                <FlatButton
+                  backgroundColor="#E34B27"
+                  hoverColor="#C32B07"
+                  style={{ padding: "0px 10px", color: "#fff" }}
+                  onClick={() => this.setState({ settings: true })}
                 >
                   Settings
                 </FlatButton>
-              </Link>
-            </div>
-          ) : null}
-        </form>
-      </div>
-    );
+              </div>
+            )}
+          </form>
+        </div>
+      );
+    }
   }
 }
 
