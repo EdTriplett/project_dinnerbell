@@ -82,19 +82,6 @@ class Profile extends Component {
         <p className="profile-name">{this.state.username}</p>
         {allowed ? myPic : theirPic}
         <div className="user-profile">
-          {allowed && (
-            <Link to={"/profileUpdater"}>
-              <FlatButton
-                backgroundColor="#E34B27"
-                hoverColor="#C32B07"
-                fullWidth={true}
-                style={{ padding: "0px 10px", color: "#fff" }}
-              >
-                Update Account Settings
-              </FlatButton>
-            </Link>
-          )}
-
           <PreferenceSetter
             allowedActions={this.allowedActions()}
             user={this.state}

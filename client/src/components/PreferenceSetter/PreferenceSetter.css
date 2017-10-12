@@ -2,4 +2,16 @@
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
+  padding: 5px;
+  color: #494949;
+}
+
+.preference-setter h4 {
+  margin: 0.5em 0 0.75em;
+}
+
+.preference-setter-buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
 }

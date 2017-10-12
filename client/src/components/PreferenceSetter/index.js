@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as userActions from "../../actions/user_actions";
 import "../Profile/Profile.css";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Checkbox from "material-ui/Checkbox";
 import FlatButton from "material-ui/FlatButton";
 
@@ -63,6 +63,7 @@ class PreferenceSetter extends Component {
 
   buildCheckbox = label => (
     <Checkbox
+      labelStyle={{ color: "#494949" }}
       key={label}
       label={label}
       checked={this.state[label]}
@@ -92,21 +93,32 @@ class PreferenceSetter extends Component {
     return (
       <div className="preference-setter">
         <h4>
-          {this.props.show
+          {this.props.allowedActions
             ? "Select your dietary requirements"
             : `${this.props.user.username}'s dietary preferences:`}
         </h4>
         <form onSubmit={this.handleFormSubmit}>
           {allPreferences.map(pref => this.buildCheckbox(pref))}
           {this.props.allowedActions ? (
-            <FlatButton
-              backgroundColor="#E34B27"
-              hoverColor="#C32B07"
-              style={{ marginTop: "5px", padding: "0px 10px", color: "#fff" }}
-              onClick={this.handleFormSubmit}
-            >
-              Save
-            </FlatButton>
+            <div className="preference-setter-buttons">
+              <FlatButton
+                backgroundColor="#E34B27"
+                hoverColor="#C32B07"
+                style={{ padding: "0px 10px", color: "#fff" }}
+                onClick={this.handleFormSubmit}
+              >
+                Save
+              </FlatButton>
+              <Link to={"/profileUpdater"}>
+                <FlatButton
+                  backgroundColor="#E34B27"
+                  hoverColor="#C32B07"
+                  style={{ padding: "0px 10px", color: "#fff" }}
+                >
+                  Settings
+                </FlatButton>
+              </Link>
+            </div>
           ) : null}
         </form>
       </div>

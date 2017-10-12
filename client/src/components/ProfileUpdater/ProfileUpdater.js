@@ -6,6 +6,7 @@ import * as userActions from "../../actions/user_actions";
 import { withRouter } from "react-router-dom";
 import "./ProfileUpdater.css";
 import Paper from "material-ui/Paper";
+import FlatButton from "material-ui/FlatButton";
 
 class ProfileUpdater extends Component {
   constructor(props) {
@@ -126,9 +127,23 @@ class ProfileUpdater extends Component {
                 errorText={this.state.errors.password}
               />
             </div>
-
-            <div className="signup-buttons">
-              <button type="submit">update</button>
+            <div className="preference-setter-buttons">
+              <FlatButton
+                onClick={this.handleFormSubmit}
+                backgroundColor="#E34B27"
+                hoverColor="#C32B07"
+                style={{ padding: "0px 10px", color: "#fff" }}
+              >
+                Save
+              </FlatButton>
+              <FlatButton
+                onClick={() => this.props.history.goBack()}
+                backgroundColor="#E34B27"
+                hoverColor="#C32B07"
+                style={{ padding: "0px 10px", color: "#fff" }}
+              >
+                Back
+              </FlatButton>
             </div>
           </Paper>
         </form>
