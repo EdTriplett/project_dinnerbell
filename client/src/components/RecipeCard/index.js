@@ -25,33 +25,56 @@ const RecipeCard = ({
   removeRecipeToUser,
   recipeBelongsToUser,
   index
-}) => (
-  <Card className={`recipe-card delay-${index}`}>
-    <ReactTooltip place="left" type="dark" effect="float" className="recipe-btn-tooltip" />
-    <Link to={`/recipes/${recipe.edamamId}`}>
-      <CardMedia>
-        <img src={recipe.image} alt="" />
-      </CardMedia>
-      <CardTitle className="card-title">{recipe.name}</CardTitle>
-    </Link>
-    {user && user._id ? (
-      <FloatingActionButton
-        data-tip="Add or remove recipe"
-        className="add-button"
-        mini={true}
-        secondary={recipeBelongsToUser(user, recipe)}
-        // style={recipeBelongsToUser(user, recipe) ? removeStyle : addStyle}
-        onClick={
-          recipeBelongsToUser(user, recipe)
-            ? () => removeRecipeToUser(user, recipe)
-            : () => addRecipeToUser(user, recipe)
-        }
-      >
-      
-        {recipeBelongsToUser(user, recipe) ? <ContentRemove /> : <ContentAdd />}
-      </FloatingActionButton>
-    ) : null}
-  </Card>
-);
+}) => {
+  return (
+    <Card className={`recipe-card delay-${index}`}>
+      <ReactTooltip
+        place="left"
+        type="dark"
+        effect="float"
+        className="recipe-btn-tooltip"
+      />
+      <Link to={`/recipes/${recipe.edamamId}`}>
+        <CardMedia>
+          <img src={recipe.image} alt="" />
+        </CardMedia>
+        <CardTitle className="card-title">{recipe.name}</CardTitle>
+        <article className="ratings-container">
+          <StarRatingComponent
+            name="star-rating"
+            value={findAvgRating(recipe)}
+            starCount={5}
+            editing={false}
+            className="star-ratings"
+          />
+          <p className="ratings-length">
+            (rated by {recipe.ratings.length} users)
+          </p>
+        </article>
+      </Link>
+      {user && user._id ? (
+        <FloatingActionButton
+          data-tip="Add or remove recipe"
+          className="add-button"
+          mini={true}
+          secondary={recipeBelongsToUser(user, recipe)}
+          onClick={
+            recipeBelongsToUser(user, recipe) ? (
+              () => removeRecipeToUser(user, recipe)
+            ) : (
+              () => addRecipeToUser(user, recipe)
+            )
+          }
+        >
+          {recipeBelongsToUser(user, recipe) ? (
+            <ContentRemove />
+          ) : (
+            <ContentAdd />
+          )}
+        </FloatingActionButton>
+      ) : null}
+    </Card>
+  );
+};
 
 export default RecipeCard;
