@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+// import AccountCircle from "./ic_account_circle_black_24px.svg";
+// import SvgIcon from "material-ui/SvgIcon";
+
 import * as userActions from "../../actions/user_actions";
 import * as recipesActions from "../../actions/recipes_actions";
 
@@ -10,6 +13,16 @@ import { withRouter, Link } from "react-router-dom";
 import "./Navbar.css";
 
 import queryString from "query-string";
+
+const iconStyles = {
+  marginLeft: "80px"
+};
+
+// const ProfileIcon = props =>
+//   <SvgIcon {...props}>
+//     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+//     <path d="M0 0h24v24H0z" fill="none" />
+//   </SvgIcon>;
 
 const ROUTE_MAP = {
   login: (
@@ -75,9 +88,7 @@ class Navbar extends Component {
     e.preventDefault();
     let preferencesString = "";
     if (this.props.location.pathname === "/recipes") {
-      let { preferences } = this.parseSearchParams(
-        this.props.location.search
-      );
+      let { preferences } = this.parseSearchParams(this.props.location.search);
       preferencesString = preferences.join(",");
     } else {
       preferencesString =
@@ -103,6 +114,7 @@ class Navbar extends Component {
 
   render() {
     let navItems = [];
+    // navItems.push(<ProfileIcon color="#FAFAFA" />);
 
     switch (this.props.location.pathname) {
       case "/login":
