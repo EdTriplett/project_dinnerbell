@@ -87,6 +87,8 @@ class ProfileUpdater extends Component {
     //   alert(this.props.userReducer.userError);
     //   this.props.userActions.setUserError(null);
     // }
+    
+    this.props.history.goBack()
   };
 
   render() {
