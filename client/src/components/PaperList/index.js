@@ -9,7 +9,8 @@ const style = {
   marginLeft: 10,
   textAlign: "left",
   display: "inline-block",
-  borderRadius: "25px"
+  borderRadius: "25px",
+  fontFamily: "Open Sans"
 };
 
 const PaperList = ({ title, data }) =>

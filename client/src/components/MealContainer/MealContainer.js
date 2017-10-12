@@ -12,6 +12,8 @@ const styles = {
 };
 
 class MealContainer extends Component {
+  // On mount, checks to see if meal is stored in state, dispatches an async
+  // action to populate if it isn't based on the url parameter
   componentDidMount() {
     this.props.meal
       ? console.log(this.props.meal)
