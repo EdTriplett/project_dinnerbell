@@ -60,18 +60,30 @@ class Profile extends Component {
   render() {
     const { userReducer } = this.props;
     const { recipes = [], meals = [], registeredMeals = [] } = this.state;
+
+    const myPic = (
+      <Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
+        {!this.state.profilePicture ? (
+          <div className="profile-pic-default" />
+        ) : (
+          <div className="profile-pic-custom">
+            <img src={this.state.profilePicture} alt="" />
+          </div>
+        )}
+      </Dropzone>)
+
+    const theirPic = !this.state.profilePicture ? 
+    <div className="profile-pic-default" style={{cursor:'default'}}/> 
+    : 
+    <div className="profile-pic-custom" style={{cursor:'default'}}>
+      <img src={this.state.profilePicture} alt="" />
+    </div> ;
+    
+
     return (
       <div className="profile">
         <p className="profile-name">{this.state.username}</p>
-        <Dropzone onDrop={this.imageSelected} style={{ border: "none" }}>
-          {!this.state.profilePicture ? (
-            <div className="profile-pic-default" />
-          ) : (
-            <div className="profile-pic-custom">
-              <img src={this.state.profilePicture} alt="" />
-            </div>
-          )}
-        </Dropzone>
+        {this.allowedActions() ? myPic : theirPic}
         <br/>
         {this.allowedActions() && 
           <Link to={"/profileUpdater"}>
