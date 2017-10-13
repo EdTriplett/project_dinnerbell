@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans:400,700');
+@import url("https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans:400,700");
 
 .landing {
   display: flex;
@@ -18,13 +18,13 @@
 }
 
 .landing-title {
-  font-family: 'Indie Flower', cursive;
+  font-family: "Indie Flower", cursive;
   font-size: 5em;
   color: white;
 }
 
 .landing-description {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   color: white;
   position: absolute;
   top: 21%;
@@ -49,7 +49,7 @@
 }
 
 .landing-auth-container button {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 16px;
   padding: 5px;
   padding-right: 10px;
@@ -65,7 +65,7 @@
 .landing-img-container-1 {
   width: 100px;
   height: 100px;
-  background-image: url('https://i.imgur.com/Mu6CMjT.jpg');
+  background-image: url("https://i.imgur.com/Mu6CMjT.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -74,7 +74,7 @@
 .landing-img-container-2 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/mTc1NE4.jpg');
+  background-image: url("https://imgur.com/mTc1NE4.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -83,7 +83,7 @@
 .landing-img-container-3 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/nWxRHWk.jpg');
+  background-image: url("https://imgur.com/nWxRHWk.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -94,7 +94,7 @@
 .landing-img-container-4 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/Eqlefhg.jpg');
+  background-image: url("https://imgur.com/Eqlefhg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -103,7 +103,7 @@
 .landing-img-container-5 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/XJNzxEp.jpg');
+  background-image: url("https://imgur.com/XJNzxEp.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -112,7 +112,7 @@
 .landing-img-container-6 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/iEEM4Vl.jpg');
+  background-image: url("https://imgur.com/iEEM4Vl.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -123,7 +123,7 @@
 .landing-img-container-7 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/LYADHIn.jpg');
+  background-image: url("https://imgur.com/LYADHIn.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -132,7 +132,7 @@
 .landing-img-container-8 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/Zd3IC9f.jpg');
+  background-image: url("https://imgur.com/Zd3IC9f.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -141,7 +141,7 @@
 .landing-img-container-9 {
   width: 100px;
   height: 100px;
-  background-image: url('https://imgur.com/4T6tKrl.jpg');
+  background-image: url("https://imgur.com/4T6tKrl.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
@@ -170,237 +170,201 @@
 }
 
 /* Portrait iPhone 5 */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 4em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 4em;
+  }
 
-    .landing-description {
-      top: 12%;
-    }
+  .landing-description {
+    top: 12%;
+  }
 
-    .landing-auth-container {
-      display: none;
-    }
+  .landing-auth-container {
+    display: none;
+  }
 }
 
 /* Portrait iPhone 5 */
-@media only screen 
-  and (min-device-width: 320px) 
-  and (max-device-width: 568px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 4em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 4em;
+  }
 
-    .landing-description {
-      top: 14%;
-    }
+  .landing-description {
+    top: 14%;
+  }
 
-    .landing-auth-container {
-      display: none;
-    }
+  .landing-auth-container {
+    display: none;
+  }
 
-    .landing-img-cube {
-      margin-top: 81px;
-    }
+  .landing-img-cube {
+    margin-top: 81px;
+  }
 }
 
 /* Portrait Nexus 6P */
-@media only screen 
-  and (min-device-width: 412px) 
-  and (max-device-width: 732px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 412px) and (max-device-width: 732px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 3em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 3em;
+  }
 
-    .landing-description {
-      top: 12%;
-    }
+  .landing-description {
+    top: 12%;
+  }
 
-    .landing-auth-container {
-      display: flex;
-      top: 24%;
-    }
+  .landing-auth-container {
+    display: flex;
+    top: 24%;
+  }
 
-    .landing-img-cube {
-      margin-top: 176px;
-    }
+  .landing-img-cube {
+    margin-top: 176px;
+  }
 }
 
 /* Portrait Nexus 6P */
-@media only screen 
-  and (min-device-width: 412px) 
-  and (max-device-width: 732px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 412px) and (max-device-width: 732px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 3em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 3em;
+  }
 
-    .landing-auth-container {
-      display: none;
-    }
+  .landing-auth-container {
+    display: none;
+  }
 
-    .landing-description {
-      top: 14%;
-    }
-
+  .landing-description {
+    top: 14%;
+  }
 }
 
 /* Portrait iPad */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 6em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 6em;
+  }
 
-    .landing-auth-container {
-      top: 21%;
-      display: flex;
-    }
+  .landing-auth-container {
+    top: 21%;
+    display: flex;
+  }
 
-    .landing-description {
-      top: 15%;
-    }
+  .landing-description {
+    top: 15%;
+  }
 
-    .landing-img-cube {
-      margin-top: 170px;
-    }
-
+  .landing-img-cube {
+    margin-top: 170px;
+  }
 }
 
 /* Landscape iPad */
-@media only screen 
-  and (min-device-width: 768px) 
-  and (max-device-width: 1024px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 3em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 3em;
+  }
 
-    .landing-auth-container {
-      top: 21%;
-      display: flex;
-    }
+  .landing-auth-container {
+    top: 21%;
+    display: flex;
+  }
 
-    .landing-description {
-      top: 15%;
-    }
+  .landing-description {
+    top: 15%;
+  }
 
-    .landing-img-cube {
-      margin-top: 170px;
-    }
+  .landing-img-cube {
+    margin-top: 170px;
+  }
 }
 
 /* Portrait iPad Pro */
-@media only screen 
-  and (min-device-width: 1024px) 
-  and (max-device-width: 1366px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: portrait) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 6em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 6em;
+  }
 
-    .landing-auth-container {
-      top: 15%;
-      display: flex;
-    }
+  .landing-auth-container {
+    top: 15%;
+    display: flex;
+  }
 
-    .landing-description {
-      top: 9%;
-    }
+  .landing-description {
+    top: 9%;
+  }
 
-    .landing-img-cube {
-      margin-top: 120px;
-    }
-
+  .landing-img-cube {
+    margin-top: 120px;
+  }
 }
 
 /* Landscape iPad Pro */
-@media only screen 
-  and (min-device-width: 1024px) 
-  and (max-device-width: 1366px)
-  and (-webkit-min-device-pixel-ratio: 2)
-  and (orientation: landscape) {
-    .landing {
-      padding-bottom: 15px;
-    }
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+  .landing {
+    padding-bottom: 15px;
+  }
 
-    .landing-title {
-      margin: 1px;
-      font-size: 6em;
-    }
+  .landing-title {
+    margin: 1px;
+    font-size: 6em;
+  }
 
-    .landing-auth-container {
-      top: 26%;
-      display: flex;
-    }
+  .landing-auth-container {
+    top: 26%;
+    display: flex;
+  }
 
-    .landing-description {
-      top: 15%;
-    }
+  .landing-description {
+    top: 15%;
+  }
 
-    .landing-img-cube {
-      margin-top: 120px;
-    }
+  .landing-img-cube {
+    margin-top: 120px;
+  }
 }
 
 /* Portrait Custom 667 */
-@media only screen 
-  and (max-width: 667px)  {
-    .landing-description {
-      top: 17%;
-    }
+@media only screen and (max-width: 667px) {
+  .landing-description {
+    top: 17%;
+  }
 
-    .landing-auth-container {
-      top: 28%;
-    }
+  .landing-auth-container {
+    top: 28%;
+  }
 }

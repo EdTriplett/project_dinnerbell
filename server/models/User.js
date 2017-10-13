@@ -36,9 +36,6 @@ const UserSchema = new Schema(
 UserSchema.plugin(uniqueValidator);
 
 const constraints = {
-  username: {
-    presence: true
-  },
   email: {
     presence: true,
     email: true

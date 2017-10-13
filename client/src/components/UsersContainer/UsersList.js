@@ -5,7 +5,11 @@ import Paper from "material-ui/Paper";
 import { Link } from "react-router-dom";
 
 const UsersList = ({ users, title }) => (
-  <Paper zDepth={4} style={{ borderRadius: "25px" }}>
+  <Paper
+    className="userlist___paper"
+    zDepth={4}
+    style={{ borderRadius: "25px", overflow: "scroll", maxWidth: "400px" }}
+  >
     <h3
       style={{
         textAlign: "center",

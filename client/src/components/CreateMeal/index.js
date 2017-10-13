@@ -294,9 +294,11 @@ class CreateMeal extends Component {
 
           <div className="recipe-login-buttons">
             <button type="submit">submit</button>
-            <button onClick={this.props.history.goBack}>cancel</button>
           </div>
         </form>
+        <div className="recipe-login-buttons">
+          <button onClick={this.props.history.goBack}>cancel</button>
+        </div>
       </div>
     );
   }

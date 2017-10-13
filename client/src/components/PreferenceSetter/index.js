@@ -49,7 +49,7 @@ class PreferenceSetter extends Component {
 
   showAlert = () => {
     this.msg.show("Your dietary requirements have been updated!", {
-      time: 2000,
+      time: 3000,
       type: "success",
       icon: <img src="path/to/some/img/32x32.png" />
     });
