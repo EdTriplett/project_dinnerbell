@@ -120,13 +120,13 @@ class Profile extends Component {
 
         <div className="user-logs-container">
           <UserLogContainer
-            title="Your Recipes"
+            title={allowed ? "Your Recipes" : "Their Recipes"}
             resource="recipes"
             items={recipes}
             updateArray={this.updateArray("recipes")}
           />
           <UserLogContainer
-            title="Your Meals"
+            title={allowed ? "Your Meals" : "Their Meals"}
             resource="meals"
             items={meals}
             updateArray={this.updateArray("meals")}
