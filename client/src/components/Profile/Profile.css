@@ -114,7 +114,6 @@
   min-height: 200px;
   margin-top: 20px;
   box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.2);
-  text-align: center;
   background: url("https://raw.github.com/Arbaoui-Mehdi/Sticky-Notepaper/master/images/noise.png")
     repeat #f3efd1;
 }

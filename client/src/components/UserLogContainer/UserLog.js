@@ -1,17 +1,22 @@
 import React from "react";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
 import { Link } from "react-router-dom";
+import { List, ListItem } from "material-ui/List";
+import Avatar from "material-ui/Avatar";
 
 const SortableItem = SortableElement(({ item, resource }) => (
   <div className="user-logs-item">
-    <Link to={`/${resource}/${item._id}`}>
-      <p>{item.name}</p>
+    <Link to={`/${resource}/${item._id}`} style={{ textDecoration: "none" }}>
+      <ListItem
+        primaryText={item.name}
+        leftAvatar={<Avatar src={item.image} />}
+      />
     </Link>
   </div>
 ));
 
 const SortableList = SortableContainer(({ items, resource }) => (
-  <div>
+  <List>
     {items.map((item, index) => (
       <SortableItem
         key={`item-${index}`}
@@ -20,7 +25,7 @@ const SortableList = SortableContainer(({ items, resource }) => (
         resource={resource}
       />
     ))}
-  </div>
+  </List>
 ));
 
 const UserLog = ({ info, actions }) => (

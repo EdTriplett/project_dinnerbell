@@ -6,9 +6,11 @@
   "scripts": {
     "startServer": "cd server && nodemon server.js",
     "startClient": "cd client && npm start",
-    "dev": "concurrently --names \"server,client\" -c \"red,blue\" \"npm run startServer\" \"npm run startClient\"",
+    "dev":
+      "concurrently --names \"server,client\" -c \"red,blue\" \"npm run startServer\" \"npm run startClient\"",
     "start": "node ./server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm run build && cd .. && cp -r client/build server/"
   },
   "repository": {
     "type": "git",

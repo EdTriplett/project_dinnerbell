@@ -24,17 +24,11 @@ const getMeal = async (req, res) => {
   res.json({ meal });
 };
 
-// const sendMealUpdates = async (req, res) => {
-//   const 
-// }
-
 const updateMeal = async (req, res) => {
   res.json({ warning: "not implemented" });
 };
 
 const addMeal = async (req, res) => {
-  
-
   const data = {
     name: req.body.name,
     date: req.body.date,
@@ -43,14 +37,10 @@ const addMeal = async (req, res) => {
     registeredGuests: req.body.registeredGuests,
     tasks: req.body.tasks,
     image: req.body.image
-  }
+  };
 
-  const meal = await Meal.create(data);
-
-  console.log(meal, 'meal???? populating')
-
-  res.json(meal);
-}
+  res.json(await Meal.create(data));
+};
 
 const removeMeal = async (req, res) => {
   const meal = await Meal.remove({ id: params.id });
@@ -76,6 +66,5 @@ router.get("/:id", wrapper(getMeal));
 router.patch("/:id", wrapper(updateMeal));
 router.delete("/:id", wrapper(removeMeal));
 router.post("/picture", allowed, uploadMw, wrapper(addPicture));
-
 
 module.exports = router;

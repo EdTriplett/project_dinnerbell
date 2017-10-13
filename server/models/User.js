@@ -21,8 +21,6 @@ const UserSchema = new Schema(
     // meals we are registered to
     registeredMeals: [{ type: Schema.Types.ObjectId, ref: "Meal" }],
     // users we are following
-    following: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    public: { type: Boolean, default: true },
     image: { type: Schema.Types.ObjectId, ref: "Picture", default: null },
     dietaryRestrictions: [String]
   },
@@ -38,9 +36,6 @@ const UserSchema = new Schema(
 UserSchema.plugin(uniqueValidator);
 
 const constraints = {
-  // username: {
-  //   presence: true
-  // },
   email: {
     presence: true,
     email: true

@@ -12,8 +12,7 @@ const RatableSchema = new Schema(
   },
   {
     timestamps: true,
-    discriminatorKey: "ratable",
-    virtuals: true
+    discriminatorKey: "ratable"
   }
 );
 

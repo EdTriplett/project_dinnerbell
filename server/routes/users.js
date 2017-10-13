@@ -16,7 +16,7 @@ const allowed = (req, res, next) => {
 
 // Route Handlers
 const getUsers = async (req, res) => {
-  res.json(await User.find({ public: true }));
+  res.json(await User.find());
 };
 
 const getUser = async (req, res) => {

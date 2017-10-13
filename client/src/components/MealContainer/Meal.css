@@ -60,8 +60,21 @@
 }
 
 .single-meal-host {
-  color: #fff;
+  text-align: center;
   text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+  color: #494949;
+  display: flex;
+  background-color: #eee;
+  flex-direction: column;
+  padding: 10px;
+  height: 100%;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.single-meal-host small {
+  margin: 0 10px;
 }
 
 .single-meal-host-name {

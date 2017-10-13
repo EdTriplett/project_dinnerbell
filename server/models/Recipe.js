@@ -29,7 +29,6 @@ const RecipeSchema = new Schema(
     serves: Number,
     image: { type: String, default: null },
     wordList: String
-    // ratings: [{ type: Schema.Types.ObjectId, ref: "Rating" }]
   },
   {
     timestamps: true,
@@ -46,7 +45,6 @@ RecipeSchema.statics.sparseUpdate = async function(id, newProps) {
 RecipeSchema.statics.sparseCreate = async function(newProps) {
   const props = sanitizer(newProps);
   const exists = await this.findOne({ edamamId: props.edamamId });
-  // console.log("props.name: ", props.name, "exists.name: ", exists.name);
   if (!exists) {
     return await this.create(props);
   }

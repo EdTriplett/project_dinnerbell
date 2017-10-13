@@ -31,7 +31,6 @@ const getRecipes = async (req, res) => {
   }
 
   res.json(recipes);
-  // res.json(dbResponse);
 };
 
 const newRecipe = async (req, res) => {
@@ -64,7 +63,6 @@ const removeRecipe = async (req, res) => {
 
 // Register Route Handlers
 router.get("/", wrapper(getRecipes));
-// router.post("/", wrapper(newRecipe));
 router.post("/", wrapper(findOrCreateRecipe));
 router.get("/:id", wrapper(getRecipe));
 router.patch("/:id", wrapper(updateRecipe));
