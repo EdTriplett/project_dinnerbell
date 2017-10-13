@@ -25,9 +25,7 @@ const Recipes = ({ recipes = [] }) => (
 );
 
 const Tasks = ({ tasks = [] }) => (
-  <List>
-    {tasks.map(task => <ListItem key={task._id} primaryText={task} />)}
-  </List>
+  <List>{tasks.map(task => <ListItem key={task} primaryText={task} />)}</List>
 );
 
 const Attending = ({ guests = [] }) => (
@@ -74,12 +72,11 @@ const Meal = ({ meal }) => {
         style={{ textDecoration: "none" }}
       >
         <div className="single-meal-host">
+          <small>hosted by:</small>
           <div className={pic}>
             <img src={meal.owner.profilePicture} alt="" />
           </div>
-          <div className="single-meal-host-name">
-            <small>hosted by:</small> {meal.owner.username}
-          </div>
+          <div className="single-meal-host-name">{meal.owner.username}</div>
         </div>
       </Link>
       <div className="single-meal-card-container">
