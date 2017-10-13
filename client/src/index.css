@@ -29,7 +29,6 @@ button {
 
 #root {
   position: relative;
-  height: 100%;
 }
 
 #root::-webkit-scrollbar { 
