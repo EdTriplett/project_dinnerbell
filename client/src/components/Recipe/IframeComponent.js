@@ -1,22 +1,14 @@
-import React from "react";
+import React, { Component } from "react";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
 import Iframe from "react-iframe";
 
-const styles = {
-	radioButton: {
-		marginTop: 16
-	}
-};
-
-/**
- * Dialog content can be scrollable.
- */
-export default class IframeComponent extends React.Component {
+export default class IframeComponent extends Component {
 	state = {
-		open: false
+		open: false,
+		loading: false
 	};
 
 	handleOpen = () => {
@@ -28,11 +20,21 @@ export default class IframeComponent extends React.Component {
 	};
 
 	render() {
-		const actions = [
-			<FlatButton label="Back" primary={true} onClick={this.handleClose} />
-		];
-
 		const { author, url } = this.props;
+		const actions = [
+			<FlatButton primary={true} onClick={this.handleClose}>
+				BACK
+			</FlatButton>,
+			<FlatButton primary={true}>
+				<a
+					style={{ textDecoration: "none", color: "#1fbcd2" }}
+					href={url}
+					target="_blank"
+				>
+					LINK
+				</a>
+			</FlatButton>
+		];
 
 		return (
 			<div>

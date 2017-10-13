@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import UsersList from "./UsersList";
 import LoadingFork from "../LoadingFork";
 
+import "./UsersContainer.css";
+
 const listStyles = {
   width: "300px",
   top: "75px",
@@ -26,10 +28,17 @@ class UsersContainer extends Component {
     });
 
     return (
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div>
         {this.props.users ? (
-          <div>
-            <h1 className="landing-title">users</h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <h1 className="users-container___title">users</h1>
             <UsersList users={users} />
           </div>
         ) : (

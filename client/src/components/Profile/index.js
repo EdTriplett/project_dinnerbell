@@ -28,7 +28,7 @@ class Profile extends Component {
 
   showAlert = () => {
     this.msg.show("Some text or component", {
-      time: 2000,
+      time: 3000,
       type: "success",
       icon: <img src="path/to/some/img/32x32.png" />
     });
