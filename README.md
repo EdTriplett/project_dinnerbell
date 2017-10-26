@@ -60,7 +60,7 @@ The wireframe can be found as 'Dinnerbell.pdf' in the root directory.
 * PATCH /api/recipes/:id :: Update a recipe by id
 * DELETE /api/recipes/:id :: Remove a recipe by id
 
-### Ratins
+### Ratings
 * GET /api/ratings :: Returns a list of ratings
 * POST /api/ratings :: Creates a new rating
 * GET /api/ratings/:id :: Get a rating by id
@@ -77,9 +77,9 @@ The wireframe can be found as 'Dinnerbell.pdf' in the root directory.
 * DELETE /api/users/picture :: Deletes a user profile picture
 
 
-## To Develop / Running the App Locally
+## To Develop / Run the App Locally
 
-For Github:
+From Github:
 
 * Clone the repository.
 * Run npm install inside of the root directory.
