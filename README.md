@@ -1,14 +1,16 @@
 # Dinnerbell
 
-Discover new recipes, plan out meals, and invite other users to the feast! 
+Discover new recipes, plan out meals, and invite other users to the feast with this recipe-finding social media app!
+
+![Alt text](/DinnerBellReadme1.gif?raw=true "Demo")
 
 ## App Description
 
-* Users can create an account locally or log in via facebook/google. 
+* Users can create an account locally or log in via Facebook or Google.
 
-* Recipes can be searched as a guest, but cannot be rated or added until the user has registered. 
+* Recipes can be searched as a guest, but cannot be rated or added until the user has registered.
 
-* Users can view the profiles of other users and see their favorite recipes, meal dates, and dietary preferences. 
+* Users can view the profiles of other users and see their favorite recipes, meal dates, and dietary preferences.
 
 * Users are able to rate recipes and share their rating with others.
 
@@ -89,7 +91,7 @@ From Github:
 ```
 npm run dev
 ```
-* Visit localhost:3000 
+* Visit localhost:3000
 
 For Testing:
 * For more information regarding Redux testing, visit their awesome [documentation.](http://redux.js.org/docs/recipes/WritingTests.html)
