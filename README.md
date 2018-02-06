@@ -98,4 +98,4 @@ For Testing:
 npm run test:watch
 ```
 * This will start the test watching!
-* Cheers!
+* Bon Apetit!
